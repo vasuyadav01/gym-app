@@ -23,27 +23,27 @@ export default function NotificationsPage() {
   const toggle = (key: string) => setPrefs((p) => ({ ...p, [key]: !p[key] }));
 
   return (
-    <main className="min-h-screen bg-[var(--app-bg)] pb-10">
+    <main className="min-h-screen bg-[#131314] pb-10">
       <div className="w-full max-w-md mx-auto px-5 pt-12 flex flex-col gap-5">
         <div className="flex items-center gap-3 mb-2">
           <button
             onClick={() => router.back()}
-            className="w-9 h-9 flex items-center justify-center rounded-full bg-[var(--app-card)] border border-[var(--app-border-md)] hover:bg-[var(--app-hover)] transition-colors"
+            className="w-9 h-9 flex items-center justify-center rounded-full bg-[#1c1b1c] border border-white/10 hover:bg-[#252528] transition-colors"
           >
             <ChevronLeft className="w-5 h-5" style={{ color: "#d9ee4f" }} />
           </button>
-          <h1 className="text-[var(--app-text)] text-2xl font-black">Notifications</h1>
+          <h1 className="text-white text-2xl font-black">Notifications</h1>
         </div>
 
-        <div className="bg-[var(--app-card)] rounded-[24px] border border-[var(--app-border)] overflow-hidden">
+        <div className="bg-[#1c1b1c] rounded-[24px] border border-white/5 overflow-hidden">
           {NOTIFICATION_OPTIONS.map((opt, i) => (
             <div
               key={opt.key}
-              className={`flex items-center justify-between px-5 py-4 ${i > 0 ? "border-t border-[var(--app-border)]" : ""}`}
+              className={`flex items-center justify-between px-5 py-4 ${i > 0 ? "border-t border-white/5" : ""}`}
             >
               <div className="flex-1 min-w-0 pr-4">
-                <p className="text-[var(--app-text)] text-sm font-semibold">{opt.label}</p>
-                <p className="text-[var(--app-text-muted)] text-xs mt-0.5">{opt.description}</p>
+                <p className="text-white text-sm font-semibold">{opt.label}</p>
+                <p className="text-neutral-500 text-xs mt-0.5">{opt.description}</p>
               </div>
               <button
                 onClick={() => toggle(opt.key)}

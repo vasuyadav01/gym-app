@@ -36,15 +36,15 @@ type SortOption = "nearest" | "cheapest" | "updated";
 
 function SkeletonCard() {
   return (
-    <div className="bg-[var(--app-card)] rounded-[24px] p-4 flex gap-4 animate-pulse">
-      <div className="w-32 h-32 rounded-xl bg-[var(--app-card2)] shrink-0" />
+    <div className="bg-[#1C1C1E] rounded-[24px] p-4 flex gap-4 animate-pulse">
+      <div className="w-32 h-32 rounded-xl bg-[#252528] shrink-0" />
       <div className="flex-1 space-y-3 py-1">
-        <div className="h-3 bg-[var(--app-card2)] rounded-full w-2/5" />
-        <div className="h-4 bg-[var(--app-card2)] rounded-full w-4/5" />
-        <div className="h-3 bg-[var(--app-card2)] rounded-full w-1/3" />
+        <div className="h-3 bg-[#252528] rounded-full w-2/5" />
+        <div className="h-4 bg-[#252528] rounded-full w-4/5" />
+        <div className="h-3 bg-[#252528] rounded-full w-1/3" />
         <div className="flex items-center justify-between mt-4">
-          <div className="h-5 bg-[var(--app-card2)] rounded-full w-16" />
-          <div className="h-8 bg-[var(--app-card2)] rounded-full w-20" />
+          <div className="h-5 bg-[#252528] rounded-full w-16" />
+          <div className="h-8 bg-[#252528] rounded-full w-20" />
         </div>
       </div>
     </div>
@@ -57,9 +57,9 @@ function ProductCard({
   product: Product; isCheapest: boolean; savings: number;
 }) {
   return (
-    <div className="bg-[var(--app-card)] rounded-[24px] p-4 flex gap-4 border border-transparent hover:border-[#d9ee4f]/30 transition-colors relative overflow-hidden">
+    <div className="bg-[#1C1C1E] rounded-[24px] p-4 flex gap-4 border border-transparent hover:border-[#d9ee4f]/30 transition-colors relative overflow-hidden">
       {/* Image */}
-      <div className="w-32 h-32 bg-[var(--app-card2)] rounded-xl flex items-center justify-center flex-shrink-0 overflow-hidden">
+      <div className="w-32 h-32 bg-[#252528] rounded-xl flex items-center justify-center flex-shrink-0 overflow-hidden">
         {product.thumbnail ? (
           <img
             src={product.thumbnail}
@@ -79,7 +79,7 @@ function ProductCard({
       <div className="flex flex-col justify-between flex-1 min-w-0">
         <div>
           <div className="flex justify-between items-start gap-2">
-            <span className="text-[var(--app-text-muted)] text-[10px] uppercase tracking-wider font-bold truncate">
+            <span className="text-neutral-500 text-[10px] uppercase tracking-wider font-bold truncate">
               {product.store}
             </span>
             {isCheapest ? (
@@ -87,12 +87,12 @@ function ProductCard({
                 BEST DEAL
               </span>
             ) : product.badge ? (
-              <span className="bg-[var(--app-card2)] text-[var(--app-text-muted)] text-[9px] px-2 py-0.5 rounded-full font-bold shrink-0">
+              <span className="bg-[#252528] text-neutral-400 text-[9px] px-2 py-0.5 rounded-full font-bold shrink-0">
                 {product.badge.toUpperCase()}
               </span>
             ) : null}
           </div>
-          <h4 className="text-[var(--app-text)] font-bold text-sm leading-snug mt-1 line-clamp-2">{product.name}</h4>
+          <h4 className="text-white font-bold text-sm leading-snug mt-1 line-clamp-2">{product.name}</h4>
 
           {/* Stars */}
           {product.rating > 0 && (
@@ -107,7 +107,7 @@ function ProductCard({
                   }}
                 />
               ))}
-              <span className="text-[10px] text-[var(--app-text-muted)] ml-0.5">
+              <span className="text-[10px] text-neutral-500 ml-0.5">
                 {product.rating.toFixed(1)}{product.reviews > 0 ? ` (${product.reviews})` : ""}
               </span>
             </div>
@@ -203,10 +203,10 @@ export default function MarketPage() {
   const totalSavings = Math.round(maxPrice - minPrice);
 
   return (
-    <main className="min-h-screen bg-[var(--app-bg)] pb-28 font-sans">
+    <main className="min-h-screen bg-[#131314] pb-28 font-sans">
 
       {/* Header */}
-      <header className="bg-[var(--app-bg)] border-b border-[#1C1C1E] flex justify-between items-center px-5 h-16 sticky top-0 z-[60]">
+      <header className="bg-[#131314] border-b border-[#1C1C1E] flex justify-between items-center px-5 h-16 sticky top-0 z-[60]">
         <div className="flex items-center gap-3">
           <div className="flex flex-col gap-[5px]">
             <span className="w-5 h-0.5 bg-[#EAFF5F] block rounded-full" />
@@ -226,20 +226,20 @@ export default function MarketPage() {
 
         {/* Page title */}
         <div className="pt-5 pb-4">
-          <h2 className="text-[var(--app-text)] font-semibold text-xl">Supplement Market</h2>
+          <h2 className="text-white font-semibold text-xl">Supplement Market</h2>
         </div>
 
         {/* Search + Go */}
         <div className="flex items-center gap-2 mb-4">
           <div className="relative flex-1">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--app-text-muted)] pointer-events-none" />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-500 pointer-events-none" />
             <input
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               onKeyDown={(e) => { if (e.key === "Enter") search(query); }}
               placeholder="Search supplements..."
-              className="w-full bg-[var(--app-card2)] border-none rounded-xl py-3 pl-12 pr-4 text-[var(--app-text)] placeholder:text-[var(--app-text-muted)] focus:outline-none focus:ring-1 focus:ring-[#d9ee4f]/50 text-sm"
+              className="w-full bg-[#252528] border-none rounded-xl py-3 pl-12 pr-4 text-[#e5e2e3] placeholder:text-neutral-500 focus:outline-none focus:ring-1 focus:ring-[#d9ee4f]/50 text-sm"
             />
           </div>
           <button
@@ -252,13 +252,13 @@ export default function MarketPage() {
         </div>
 
         {/* Tab toggle */}
-        <div className="flex bg-[var(--app-card)] rounded-full p-1 border border-[#464835]/30 mb-4">
+        <div className="flex bg-[#201f20] rounded-full p-1 border border-[#464835]/30 mb-4">
           <button
             onClick={() => setActiveTab("online")}
             className={`flex-1 py-2 rounded-full text-xs font-bold transition-all ${
               activeTab === "online"
                 ? "bg-[#d9ee4f] text-[#1a2000]"
-                : "text-[var(--app-text-muted)]"
+                : "text-neutral-500"
             }`}
           >
             Online
@@ -268,7 +268,7 @@ export default function MarketPage() {
             className={`flex-1 py-2 rounded-full text-xs font-bold transition-all ${
               activeTab === "local"
                 ? "bg-[#d9ee4f] text-[#1a2000]"
-                : "text-[var(--app-text-muted)]"
+                : "text-neutral-500"
             }`}
           >
             Local Shops
@@ -285,7 +285,7 @@ export default function MarketPage() {
                 className={`shrink-0 px-4 py-2 rounded-full text-xs font-bold transition-all ${
                   activeCategory === cat && searched
                     ? "bg-[#d9ee4f] text-[#1a2000]"
-                    : "bg-[var(--app-card2)] text-[var(--app-accent-caption)] border border-[#464835]/20"
+                    : "bg-[#2C2C2E] text-[#c7c8af] border border-[#464835]/20"
                 }`}
               >
                 {cat}
@@ -305,7 +305,7 @@ export default function MarketPage() {
                   className={`shrink-0 px-4 py-2 rounded-full text-xs font-bold transition-all ${
                     localCatFilter === cat
                       ? "bg-[#d9ee4f] text-[#1a2000]"
-                      : "bg-[var(--app-card2)] text-[var(--app-accent-caption)] border border-[#464835]/20"
+                      : "bg-[#2C2C2E] text-[#c7c8af] border border-[#464835]/20"
                   }`}
                 >
                   {cat}
@@ -313,7 +313,7 @@ export default function MarketPage() {
               ))}
             </div>
             <div className="flex items-center gap-2 mb-4">
-              <SlidersHorizontal className="w-3.5 h-3.5 text-[var(--app-text-muted)] shrink-0" />
+              <SlidersHorizontal className="w-3.5 h-3.5 text-neutral-500 shrink-0" />
               {(["nearest", "cheapest", "updated"] as SortOption[]).map((s) => (
                 <button
                   key={s}
@@ -321,7 +321,7 @@ export default function MarketPage() {
                   className={`text-xs px-3 py-1.5 rounded-full border font-semibold transition-all ${
                     localSort === s
                       ? "bg-[#d9ee4f] text-[#1a2000] border-[#d9ee4f]"
-                      : "bg-[var(--app-card)] text-[var(--app-text-muted)] border-[#2C2C2E]"
+                      : "bg-[#1C1C1E] text-neutral-500 border-[#2C2C2E]"
                   }`}
                 >
                   {s === "nearest" ? "Nearest" : s === "cheapest" ? "Cheapest" : "Recent"}
@@ -353,14 +353,14 @@ export default function MarketPage() {
               <div className="flex items-center justify-between">
                 {!searched ? (
                   <>
-                    <h3 className="text-[var(--app-text)] font-semibold text-xl">Hot Deals</h3>
+                    <h3 className="text-white font-semibold text-xl">Hot Deals</h3>
                     {!hotLoading && hotDeals.length > 0 && (
                       <span className="text-[#d9ee4f] text-xs font-bold">View All</span>
                     )}
                   </>
                 ) : (
                   !error && products.length > 0 && (
-                    <p className="text-[var(--app-text-muted)] text-xs font-bold uppercase tracking-widest">
+                    <p className="text-neutral-500 text-xs font-bold uppercase tracking-widest">
                       {products.length} results · &quot;{activeCategory}&quot;
                     </p>
                   )
@@ -371,12 +371,12 @@ export default function MarketPage() {
             {/* Loading state */}
             {loading && (
               <div className="flex flex-col items-center py-16 gap-4">
-                <div className="w-14 h-14 rounded-2xl bg-[var(--app-card)] border border-[#d9ee4f]/20 flex items-center justify-center">
+                <div className="w-14 h-14 rounded-2xl bg-[#1C1C1E] border border-[#d9ee4f]/20 flex items-center justify-center">
                   <Loader2 className="w-7 h-7 text-[#d9ee4f] animate-spin" />
                 </div>
                 <div className="text-center">
-                  <p className="text-[var(--app-text)] font-semibold">Finding best prices...</p>
-                  <p className="text-[var(--app-text-muted)] text-sm mt-1">Scanning Indian stores for you</p>
+                  <p className="text-white font-semibold">Finding best prices...</p>
+                  <p className="text-neutral-500 text-sm mt-1">Scanning Indian stores for you</p>
                 </div>
               </div>
             )}
@@ -390,7 +390,7 @@ export default function MarketPage() {
 
             {/* Error */}
             {error && !loading && (
-              <div className="bg-[var(--app-card)] border border-red-900/40 rounded-[24px] p-5 text-center">
+              <div className="bg-[#1C1C1E] border border-red-900/40 rounded-[24px] p-5 text-center">
                 <p className="text-red-400 text-sm font-medium">{error}</p>
               </div>
             )}
@@ -414,7 +414,7 @@ export default function MarketPage() {
 
             {/* Footer note */}
             {!loading && !hotLoading && (
-              <p className="text-[var(--app-text-muted)] text-xs text-center pb-2">
+              <p className="text-neutral-500 text-xs text-center pb-2">
                 Prices from Google Shopping India. Click to buy on store website.
               </p>
             )}

@@ -74,7 +74,7 @@ export default function CalendarSection({ workouts }: CalendarSectionProps) {
                 className={cn(
                   "w-9 h-9 flex items-center justify-center rounded-xl text-sm font-medium transition-colors",
                   isToday
-                    ? "bg-blue-500 text-[var(--app-text)] shadow-[0_4px_10px_rgba(59,130,246,0.35)]"
+                    ? "bg-blue-500 text-white shadow-[0_4px_10px_rgba(59,130,246,0.35)]"
                     : "bg-slate-100 text-slate-700"
                 )}
               >

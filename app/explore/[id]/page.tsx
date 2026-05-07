@@ -153,7 +153,7 @@ export default function ExploreDetailPage() {
 
       {/* Toast */}
       {toast && (
-        <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 bg-slate-900 text-[var(--app-text)] text-sm font-semibold px-5 py-3 rounded-2xl shadow-xl animate-in slide-in-from-top-4 duration-300 max-w-xs text-center">
+        <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 bg-slate-900 text-white text-sm font-semibold px-5 py-3 rounded-2xl shadow-xl animate-in slide-in-from-top-4 duration-300 max-w-xs text-center">
           {toast}
         </div>
       )}
@@ -281,7 +281,7 @@ export default function ExploreDetailPage() {
           <button
             onClick={addAsRoutine}
             disabled={saving || saved}
-            className={`w-full py-4 rounded-2xl text-[var(--app-text)] font-bold text-base transition-all active:scale-[0.98] ${
+            className={`w-full py-4 rounded-2xl text-white font-bold text-base transition-all active:scale-[0.98] ${
               saved
                 ? "bg-emerald-500 shadow-[0_4px_20px_rgba(34,197,94,0.4)]"
                 : "bg-blue-500 shadow-[0_4px_20px_rgba(59,130,246,0.4)] hover:bg-blue-600"

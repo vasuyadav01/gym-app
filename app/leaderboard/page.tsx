@@ -36,7 +36,7 @@ export default function LeaderboardPage() {
 
   if (loading) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-[var(--app-bg)]">
+      <main className="flex min-h-screen items-center justify-center bg-[#131314]">
         <div className="w-8 h-8 rounded-full border-4 border-t-transparent animate-spin"
           style={{ borderColor: "#d9ee4f", borderTopColor: "transparent" }} />
       </main>
@@ -46,7 +46,7 @@ export default function LeaderboardPage() {
   const currentUserName = user?.displayName || user?.email?.split("@")[0] || "You";
 
   return (
-    <main className="min-h-screen bg-[var(--app-bg)]">
+    <main className="min-h-screen bg-[#131314]">
       <Chest1RMLeaderboard
         gymId={gymId}
         gymName={gymName}

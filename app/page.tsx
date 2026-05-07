@@ -214,7 +214,7 @@ export default function Home() {
 
   if (loading) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-[var(--app-bg)]">
+      <main className="flex min-h-screen items-center justify-center bg-[#131314]">
         <div className="flex flex-col items-center gap-3">
           <div className="w-10 h-10 rounded-full border-4 border-lime-400 border-t-transparent animate-spin" />
           <span className="text-lime-400 text-xs font-black tracking-widest uppercase">VISFIT</span>
@@ -224,10 +224,10 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen bg-[var(--app-bg)] pb-28">
+    <main className="min-h-screen bg-[#131314] pb-28">
 
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-[var(--app-bg)]/80 backdrop-blur-md flex justify-between items-center px-5 py-4 border-b border-[var(--app-border)]">
+      <header className="sticky top-0 z-50 bg-[#131314]/80 backdrop-blur-md flex justify-between items-center px-5 py-4 border-b border-white/5">
         <Link href="/profile">
           <div className="w-9 h-9 rounded-full bg-gradient-to-br from-lime-400 to-emerald-500 ring-2 ring-lime-400/30 flex items-center justify-center">
             <span className="text-[#131314] text-xs font-black">{initials}</span>
@@ -254,14 +254,14 @@ export default function Home() {
                   isToday
                     ? "bg-[#d9ee4f]"
                     : hasWorkout
-                    ? "bg-[var(--app-card)] ring-1 ring-lime-400/20"
-                    : "bg-[var(--app-card)]/60"
+                    ? "bg-[#201f20] ring-1 ring-lime-400/20"
+                    : "bg-[#201f20]/60"
                 }`}
               >
-                <span className={`text-[9px] font-bold tracking-wider ${isToday ? "text-[#1a2000]" : "text-[var(--app-text-muted)]"}`}>
+                <span className={`text-[9px] font-bold tracking-wider ${isToday ? "text-[#1a2000]" : "text-[#636366]"}`}>
                   {date.toLocaleDateString("en-US", { weekday: "short" }).slice(0, 3).toUpperCase()}
                 </span>
-                <span className={`text-sm font-black ${isToday ? "text-[#1a2000]" : hasWorkout ? "text-[#d9ee4f]" : "text-[var(--app-text)]"}`}>
+                <span className={`text-sm font-black ${isToday ? "text-[#1a2000]" : hasWorkout ? "text-[#d9ee4f]" : "text-[#ebebf0]"}`}>
                   {date.getDate()}
                 </span>
                 {hasWorkout && !isToday && <div className="w-1 h-1 rounded-full bg-lime-400" />}
@@ -271,7 +271,7 @@ export default function Home() {
         </div>
 
         {/* Profile summary card */}
-        <div className="bg-[var(--app-card)] rounded-3xl p-4 flex items-center gap-4">
+        <div className="bg-[#1c1b1c] rounded-3xl p-4 flex items-center gap-4">
           {/* SVG progress ring */}
           <div className="relative w-20 h-20 shrink-0 flex items-center justify-center">
             {(() => {
@@ -279,7 +279,7 @@ export default function Home() {
               const circ = 2 * Math.PI * r;
               return (
                 <svg width={size} height={size} style={{ transform: "rotate(-90deg)" }}>
-                  <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="var(--app-card2)" strokeWidth={sw} />
+                  <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="#2c2c2e" strokeWidth={sw} />
                   <circle
                     cx={size / 2} cy={size / 2} r={r} fill="none"
                     stroke="#d9ee4f" strokeWidth={sw}
@@ -293,17 +293,17 @@ export default function Home() {
             })()}
             <div className="absolute inset-0 flex flex-col items-center justify-center">
               <span className="text-[#d9ee4f] text-sm font-black leading-none">{progressPct}%</span>
-              <span className="text-[var(--app-text-muted)] text-[8px] mt-0.5">goal</span>
+              <span className="text-[#636366] text-[8px] mt-0.5">goal</span>
             </div>
           </div>
 
           <div className="flex-1 min-w-0">
-            <p className="text-[var(--app-text)] font-bold text-base leading-tight truncate capitalize">{displayName}</p>
+            <p className="text-[#ebebf0] font-bold text-base leading-tight truncate capitalize">{displayName}</p>
             <div className="flex items-center gap-2 mt-1.5 flex-wrap">
               <span className="text-[10px] font-semibold bg-[#d9ee4f]/10 text-[#d9ee4f] border border-[#d9ee4f]/20 px-2 py-0.5 rounded-full">
                 {totalWorkouts} trainings
               </span>
-              <span className="text-[10px] font-semibold bg-white/5 text-[var(--app-text-muted)] border border-[var(--app-border-md)] px-2 py-0.5 rounded-full">
+              <span className="text-[10px] font-semibold bg-white/5 text-[#8e8e93] border border-white/10 px-2 py-0.5 rounded-full">
                 Pro Member
               </span>
             </div>
@@ -318,10 +318,10 @@ export default function Home() {
         </div>
 
         {/* Weekly growth card */}
-        <div className="bg-[var(--app-card)] rounded-3xl p-4">
+        <div className="bg-[#1c1b1c] rounded-3xl p-4">
           <div className="flex items-start justify-between mb-3">
             <div>
-              <p className="text-[var(--app-text-muted)] text-[10px] font-bold uppercase tracking-widest">Weekly Growth</p>
+              <p className="text-[#636366] text-[10px] font-bold uppercase tracking-widest">Weekly Growth</p>
               <div className="flex items-center gap-2 mt-1">
                 <span className={`text-2xl font-black ${totalGrowth >= 0 ? "text-[#d9ee4f]" : "text-[#ff6b6b]"}`}>
                   {totalGrowth >= 0 ? "+" : ""}{totalGrowth}%
@@ -331,7 +331,7 @@ export default function Home() {
                   : <TrendingDown className="w-5 h-5 text-[#ff6b6b]" />
                 }
               </div>
-              <p className="text-[var(--app-text-muted)] text-[10px] mt-0.5">vs last week · {thisWeekWorkouts} sessions</p>
+              <p className="text-[#636366] text-[10px] mt-0.5">vs last week · {thisWeekWorkouts} sessions</p>
             </div>
             <Link href="/history" className="text-lime-400 text-[10px] font-semibold mt-1">
               Full report →
@@ -359,10 +359,10 @@ export default function Home() {
         {/* Performance grid */}
         <div className="grid grid-cols-2 gap-3">
           {/* Streak */}
-          <div className="bg-[var(--app-card)] rounded-3xl p-4 flex flex-col gap-1">
+          <div className="bg-[#1c1b1c] rounded-3xl p-4 flex flex-col gap-1">
             <Zap className="w-5 h-5 text-[#d9ee4f]" />
-            <span className="text-[var(--app-text)] text-2xl font-black leading-tight mt-1">{streak}</span>
-            <span className="text-[var(--app-text-muted)] text-[11px] font-medium">Day Streak</span>
+            <span className="text-[#ebebf0] text-2xl font-black leading-tight mt-1">{streak}</span>
+            <span className="text-[#636366] text-[11px] font-medium">Day Streak</span>
           </div>
 
           {/* Kcal Burn */}
@@ -375,11 +375,11 @@ export default function Home() {
           </div>
 
           {/* Total Duration — full width */}
-          <div className="col-span-2 bg-[var(--app-card)] rounded-3xl p-4 flex items-center justify-between">
+          <div className="col-span-2 bg-[#1c1b1c] rounded-3xl p-4 flex items-center justify-between">
             <div className="flex flex-col gap-1">
               <Clock className="w-5 h-5 text-[#d9ee4f]" />
-              <span className="text-[var(--app-text)] text-2xl font-black leading-tight mt-1">{durationDisplay}</span>
-              <span className="text-[var(--app-text-muted)] text-[11px] font-medium">Total Duration</span>
+              <span className="text-[#ebebf0] text-2xl font-black leading-tight mt-1">{durationDisplay}</span>
+              <span className="text-[#636366] text-[11px] font-medium">Total Duration</span>
             </div>
             <div className="flex items-end gap-1 h-10 mr-2">
               {barData.curr.slice(0, 5).map((v, i) => (
@@ -400,16 +400,16 @@ export default function Home() {
         {/* Today's workout */}
         <div>
           <div className="flex items-center justify-between mb-3">
-            <p className="text-[var(--app-text)] font-bold text-base">Today&apos;s Workout</p>
+            <p className="text-[#ebebf0] font-bold text-base">Today&apos;s Workout</p>
             <Link href="/exercise-library" className="text-lime-400 text-xs font-semibold">Library →</Link>
           </div>
-          <div className="bg-[var(--app-card)] rounded-3xl p-4">
+          <div className="bg-[#1c1b1c] rounded-3xl p-4">
             <div className="flex items-start justify-between mb-3">
               <div>
-                <p className="text-[var(--app-text)] font-bold text-sm leading-snug">
+                <p className="text-[#ebebf0] font-bold text-sm leading-snug">
                   {todayWorkout ? todayWorkout.focus : "Push Day — Chest & Arms"}
                 </p>
-                <p className="text-[var(--app-text-muted)] text-[10px] mt-0.5">4 exercises · Intermediate</p>
+                <p className="text-[#636366] text-[10px] mt-0.5">4 exercises · Intermediate</p>
               </div>
               <button
                 onClick={handleStart}
@@ -427,13 +427,13 @@ export default function Home() {
                   { name: "Cable Flyes",    sets: 3, reps: "12" },
                 ]
             ).map((ex, i) => (
-              <div key={i} className="flex items-center gap-3 py-2.5 border-t border-[var(--app-border)]">
+              <div key={i} className="flex items-center gap-3 py-2.5 border-t border-white/5">
                 <div className="w-8 h-8 rounded-xl bg-[#d9ee4f]/10 border border-[#d9ee4f]/20 flex items-center justify-center shrink-0">
                   <span className="text-sm">{["🏋️", "💪", "🔁", "🎯"][i % 4]}</span>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-[var(--app-text)] text-xs font-semibold truncate">{ex.name}</p>
-                  <p className="text-[var(--app-text-muted)] text-[10px]">{ex.sets} sets × {ex.reps}</p>
+                  <p className="text-[#ebebf0] text-xs font-semibold truncate">{ex.name}</p>
+                  <p className="text-[#636366] text-[10px]">{ex.sets} sets × {ex.reps}</p>
                 </div>
               </div>
             ))}
@@ -443,29 +443,29 @@ export default function Home() {
         {/* Nearby shops */}
         <div>
           <div className="flex items-center justify-between mb-3">
-            <p className="text-[var(--app-text)] font-bold text-base">Nearby Shops</p>
+            <p className="text-[#ebebf0] font-bold text-base">Nearby Shops</p>
             <Link href="/market" className="text-lime-400 text-xs font-semibold">See all →</Link>
           </div>
           {shops.length === 0 ? (
-            <div className="bg-[var(--app-card)] rounded-3xl p-6 text-center">
-              <Store className="w-6 h-6 text-[var(--app-text-muted)] mx-auto mb-2" />
-              <p className="text-[var(--app-text-muted)] text-xs">No local shops yet</p>
+            <div className="bg-[#1c1b1c] rounded-3xl p-6 text-center">
+              <Store className="w-6 h-6 text-[#636366] mx-auto mb-2" />
+              <p className="text-[#636366] text-xs">No local shops yet</p>
               <Link href="/market" className="text-lime-400 text-xs font-semibold mt-1 block">Browse online market →</Link>
             </div>
           ) : (
-            <div className="bg-[var(--app-card)] rounded-3xl overflow-hidden">
+            <div className="bg-[#1c1b1c] rounded-3xl overflow-hidden">
               {shops.slice(0, 4).map((shop) => (
                 <Link
                   key={shop.id}
                   href="/market"
-                  className="flex items-center gap-3 px-4 py-3.5 border-b border-[var(--app-border)] last:border-b-0 active:bg-white/5 transition-colors"
+                  className="flex items-center gap-3 px-4 py-3.5 border-b border-white/5 last:border-b-0 active:bg-white/5 transition-colors"
                 >
                   <div className="w-9 h-9 rounded-xl bg-[#d9ee4f]/10 border border-[#d9ee4f]/20 flex items-center justify-center shrink-0">
                     <Store className="w-4 h-4 text-[#d9ee4f]" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-[var(--app-text)] text-xs font-semibold truncate">{shop.name}</p>
-                    <p className="text-[var(--app-text-muted)] text-[10px]">{shop.area}, {shop.city}</p>
+                    <p className="text-[#ebebf0] text-xs font-semibold truncate">{shop.name}</p>
+                    <p className="text-[#636366] text-[10px]">{shop.area}, {shop.city}</p>
                   </div>
                   {shop.verified && (
                     <span className="text-[#d9ee4f] text-[9px] font-bold shrink-0 mr-1">✓</span>

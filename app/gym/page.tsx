@@ -21,16 +21,16 @@ function Field({
 }) {
   return (
     <div>
-      <p className="text-[var(--app-text-muted)] text-xs font-medium mb-1.5">{label}</p>
+      <p className="text-neutral-500 text-xs font-medium mb-1.5">{label}</p>
       <input
         type="text"
         inputMode={inputMode}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full px-4 py-3.5 rounded-2xl border border-[var(--app-border-md)] bg-[var(--app-card2)] text-[var(--app-text)] placeholder:text-[var(--app-text-muted)] text-sm outline-none transition-all"
+        className="w-full px-4 py-3.5 rounded-2xl border border-white/10 bg-[#252528] text-white placeholder:text-neutral-600 text-sm outline-none transition-all"
         onFocus={(e) => e.currentTarget.style.borderColor = "rgba(217,238,79,0.4)"}
-        onBlur={(e) => e.currentTarget.style.borderColor = "var(--app-border-md)"}
+        onBlur={(e) => e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)"}
       />
     </div>
   );
@@ -109,7 +109,7 @@ export default function GymPage() {
 
   if (loading) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-[var(--app-bg)]">
+      <main className="flex min-h-screen items-center justify-center bg-[#131314]">
         <div className="w-8 h-8 rounded-full border-4 border-t-transparent animate-spin"
           style={{ borderColor: "#d9ee4f", borderTopColor: "transparent" }} />
       </main>
@@ -118,17 +118,17 @@ export default function GymPage() {
 
   if (view === "pending") {
     return (
-      <main className="min-h-screen bg-[var(--app-bg)] flex flex-col items-center justify-center px-5">
-        <div className="w-full max-w-sm bg-[var(--app-card)] rounded-3xl border border-[var(--app-border)] p-8 text-center">
+      <main className="min-h-screen bg-[#131314] flex flex-col items-center justify-center px-5">
+        <div className="w-full max-w-sm bg-[#1c1b1c] rounded-3xl border border-white/5 p-8 text-center">
           <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
             style={{ background: "rgba(217,238,79,0.1)", border: "1px solid rgba(217,238,79,0.2)" }}>
             <Clock className="w-8 h-8" style={{ color: "#d9ee4f" }} />
           </div>
-          <h2 className="text-[var(--app-text)] font-bold text-xl mb-1">Application Submitted</h2>
-          <p className="text-[var(--app-text-muted)] text-sm mb-6">Your gym is under review. Admin will verify within 24–48 hours.</p>
+          <h2 className="text-white font-bold text-xl mb-1">Application Submitted</h2>
+          <p className="text-neutral-500 text-sm mb-6">Your gym is under review. Admin will verify within 24–48 hours.</p>
 
-          <div className="bg-[var(--app-card2)] border border-[var(--app-border)] rounded-2xl px-5 py-4 mb-6 text-left">
-            <p className="text-[var(--app-text-muted)] text-[11px] font-semibold uppercase tracking-wider mb-3">What happens next</p>
+          <div className="bg-[#252528] border border-white/5 rounded-2xl px-5 py-4 mb-6 text-left">
+            <p className="text-neutral-500 text-[11px] font-semibold uppercase tracking-wider mb-3">What happens next</p>
             {[
               "Admin reviews your Aadhar & gym details",
               "You receive an invite code once approved",
@@ -139,7 +139,7 @@ export default function GymPage() {
                   style={{ backgroundColor: "rgba(217,238,79,0.15)", color: "#d9ee4f" }}>
                   {i + 1}
                 </div>
-                <p className="text-[var(--app-text-muted)] text-xs leading-relaxed">{step}</p>
+                <p className="text-neutral-400 text-xs leading-relaxed">{step}</p>
               </div>
             ))}
           </div>
@@ -158,13 +158,13 @@ export default function GymPage() {
 
   if (view === "rejected") {
     return (
-      <main className="min-h-screen bg-[var(--app-bg)] flex flex-col items-center justify-center px-5">
-        <div className="w-full max-w-sm bg-[var(--app-card)] rounded-3xl border border-[var(--app-border)] p-8 text-center">
+      <main className="min-h-screen bg-[#131314] flex flex-col items-center justify-center px-5">
+        <div className="w-full max-w-sm bg-[#1c1b1c] rounded-3xl border border-white/5 p-8 text-center">
           <div className="w-16 h-16 rounded-full bg-red-900/20 flex items-center justify-center mx-auto mb-4">
             <XCircle className="w-8 h-8 text-red-500" />
           </div>
-          <h2 className="text-[var(--app-text)] font-bold text-xl mb-1">Application Rejected</h2>
-          <p className="text-[var(--app-text-muted)] text-sm mb-6">
+          <h2 className="text-white font-bold text-xl mb-1">Application Rejected</h2>
+          <p className="text-neutral-500 text-sm mb-6">
             Your gym application was not approved. Please contact the admin or re-apply with correct details.
           </p>
           <button
@@ -176,7 +176,7 @@ export default function GymPage() {
           </button>
           <button
             onClick={() => signOut(auth).then(() => router.replace("/login"))}
-            className="w-full py-3 text-[var(--app-text-muted)] text-sm font-medium hover:text-[var(--app-text-muted)] transition-colors"
+            className="w-full py-3 text-neutral-500 text-sm font-medium hover:text-neutral-300 transition-colors"
           >
             Sign out
           </button>
@@ -187,33 +187,33 @@ export default function GymPage() {
 
   if (view === "join") {
     return (
-      <main className="min-h-screen bg-[var(--app-bg)] px-5 pt-12 pb-10 flex flex-col max-w-md mx-auto">
+      <main className="min-h-screen bg-[#131314] px-5 pt-12 pb-10 flex flex-col max-w-md mx-auto">
         <button
           onClick={() => { setView("choose"); setError(""); setInviteCode(""); }}
-          className="w-9 h-9 rounded-full bg-[var(--app-card)] border border-[var(--app-border-md)] flex items-center justify-center hover:bg-[var(--app-hover)] transition-colors mb-6 self-start"
+          className="w-9 h-9 rounded-full bg-[#1c1b1c] border border-white/10 flex items-center justify-center hover:bg-[#252528] transition-colors mb-6 self-start"
         >
-          <ArrowLeft className="w-4 h-4 text-[var(--app-text-muted)]" />
+          <ArrowLeft className="w-4 h-4 text-neutral-400" />
         </button>
 
         <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-4"
           style={{ background: "rgba(217,238,79,0.1)", border: "1px solid rgba(217,238,79,0.2)" }}>
           <Users className="w-6 h-6" style={{ color: "#d9ee4f" }} />
         </div>
-        <h1 className="text-[var(--app-text)] text-2xl font-black mb-1">Join a Gym</h1>
-        <p className="text-[var(--app-text-muted)] text-sm mb-8">Enter the 6-character invite code from your gym owner</p>
+        <h1 className="text-white text-2xl font-black mb-1">Join a Gym</h1>
+        <p className="text-neutral-500 text-sm mb-8">Enter the 6-character invite code from your gym owner</p>
 
-        <div className="bg-[var(--app-card)] rounded-2xl border border-[var(--app-border)] p-5 flex flex-col gap-4 mb-4">
+        <div className="bg-[#1c1b1c] rounded-2xl border border-white/5 p-5 flex flex-col gap-4 mb-4">
           <div>
-            <p className="text-[var(--app-text-muted)] text-xs font-medium mb-1.5">Invite Code</p>
+            <p className="text-neutral-500 text-xs font-medium mb-1.5">Invite Code</p>
             <input
               type="text"
               value={inviteCode}
               onChange={(e) => { setInviteCode(e.target.value.toUpperCase()); setError(""); }}
               maxLength={6}
               placeholder="e.g. ABC123"
-              className="w-full px-4 py-3.5 rounded-2xl border border-[var(--app-border-md)] bg-[var(--app-card2)] text-[var(--app-text)] text-xl font-bold text-center tracking-[0.3em] uppercase outline-none transition-all"
+              className="w-full px-4 py-3.5 rounded-2xl border border-white/10 bg-[#252528] text-white text-xl font-bold text-center tracking-[0.3em] uppercase outline-none transition-all"
               onFocus={(e) => e.currentTarget.style.borderColor = "rgba(217,238,79,0.4)"}
-              onBlur={(e) => e.currentTarget.style.borderColor = "var(--app-border-md)"}
+              onBlur={(e) => e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)"}
             />
           </div>
           {error && <p className="text-red-400 text-sm text-center">{error}</p>}
@@ -236,34 +236,34 @@ export default function GymPage() {
   if (view === "create") {
     const canSubmit = ownerName.trim() && aadharNumber.length === 12 && gymName.trim() && location.trim();
     return (
-      <main className="min-h-screen bg-[var(--app-bg)] px-5 pt-12 pb-10 flex flex-col max-w-md mx-auto">
+      <main className="min-h-screen bg-[#131314] px-5 pt-12 pb-10 flex flex-col max-w-md mx-auto">
         <button
           onClick={() => { setView("choose"); setError(""); setOwnerName(""); setAadharNumber(""); setGymName(""); setLocation(""); }}
-          className="w-9 h-9 rounded-full bg-[var(--app-card)] border border-[var(--app-border-md)] flex items-center justify-center hover:bg-[var(--app-hover)] transition-colors mb-6 self-start"
+          className="w-9 h-9 rounded-full bg-[#1c1b1c] border border-white/10 flex items-center justify-center hover:bg-[#252528] transition-colors mb-6 self-start"
         >
-          <ArrowLeft className="w-4 h-4 text-[var(--app-text-muted)]" />
+          <ArrowLeft className="w-4 h-4 text-neutral-400" />
         </button>
 
-        <div className="w-12 h-12 rounded-2xl bg-[var(--app-card)] border border-[var(--app-border-md)] flex items-center justify-center mb-4">
-          <Building2 className="w-6 h-6 text-[var(--app-text-muted)]" />
+        <div className="w-12 h-12 rounded-2xl bg-[#1c1b1c] border border-white/10 flex items-center justify-center mb-4">
+          <Building2 className="w-6 h-6 text-neutral-400" />
         </div>
-        <h1 className="text-[var(--app-text)] text-2xl font-black mb-1">Register Your Gym</h1>
-        <p className="text-[var(--app-text-muted)] text-sm mb-6">Admin will verify your details within 24–48 hours</p>
+        <h1 className="text-white text-2xl font-black mb-1">Register Your Gym</h1>
+        <p className="text-neutral-500 text-sm mb-6">Admin will verify your details within 24–48 hours</p>
 
-        <div className="bg-[var(--app-card)] rounded-2xl border border-[var(--app-border)] p-5 flex flex-col gap-4 mb-4">
+        <div className="bg-[#1c1b1c] rounded-2xl border border-white/5 p-5 flex flex-col gap-4 mb-4">
           <Field label="Owner Full Name" placeholder="e.g. Rahul Sharma" value={ownerName}
             onChange={(v) => { setOwnerName(v); setError(""); }} />
           <div>
-            <p className="text-[var(--app-text-muted)] text-xs font-medium mb-1.5">Aadhar Card Number</p>
+            <p className="text-neutral-500 text-xs font-medium mb-1.5">Aadhar Card Number</p>
             <input
               type="text"
               inputMode="numeric"
               value={aadharNumber}
               onChange={(e) => { setAadharNumber(e.target.value.replace(/\D/g, "").slice(0, 12)); setError(""); }}
               placeholder="12-digit number"
-              className="w-full px-4 py-3.5 rounded-2xl border border-[var(--app-border-md)] bg-[var(--app-card2)] text-[var(--app-text)] placeholder:text-[var(--app-text-muted)] text-sm outline-none transition-all tracking-widest font-mono"
+              className="w-full px-4 py-3.5 rounded-2xl border border-white/10 bg-[#252528] text-white placeholder:text-neutral-600 text-sm outline-none transition-all tracking-widest font-mono"
               onFocus={(e) => e.currentTarget.style.borderColor = "rgba(217,238,79,0.4)"}
-              onBlur={(e) => e.currentTarget.style.borderColor = "var(--app-border-md)"}
+              onBlur={(e) => e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)"}
             />
             <p className="text-neutral-600 text-[10px] mt-1 ml-1">{aadharNumber.length}/12 digits</p>
           </div>
@@ -297,12 +297,12 @@ export default function GymPage() {
 
   // Choose screen
   return (
-    <main className="min-h-screen bg-[var(--app-bg)] flex flex-col px-5 pt-12 pb-10 max-w-md mx-auto">
+    <main className="min-h-screen bg-[#131314] flex flex-col px-5 pt-12 pb-10 max-w-md mx-auto">
       <button
         onClick={() => router.replace("/")}
-        className="w-9 h-9 rounded-full bg-[var(--app-card)] border border-[var(--app-border-md)] flex items-center justify-center hover:bg-[var(--app-hover)] transition-colors mb-6 self-start"
+        className="w-9 h-9 rounded-full bg-[#1c1b1c] border border-white/10 flex items-center justify-center hover:bg-[#252528] transition-colors mb-6 self-start"
       >
-        <ArrowLeft className="w-4 h-4 text-[var(--app-text-muted)]" />
+        <ArrowLeft className="w-4 h-4 text-neutral-400" />
       </button>
 
       <div className="mb-8">
@@ -310,10 +310,10 @@ export default function GymPage() {
           style={{ backgroundColor: "#d9ee4f" }}>
           <span className="text-2xl">🏆</span>
         </div>
-        <h1 className="text-[var(--app-text)] text-2xl font-black leading-tight mb-2">
+        <h1 className="text-white text-2xl font-black leading-tight mb-2">
           You need a gym to join the leaderboard
         </h1>
-        <p className="text-[var(--app-text-muted)] text-sm leading-relaxed">
+        <p className="text-neutral-500 text-sm leading-relaxed">
           Connect with your gym to compete on the leaderboard with your training partners.
         </p>
       </div>
@@ -321,28 +321,28 @@ export default function GymPage() {
       <div className="flex flex-col gap-3 mb-auto">
         <button
           onClick={() => setView("join")}
-          className="w-full bg-[var(--app-card)] rounded-2xl border border-[var(--app-border)] p-5 flex items-center gap-4 text-left hover:border-[var(--app-border-strong)] active:scale-[0.99] transition-all group"
+          className="w-full bg-[#1c1b1c] rounded-2xl border border-white/5 p-5 flex items-center gap-4 text-left hover:border-white/15 active:scale-[0.99] transition-all group"
         >
-          <div className="w-12 h-12 rounded-2xl bg-[var(--app-card2)] flex items-center justify-center shrink-0">
-            <Users className="w-6 h-6 text-[var(--app-text-muted)] group-hover:text-[var(--app-text)] transition-colors" />
+          <div className="w-12 h-12 rounded-2xl bg-[#252528] flex items-center justify-center shrink-0">
+            <Users className="w-6 h-6 text-neutral-400 group-hover:text-white transition-colors" />
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-[var(--app-text)] font-bold text-base">Join a Gym</p>
-            <p className="text-[var(--app-text-muted)] text-sm mt-0.5">Enter an invite code from your gym owner</p>
+            <p className="text-white font-bold text-base">Join a Gym</p>
+            <p className="text-neutral-500 text-sm mt-0.5">Enter an invite code from your gym owner</p>
           </div>
           <ChevronRight className="w-5 h-5 text-neutral-600 shrink-0" />
         </button>
 
         <button
           onClick={() => setView("create")}
-          className="w-full bg-[var(--app-card)] rounded-2xl border border-[var(--app-border)] p-5 flex items-center gap-4 text-left hover:border-[var(--app-border-strong)] active:scale-[0.99] transition-all group"
+          className="w-full bg-[#1c1b1c] rounded-2xl border border-white/5 p-5 flex items-center gap-4 text-left hover:border-white/15 active:scale-[0.99] transition-all group"
         >
-          <div className="w-12 h-12 rounded-2xl bg-[var(--app-card2)] flex items-center justify-center shrink-0">
-            <Building2 className="w-6 h-6 text-[var(--app-text-muted)] group-hover:text-[var(--app-text)] transition-colors" />
+          <div className="w-12 h-12 rounded-2xl bg-[#252528] flex items-center justify-center shrink-0">
+            <Building2 className="w-6 h-6 text-neutral-400 group-hover:text-white transition-colors" />
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-[var(--app-text)] font-bold text-base">Create a Gym</p>
-            <p className="text-[var(--app-text-muted)] text-sm mt-0.5">Register and get verified by admin</p>
+            <p className="text-white font-bold text-base">Create a Gym</p>
+            <p className="text-neutral-500 text-sm mt-0.5">Register and get verified by admin</p>
           </div>
           <ChevronRight className="w-5 h-5 text-neutral-600 shrink-0" />
         </button>
@@ -358,7 +358,7 @@ export default function GymPage() {
         </button>
         <button
           onClick={() => signOut(auth).then(() => router.replace("/login"))}
-          className="w-full py-3 text-[var(--app-text-muted)] text-sm font-medium hover:text-[var(--app-text-muted)] transition-colors mt-1"
+          className="w-full py-3 text-neutral-500 text-sm font-medium hover:text-neutral-300 transition-colors mt-1"
         >
           Sign out
         </button>

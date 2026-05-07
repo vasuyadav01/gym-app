@@ -27,7 +27,7 @@ export default function MuscleMap({
   };
 
   return (
-    <div className="rounded-lg border border-[var(--app-border-md)] bg-black/40 p-3">
+    <div className="rounded-lg border border-white/10 bg-black/40 p-3">
       <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-zinc-500">
         Muscle Map
       </p>

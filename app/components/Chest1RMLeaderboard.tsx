@@ -40,12 +40,12 @@ function Rank1Card({ entry }: { entry: RankedEntry }) {
   return (
     <div
       className="rounded-xl p-3 text-center flex flex-col items-center border-2 -translate-y-4 scale-105"
-      style={{ backgroundColor: "var(--app-card)", borderColor: "#d9ee4f", boxShadow: "0 0 20px rgba(217,238,79,0.15)" }}
+      style={{ backgroundColor: "#1c1b1c", borderColor: "#d9ee4f", boxShadow: "0 0 20px rgba(217,238,79,0.15)" }}
     >
       <div className="relative mb-3">
         <Avatar className="w-20 h-20 border-2" style={{ borderColor: "#d9ee4f" } as React.CSSProperties}>
           <AvatarImage src={`https://i.pravatar.cc/150?u=${entry.userId}`} />
-          <AvatarFallback className="bg-[var(--app-card2)] text-[var(--app-text-muted)] text-base">{getInitials(entry.userName)}</AvatarFallback>
+          <AvatarFallback className="bg-[#252528] text-neutral-400 text-base">{getInitials(entry.userName)}</AvatarFallback>
         </Avatar>
         <div
           className="absolute -bottom-1 -right-1 w-8 h-8 rounded-full flex items-center justify-center text-sm font-black"
@@ -67,18 +67,18 @@ function Rank2Card({ entry }: { entry: RankedEntry }) {
   return (
     <div
       className="rounded-xl p-3 text-center flex flex-col items-center border"
-      style={{ backgroundColor: "var(--app-card)", borderColor: "rgba(217,238,79,0.5)", boxShadow: "0 0 10px rgba(217,238,79,0.1)" }}
+      style={{ backgroundColor: "#201f20", borderColor: "rgba(217,238,79,0.5)", boxShadow: "0 0 10px rgba(217,238,79,0.1)" }}
     >
       <div className="relative mb-3">
         <Avatar className="w-16 h-16 border-2 border-zinc-600">
           <AvatarImage src={`https://i.pravatar.cc/150?u=${entry.userId}`} />
-          <AvatarFallback className="bg-[var(--app-card2)] text-[var(--app-text-muted)] text-sm">{getInitials(entry.userName)}</AvatarFallback>
+          <AvatarFallback className="bg-[#252528] text-neutral-400 text-sm">{getInitials(entry.userName)}</AvatarFallback>
         </Avatar>
-        <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold text-[var(--app-text)] bg-zinc-600">2</div>
+        <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold text-white bg-zinc-600">2</div>
         <QualBadge />
       </div>
-      <p className="text-xs font-medium text-[var(--app-text-muted)] truncate w-full mb-1">{entry.userName.split(" ")[0]}</p>
-      <p className="text-lg font-semibold text-[var(--app-text)]">{entry.weight}<span className="text-xs ml-0.5">kg</span></p>
+      <p className="text-xs font-medium text-neutral-300 truncate w-full mb-1">{entry.userName.split(" ")[0]}</p>
+      <p className="text-lg font-semibold text-white">{entry.weight}<span className="text-xs ml-0.5">kg</span></p>
     </div>
   );
 }
@@ -87,18 +87,18 @@ function Rank3Card({ entry }: { entry: RankedEntry }) {
   return (
     <div
       className="rounded-xl p-3 text-center flex flex-col items-center border"
-      style={{ backgroundColor: "var(--app-card)", borderColor: "rgba(217,238,79,0.5)", boxShadow: "0 0 10px rgba(217,238,79,0.1)" }}
+      style={{ backgroundColor: "#201f20", borderColor: "rgba(217,238,79,0.5)", boxShadow: "0 0 10px rgba(217,238,79,0.1)" }}
     >
       <div className="relative mb-3">
         <Avatar className="w-16 h-16 border-2 border-zinc-800">
           <AvatarImage src={`https://i.pravatar.cc/150?u=${entry.userId}`} />
-          <AvatarFallback className="bg-[var(--app-card2)] text-[var(--app-text-muted)] text-sm">{getInitials(entry.userName)}</AvatarFallback>
+          <AvatarFallback className="bg-[#252528] text-neutral-400 text-sm">{getInitials(entry.userName)}</AvatarFallback>
         </Avatar>
         <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold bg-zinc-800 text-zinc-400">3</div>
         <QualBadge />
       </div>
-      <p className="text-xs font-medium text-[var(--app-text-muted)] truncate w-full mb-1">{entry.userName.split(" ")[0]}</p>
-      <p className="text-lg font-semibold text-[var(--app-text)]">{entry.weight}<span className="text-xs ml-0.5">kg</span></p>
+      <p className="text-xs font-medium text-neutral-300 truncate w-full mb-1">{entry.userName.split(" ")[0]}</p>
+      <p className="text-lg font-semibold text-white">{entry.weight}<span className="text-xs ml-0.5">kg</span></p>
     </div>
   );
 }
@@ -174,7 +174,7 @@ export default function Chest1RMLeaderboard({
     : null;
 
   return (
-    <div className="w-full max-w-md mx-auto bg-[var(--app-bg)] min-h-screen font-sans pb-56">
+    <div className="w-full max-w-md mx-auto bg-[#131314] min-h-screen font-sans pb-56">
 
       {toast && (
         <div className="fixed top-5 left-1/2 -translate-x-1/2 z-50 text-sm font-medium px-4 py-2.5 rounded-2xl shadow-lg pointer-events-none"
@@ -189,23 +189,23 @@ export default function Chest1RMLeaderboard({
           className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm flex items-center justify-center px-4"
           onClick={(e) => { if (e.target === e.currentTarget) setShowModal(false); }}
         >
-          <div className="w-full max-w-md bg-[var(--app-card)] rounded-3xl shadow-2xl border border-[var(--app-border-md)] max-h-[85vh] flex flex-col overflow-hidden">
+          <div className="w-full max-w-md bg-[#1c1b1c] rounded-3xl shadow-2xl border border-white/10 max-h-[85vh] flex flex-col overflow-hidden">
             <div className="p-6 overflow-y-auto flex-1">
             <div className="flex items-center justify-between mb-5">
               <div>
-                <h3 className="text-[var(--app-text)] font-bold text-lg">Log Chest 1RM</h3>
-                <p className="text-[var(--app-text-muted)] text-xs mt-0.5">Only your personal best counts</p>
+                <h3 className="text-white font-bold text-lg">Log Chest 1RM</h3>
+                <p className="text-neutral-500 text-xs mt-0.5">Only your personal best counts</p>
               </div>
               <button
                 onClick={() => setShowModal(false)}
-                className="w-8 h-8 rounded-full bg-[var(--app-card2)] flex items-center justify-center hover:bg-[var(--app-hover)] transition-colors"
+                className="w-8 h-8 rounded-full bg-[#252528] flex items-center justify-center hover:bg-[#2a2a2b] transition-colors"
               >
-                <X className="w-4 h-4 text-[var(--app-text-muted)]" />
+                <X className="w-4 h-4 text-neutral-400" />
               </button>
             </div>
 
             <div className="mb-4">
-              <p className="text-[var(--app-text-muted)] text-xs font-medium mb-2">Exercise</p>
+              <p className="text-neutral-500 text-xs font-medium mb-2">Exercise</p>
               <div className="flex flex-wrap gap-2">
                 {CHEST_EXERCISES.map((ex) => (
                   <button
@@ -214,7 +214,7 @@ export default function Chest1RMLeaderboard({
                     className="text-xs px-3 py-1.5 rounded-full border font-medium transition-all"
                     style={exercise === ex
                       ? { backgroundColor: "#d9ee4f", color: "#1a2000", borderColor: "#d9ee4f" }
-                      : { backgroundColor: "var(--app-card2)", color: "var(--app-text-muted)", borderColor: "var(--app-border-md)" }}
+                      : { backgroundColor: "#252528", color: "#737373", borderColor: "rgba(255,255,255,0.08)" }}
                   >
                     {ex}
                   </button>
@@ -223,16 +223,16 @@ export default function Chest1RMLeaderboard({
             </div>
 
             <div className="mb-4">
-              <p className="text-[var(--app-text-muted)] text-xs font-medium mb-1.5">Weight (kg)</p>
+              <p className="text-neutral-500 text-xs font-medium mb-1.5">Weight (kg)</p>
               <input
                 type="number"
                 inputMode="decimal"
                 value={weight}
                 onChange={(e) => setWeight(e.target.value)}
                 placeholder="e.g. 120"
-                className="w-full px-4 py-3.5 rounded-2xl border border-[var(--app-border-md)] bg-[var(--app-card2)] text-[var(--app-text)] text-2xl font-black text-center outline-none transition-all"
+                className="w-full px-4 py-3.5 rounded-2xl border border-white/10 bg-[#252528] text-white text-2xl font-black text-center outline-none transition-all"
                 onFocus={(e) => e.currentTarget.style.borderColor = "rgba(217,238,79,0.4)"}
-                onBlur={(e) => e.currentTarget.style.borderColor = "var(--app-border-md)"}
+                onBlur={(e) => e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)"}
               />
             </div>
 
@@ -241,13 +241,13 @@ export default function Chest1RMLeaderboard({
               className="w-full flex items-center gap-3 p-4 rounded-2xl border mb-5 transition-all text-left"
               style={confirmed
                 ? { background: "rgba(217,238,79,0.08)", borderColor: "rgba(217,238,79,0.2)" }
-                : { background: "var(--app-card2)", borderColor: "var(--app-border-md)" }}
+                : { background: "#252528", borderColor: "rgba(255,255,255,0.08)" }}
             >
               <div
                 className="w-5 h-5 rounded-md border-2 flex items-center justify-center flex-shrink-0 transition-all"
                 style={confirmed
                   ? { backgroundColor: "#d9ee4f", borderColor: "#d9ee4f" }
-                  : { borderColor: "var(--app-control)" }}
+                  : { borderColor: "#3a3a3c" }}
               >
                 {confirmed && <Check className="w-3 h-3" style={{ color: "#1a2000" }} strokeWidth={3} />}
               </div>
@@ -275,22 +275,22 @@ export default function Chest1RMLeaderboard({
           className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm flex items-center justify-center px-4"
           onClick={(e) => { if (e.target === e.currentTarget) setShowTnC(false); }}
         >
-          <div className="w-full max-w-md bg-[var(--app-card)] rounded-3xl shadow-2xl overflow-hidden border border-[var(--app-border-md)] max-h-[85vh] flex flex-col">
-            <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b border-[var(--app-border)]">
+          <div className="w-full max-w-md bg-[#1c1b1c] rounded-3xl shadow-2xl overflow-hidden border border-white/10 max-h-[85vh] flex flex-col">
+            <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b border-white/5">
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-[var(--app-card2)] flex items-center justify-center shrink-0">
-                  <FileText className="w-4 h-4 text-[var(--app-text-muted)]" />
+                <div className="w-9 h-9 rounded-xl bg-[#252528] flex items-center justify-center shrink-0">
+                  <FileText className="w-4 h-4 text-neutral-400" />
                 </div>
                 <div>
-                  <h3 className="text-[var(--app-text)] font-bold text-base">Terms &amp; Conditions</h3>
-                  <p className="text-[var(--app-text-muted)] text-xs">Best Chest 1RM — {gymName}</p>
+                  <h3 className="text-white font-bold text-base">Terms &amp; Conditions</h3>
+                  <p className="text-neutral-500 text-xs">Best Chest 1RM — {gymName}</p>
                 </div>
               </div>
               <button
                 onClick={() => setShowTnC(false)}
-                className="w-8 h-8 rounded-full bg-[var(--app-card2)] flex items-center justify-center hover:bg-[var(--app-hover)] transition-colors shrink-0"
+                className="w-8 h-8 rounded-full bg-[#252528] flex items-center justify-center hover:bg-[#2a2a2b] transition-colors shrink-0"
               >
-                <X className="w-4 h-4 text-[var(--app-text-muted)]" />
+                <X className="w-4 h-4 text-neutral-400" />
               </button>
             </div>
 
@@ -307,14 +307,14 @@ export default function Chest1RMLeaderboard({
                     {i + 1}
                   </div>
                   <div>
-                    <p className="text-[var(--app-text)] text-sm font-semibold mb-0.5">{item.title}</p>
-                    <p className="text-[var(--app-text-muted)] text-sm leading-relaxed">{item.body}</p>
+                    <p className="text-white text-sm font-semibold mb-0.5">{item.title}</p>
+                    <p className="text-neutral-500 text-sm leading-relaxed">{item.body}</p>
                   </div>
                 </div>
               ))}
             </div>
 
-            <div className="px-6 pb-6 pt-3 border-t border-[var(--app-border)]">
+            <div className="px-6 pb-6 pt-3 border-t border-white/5">
               <button
                 onClick={() => setShowTnC(false)}
                 className="w-full py-3.5 rounded-2xl font-bold text-sm active:scale-[0.98] transition-all"
@@ -329,10 +329,10 @@ export default function Chest1RMLeaderboard({
 
       {/* Header */}
       <header className="px-5 pt-12 pb-6">
-        <h1 className="text-[var(--app-text)] font-bold leading-tight tracking-tight mb-1" style={{ fontSize: "32px" }}>
+        <h1 className="text-white font-bold leading-tight tracking-tight mb-1" style={{ fontSize: "32px" }}>
           Leaderboard
         </h1>
-        <p className="text-xs font-semibold tracking-[0.2em] uppercase" style={{ color: "var(--app-accent-caption)" }}>
+        <p className="text-xs font-semibold tracking-[0.2em] uppercase" style={{ color: "#c7c8af" }}>
           Best Chest 1RM — {gymName}
         </p>
       </header>
@@ -355,10 +355,10 @@ export default function Chest1RMLeaderboard({
       {/* Rankings List (rank 4+) */}
       <div className="px-5 space-y-2 mb-4">
         {entries.length === 0 && (
-          <div className="text-center py-16 bg-[var(--app-card)] rounded-2xl border border-[var(--app-border)]">
+          <div className="text-center py-16 bg-[#1c1b1c] rounded-2xl border border-white/5">
             <Dumbbell className="w-10 h-10 text-neutral-600 mx-auto mb-3" />
-            <p className="text-[var(--app-text)] font-semibold text-sm">No lifts logged yet</p>
-            <p className="text-[var(--app-text-muted)] text-xs mt-1">Be the first to post your best chest 1RM</p>
+            <p className="text-white font-semibold text-sm">No lifts logged yet</p>
+            <p className="text-neutral-500 text-xs mt-1">Be the first to post your best chest 1RM</p>
           </div>
         )}
 
@@ -371,7 +371,7 @@ export default function Chest1RMLeaderboard({
               <div
                 key={entry.userId}
                 className="flex items-center justify-between p-4 rounded-xl"
-                style={{ backgroundColor: "var(--app-card2)", borderLeft: "4px solid #d9ee4f" }}
+                style={{ backgroundColor: "#252528", borderLeft: "4px solid #d9ee4f" }}
               >
                 <div className="flex items-center gap-4">
                   <span className="w-6 text-sm font-semibold" style={{ color: "#d9ee4f" }}>
@@ -379,19 +379,19 @@ export default function Chest1RMLeaderboard({
                   </span>
                   <Avatar className="w-10 h-10 shrink-0" style={{ border: "1px solid rgba(217,238,79,0.3)" } as React.CSSProperties}>
                     <AvatarImage src={`https://i.pravatar.cc/150?u=${entry.userId}`} />
-                    <AvatarFallback className="bg-[var(--app-card2)] text-[var(--app-text-muted)] text-xs">{getInitials(entry.userName)}</AvatarFallback>
+                    <AvatarFallback className="bg-[#252528] text-neutral-400 text-xs">{getInitials(entry.userName)}</AvatarFallback>
                   </Avatar>
                   <div>
-                    <p className="text-sm font-semibold text-[var(--app-text)]">
-                      {entry.userName} <span className="text-[var(--app-text-muted)] font-normal">(you)</span>
+                    <p className="text-sm font-semibold text-white">
+                      {entry.userName} <span className="text-neutral-500 font-normal">(you)</span>
                     </p>
                     <p className="text-[10px] uppercase font-bold tracking-tight" style={{ color: "#d9ee4f" }}>
                       {topPercent !== null ? `Top ${topPercent}% this week` : entry.exercise}
                     </p>
                   </div>
                 </div>
-                <p className="text-lg font-semibold text-[var(--app-text)]">
-                  {entry.weight} <span className="text-xs text-[var(--app-text-muted)]">kg</span>
+                <p className="text-lg font-semibold text-white">
+                  {entry.weight} <span className="text-xs text-neutral-500">kg</span>
                 </p>
               </div>
             );
@@ -400,22 +400,22 @@ export default function Chest1RMLeaderboard({
           return (
             <div
               key={entry.userId}
-              className="flex items-center justify-between p-4 rounded-xl transition-colors hover:bg-[var(--app-hover)]"
+              className="flex items-center justify-between p-4 rounded-xl transition-colors hover:bg-[#252528]"
               style={{
-                backgroundColor: "var(--app-card)",
+                backgroundColor: "#1c1b1c",
                 border: isQualified ? "1px solid rgba(217,238,79,0.3)" : "1px solid transparent",
               }}
             >
               <div className="flex items-center gap-4">
-                <span className="w-6 text-sm font-semibold text-[var(--app-text-muted)]">{entry.rank}</span>
+                <span className="w-6 text-sm font-semibold text-neutral-500">{entry.rank}</span>
                 <Avatar className="w-10 h-10 shrink-0">
                   <AvatarImage src={`https://i.pravatar.cc/150?u=${entry.userId}`} />
-                  <AvatarFallback className="bg-[var(--app-card2)] text-[var(--app-text-muted)] text-xs">{getInitials(entry.userName)}</AvatarFallback>
+                  <AvatarFallback className="bg-[#252528] text-neutral-400 text-xs">{getInitials(entry.userName)}</AvatarFallback>
                 </Avatar>
                 <div>
-                  <p className="text-sm font-semibold text-[var(--app-text)]">{entry.userName}</p>
+                  <p className="text-sm font-semibold text-white">{entry.userName}</p>
                   <div className="flex items-center gap-1.5 mt-0.5">
-                    <p className="text-[10px] uppercase font-bold tracking-tight text-[var(--app-text-muted)]">{entry.exercise}</p>
+                    <p className="text-[10px] uppercase font-bold tracking-tight text-neutral-500">{entry.exercise}</p>
                     {isQualified && (
                       <span
                         className="inline-block px-1 rounded text-[8px] font-bold tracking-widest"
@@ -427,8 +427,8 @@ export default function Chest1RMLeaderboard({
                   </div>
                 </div>
               </div>
-              <p className="text-lg font-semibold text-[var(--app-text)]">
-                {entry.weight} <span className="text-xs text-[var(--app-text-muted)]">kg</span>
+              <p className="text-lg font-semibold text-white">
+                {entry.weight} <span className="text-xs text-neutral-500">kg</span>
               </p>
             </div>
           );
@@ -438,7 +438,7 @@ export default function Chest1RMLeaderboard({
         {showPinnedUser && currentEntry && (
           <div
             className="flex items-center justify-between p-4 rounded-xl"
-            style={{ backgroundColor: "var(--app-card2)", borderLeft: "4px solid #d9ee4f" }}
+            style={{ backgroundColor: "#252528", borderLeft: "4px solid #d9ee4f" }}
           >
             <div className="flex items-center gap-4">
               <span className="w-6 text-sm font-semibold" style={{ color: "#d9ee4f" }}>
@@ -446,19 +446,19 @@ export default function Chest1RMLeaderboard({
               </span>
               <Avatar className="w-10 h-10 shrink-0" style={{ border: "1px solid rgba(217,238,79,0.3)" } as React.CSSProperties}>
                 <AvatarImage src={`https://i.pravatar.cc/150?u=${currentUserId}`} />
-                <AvatarFallback className="bg-[var(--app-card2)] text-[var(--app-text-muted)] text-xs">{getInitials(currentUserName)}</AvatarFallback>
+                <AvatarFallback className="bg-[#252528] text-neutral-400 text-xs">{getInitials(currentUserName)}</AvatarFallback>
               </Avatar>
               <div>
-                <p className="text-sm font-semibold text-[var(--app-text)]">
-                  {currentUserName} <span className="text-[var(--app-text-muted)] font-normal">(you)</span>
+                <p className="text-sm font-semibold text-white">
+                  {currentUserName} <span className="text-neutral-500 font-normal">(you)</span>
                 </p>
                 <p className="text-[10px] uppercase font-bold tracking-tight" style={{ color: "#d9ee4f" }}>
                   {topPercent !== null ? `Top ${topPercent}% this week` : ""}
                 </p>
               </div>
             </div>
-            <p className="text-lg font-semibold text-[var(--app-text)]">
-              {currentEntry.weight} <span className="text-xs text-[var(--app-text-muted)]">kg</span>
+            <p className="text-lg font-semibold text-white">
+              {currentEntry.weight} <span className="text-xs text-neutral-500">kg</span>
             </p>
           </div>
         )}
@@ -468,14 +468,14 @@ export default function Chest1RMLeaderboard({
       <div className="px-5 mb-4">
         <button
           onClick={() => setShowTnC(true)}
-          className="w-full bg-[var(--app-card)] rounded-2xl border border-[var(--app-border)] p-4 flex items-center gap-3 hover:bg-[var(--app-hover)] active:scale-[0.99] transition-all text-left"
+          className="w-full bg-[#1c1b1c] rounded-2xl border border-white/5 p-4 flex items-center gap-3 hover:bg-[#252528] active:scale-[0.99] transition-all text-left"
         >
-          <div className="w-8 h-8 rounded-xl bg-[var(--app-card2)] flex items-center justify-center shrink-0">
-            <FileText className="w-4 h-4 text-[var(--app-text-muted)]" />
+          <div className="w-8 h-8 rounded-xl bg-[#252528] flex items-center justify-center shrink-0">
+            <FileText className="w-4 h-4 text-neutral-500" />
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-[var(--app-text)] text-sm font-semibold">Terms &amp; Conditions</p>
-            <p className="text-[var(--app-text-muted)] text-xs mt-0.5">Competition rules · Prize pool · Deadlines</p>
+            <p className="text-white text-sm font-semibold">Terms &amp; Conditions</p>
+            <p className="text-neutral-500 text-xs mt-0.5">Competition rules · Prize pool · Deadlines</p>
           </div>
           <svg className="w-4 h-4 text-neutral-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />

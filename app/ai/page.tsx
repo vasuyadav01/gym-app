@@ -90,8 +90,8 @@ function PageHeader({ initials }: { initials: string }) {
   return (
     <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-40px)] max-w-[380px]">
       <div
-        className="rounded-full px-5 h-12 flex items-center justify-between border border-[var(--app-border-md)]"
-        style={{ backgroundColor: "var(--app-card)", boxShadow: "0 4px 32px rgba(0,0,0,0.5)" }}
+        className="rounded-full px-5 h-12 flex items-center justify-between border border-white/10"
+        style={{ backgroundColor: "#1c1b1c", boxShadow: "0 4px 32px rgba(0,0,0,0.5)" }}
       >
         <div className="w-7 h-7 rounded-full bg-gradient-to-br from-lime-400 to-emerald-500 flex items-center justify-center">
           <span className="text-[#131314] text-xs font-black">{initials}</span>
@@ -273,7 +273,7 @@ export default function AIPage() {
   // ── Loading ────────────────────────────────────────────────────────────────
   if (pageState === "loading") {
     return (
-      <main className="min-h-screen bg-[var(--app-bg)] flex items-center justify-center">
+      <main className="min-h-screen bg-[#131314] flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
           <div className="w-10 h-10 rounded-full border-4 border-[#d9ee4f] border-t-transparent animate-spin" />
           <span className="text-[#d9ee4f] text-xs font-black tracking-widest uppercase">VISFIT</span>
@@ -285,14 +285,14 @@ export default function AIPage() {
   // ── Generating ─────────────────────────────────────────────────────────────
   if (pageState === "generating") {
     return (
-      <main className="min-h-screen bg-[var(--app-bg)] flex flex-col items-center justify-center gap-5 pb-28">
+      <main className="min-h-screen bg-[#131314] flex flex-col items-center justify-center gap-5 pb-28">
         <PageHeader initials={initials} />
         <div className="w-16 h-16 rounded-[20px] bg-[#d9ee4f] flex items-center justify-center mt-16">
           <Sparkles className="w-7 h-7 text-[#1a2000] animate-pulse" />
         </div>
         <div className="text-center">
-          <p className="text-[var(--app-text)] font-bold text-lg">Building your plan...</p>
-          <p className="text-[var(--app-text-muted)] text-sm mt-1">Engineered by AI. This takes a few seconds.</p>
+          <p className="text-white font-bold text-lg">Building your plan...</p>
+          <p className="text-neutral-500 text-sm mt-1">Engineered by AI. This takes a few seconds.</p>
         </div>
         <BottomNav />
       </main>
@@ -303,7 +303,7 @@ export default function AIPage() {
   if (pageState === "onboarding") {
     const step = STEPS[currentStep];
     return (
-      <main className="min-h-screen bg-[var(--app-bg)] flex flex-col pb-28">
+      <main className="min-h-screen bg-[#131314] flex flex-col pb-28">
         <PageHeader initials={initials} />
 
         <div className="flex-1 flex flex-col justify-center px-5 pt-24 max-w-md mx-auto w-full">
@@ -317,19 +317,19 @@ export default function AIPage() {
               <div
                 key={i}
                 className={`h-2 rounded-full transition-all duration-300 ${
-                  i <= currentStep ? "bg-[#d9ee4f] w-6" : "bg-[var(--app-card2)] w-2"
+                  i <= currentStep ? "bg-[#d9ee4f] w-6" : "bg-[#2c2c2e] w-2"
                 }`}
               />
             ))}
           </div>
 
-          <p className="text-[var(--app-text-muted)] text-[10px] font-bold uppercase tracking-wider mb-2">
+          <p className="text-neutral-500 text-[10px] font-bold uppercase tracking-wider mb-2">
             {currentStep + 1} of {STEPS.length}
           </p>
-          <h2 className="text-[var(--app-text)] text-2xl font-bold mb-6">{step.question}</h2>
+          <h2 className="text-white text-2xl font-bold mb-6">{step.question}</h2>
 
           {error && (
-            <div className="bg-[var(--app-card)] border border-red-900/40 text-red-400 text-sm p-4 rounded-[20px] mb-4">
+            <div className="bg-[#1c1b1c] border border-red-900/40 text-red-400 text-sm p-4 rounded-[20px] mb-4">
               {error}
             </div>
           )}
@@ -339,7 +339,7 @@ export default function AIPage() {
               <button
                 key={opt}
                 onClick={() => handleOption(opt)}
-                className="w-full bg-[var(--app-card)] text-[var(--app-text)] font-semibold py-4 px-5 rounded-[20px] border border-[#2c2c2e] hover:border-[#d9ee4f]/50 hover:text-[#d9ee4f] active:scale-[0.98] transition-all text-left"
+                className="w-full bg-[#1c1b1c] text-[#e5e2e3] font-semibold py-4 px-5 rounded-[20px] border border-[#2c2c2e] hover:border-[#d9ee4f]/50 hover:text-[#d9ee4f] active:scale-[0.98] transition-all text-left"
               >
                 {opt}
               </button>
@@ -372,7 +372,7 @@ export default function AIPage() {
       : "Intermediate");
 
   return (
-    <main className="min-h-screen bg-[var(--app-bg)] font-sans">
+    <main className="min-h-screen bg-[#131314] font-sans">
       {/* Toast */}
       {toast && (
         <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-[#d9ee4f] text-[#1a2000] text-sm font-black px-4 py-2.5 rounded-2xl shadow-lg">
@@ -387,19 +387,19 @@ export default function AIPage() {
 
         {/* Page title */}
         <section className="pt-4">
-          <h1 className="text-[var(--app-text)] font-bold text-[32px] leading-tight tracking-tight mb-1">Elite Coach</h1>
-          <p className="text-[var(--app-text-muted)] text-sm">Your performance, engineered by AI.</p>
+          <h1 className="text-white font-bold text-[32px] leading-tight tracking-tight mb-1">Elite Coach</h1>
+          <p className="text-neutral-500 text-sm">Your performance, engineered by AI.</p>
         </section>
 
         {/* Plan Card */}
         <section>
-          <div className="bg-[var(--app-card)] rounded-[24px] p-6 relative overflow-hidden">
+          <div className="bg-[#1c1b1c] rounded-[24px] p-6 relative overflow-hidden">
             {/* Refresh button */}
             <div className="absolute top-4 right-4">
               <button
                 onClick={(e) => { e.stopPropagation(); resetPlan(); }}
                 title="Redo plan"
-                className="w-10 h-10 rounded-full bg-[var(--app-deep)] flex items-center justify-center text-[var(--app-text)] hover:text-[#d9ee4f] active:rotate-180 active:scale-95 transition-all duration-500"
+                className="w-10 h-10 rounded-full bg-[#353436] flex items-center justify-center text-white hover:text-[#d9ee4f] active:rotate-180 active:scale-95 transition-all duration-500"
               >
                 <RotateCcw className="w-4 h-4" />
               </button>
@@ -409,25 +409,25 @@ export default function AIPage() {
             <div className="cursor-pointer" onClick={() => setPlanCollapsed((c) => !c)}>
               <div className="flex flex-col gap-2 pr-12">
                 <span className="text-[#d9ee4f] text-[10px] font-bold uppercase tracking-[0.1em]">Active Plan</span>
-                <h2 className="text-[var(--app-text)] font-semibold text-xl leading-snug">{plan?.planName}</h2>
+                <h2 className="text-white font-semibold text-xl leading-snug">{plan?.planName}</h2>
                 <div className="flex items-center gap-4 mt-1">
                   <div className="flex items-center gap-1.5">
                     <Calendar className="w-4 h-4 text-[#d9ee4f]" />
-                    <span className="text-[var(--app-text)] text-xs">{planDaysCount} days/week</span>
+                    <span className="text-[#e5e2e3] text-xs">{planDaysCount} days/week</span>
                   </div>
                   <div className="flex items-center gap-1.5">
                     <Zap className="w-4 h-4 text-[#d9ee4f]" />
-                    <span className="text-[var(--app-text)] text-xs">{intensityLabel}</span>
+                    <span className="text-[#e5e2e3] text-xs">{intensityLabel}</span>
                   </div>
                   <ChevronDown
-                    className="w-4 h-4 text-[var(--app-text-muted)] ml-auto transition-transform duration-300"
+                    className="w-4 h-4 text-neutral-500 ml-auto transition-transform duration-300"
                     style={{ transform: planCollapsed ? "rotate(0deg)" : "rotate(180deg)" }}
                   />
                 </div>
               </div>
 
               {/* Progress bar */}
-              <div className="mt-5 h-1.5 w-full bg-[var(--app-deep)] rounded-full overflow-hidden">
+              <div className="mt-5 h-1.5 w-full bg-[#353436] rounded-full overflow-hidden">
                 <div
                   className="h-full bg-[#d9ee4f] rounded-full"
                   style={{ width: "25%", boxShadow: "0 0 10px rgba(217,238,79,0.3)" }}
@@ -444,7 +444,7 @@ export default function AIPage() {
                     <div className="flex items-center justify-between mb-3">
                       <div>
                         <p className="text-[#d9ee4f] text-[10px] font-bold uppercase tracking-wider">Today · {todayDay.day}</p>
-                        <p className="text-[var(--app-text)] font-semibold text-sm mt-0.5">{todayDay.focus}</p>
+                        <p className="text-white font-semibold text-sm mt-0.5">{todayDay.focus}</p>
                       </div>
                       <button
                         onClick={() => startWorkout(todayDay.exercises)}
@@ -456,12 +456,12 @@ export default function AIPage() {
                     </div>
                     {todayDay.exercises.slice(0, 4).map((ex, i) => (
                       <div key={i} className={`flex items-center justify-between py-1.5 ${i > 0 ? "border-t border-[#d9ee4f]/10" : ""}`}>
-                        <span className="text-[var(--app-text)] text-xs">{ex.name}</span>
-                        <span className="text-[var(--app-text-muted)] text-xs">{ex.sets} × {ex.reps}</span>
+                        <span className="text-[#e5e2e3] text-xs">{ex.name}</span>
+                        <span className="text-neutral-500 text-xs">{ex.sets} × {ex.reps}</span>
                       </div>
                     ))}
                     {todayDay.exercises.length > 4 && (
-                      <p className="text-[var(--app-text-muted)] text-[10px] mt-1.5">+{todayDay.exercises.length - 4} more exercises</p>
+                      <p className="text-neutral-500 text-[10px] mt-1.5">+{todayDay.exercises.length - 4} more exercises</p>
                     )}
                   </div>
                 )}
@@ -474,21 +474,21 @@ export default function AIPage() {
                     <div
                       key={i}
                       className={`rounded-[20px] border transition-colors ${
-                        isToday ? "bg-[#d9ee4f]/10 border-[#d9ee4f]/20" : "bg-[var(--app-card2)] border-[#2c2c2e]"
+                        isToday ? "bg-[#d9ee4f]/10 border-[#d9ee4f]/20" : "bg-[#252528] border-[#2c2c2e]"
                       }`}
                     >
                       <button onClick={() => toggleDay(i)} className="w-full flex items-center justify-between p-4">
                         <div className="flex items-center gap-2.5">
                           {isToday && <span className="w-2 h-2 rounded-full bg-[#d9ee4f] shrink-0" />}
                           <div className="text-left">
-                            <p className={`font-bold text-sm ${isToday ? "text-[#d9ee4f]" : "text-[var(--app-text)]"}`}>{day.day}</p>
-                            <p className="text-[var(--app-text-muted)] text-xs mt-0.5">{day.focus}</p>
+                            <p className={`font-bold text-sm ${isToday ? "text-[#d9ee4f]" : "text-white"}`}>{day.day}</p>
+                            <p className="text-neutral-500 text-xs mt-0.5">{day.focus}</p>
                           </div>
                         </div>
                         <div className="flex items-center gap-2">
-                          <span className="text-[var(--app-text-muted)] text-xs">{day.exercises.length} ex</span>
+                          <span className="text-neutral-500 text-xs">{day.exercises.length} ex</span>
                           <ChevronDown
-                            className="w-4 h-4 text-[var(--app-text-muted)] transition-transform duration-200"
+                            className="w-4 h-4 text-neutral-500 transition-transform duration-200"
                             style={{ transform: isExpanded ? "rotate(180deg)" : "rotate(0deg)" }}
                           />
                         </div>
@@ -499,12 +499,12 @@ export default function AIPage() {
                           {day.exercises.map((ex, j) => (
                             <div key={j} className={`flex items-start justify-between py-3 ${j > 0 ? "border-t border-[#2c2c2e]" : ""}`}>
                               <div className="flex-1 min-w-0 pr-4">
-                                <p className="text-sm font-medium text-[var(--app-text)]">{ex.name}</p>
-                                {ex.notes && <p className="text-xs text-[var(--app-text-muted)] mt-0.5 truncate">{ex.notes}</p>}
+                                <p className="text-sm font-medium text-[#e5e2e3]">{ex.name}</p>
+                                {ex.notes && <p className="text-xs text-neutral-500 mt-0.5 truncate">{ex.notes}</p>}
                               </div>
                               <div className="text-right shrink-0">
-                                <p className="text-xs text-[var(--app-text)]">{ex.sets} × {ex.reps}</p>
-                                <p className="text-xs text-[var(--app-text-muted)]">rest {ex.rest}</p>
+                                <p className="text-xs text-[#e5e2e3]">{ex.sets} × {ex.reps}</p>
+                                <p className="text-xs text-neutral-500">rest {ex.rest}</p>
                               </div>
                             </div>
                           ))}
@@ -535,7 +535,7 @@ export default function AIPage() {
                 <div className="w-10 h-10 rounded-xl bg-[#d9ee4f] flex items-center justify-center flex-shrink-0">
                   <Sparkles className="w-5 h-5 text-[#1a2000]" />
                 </div>
-                <div className="bg-[var(--app-hover)] rounded-t-[20px] rounded-br-[20px] p-4 text-[var(--app-text)] text-sm leading-relaxed flex-1">
+                <div className="bg-[#2a2a2b] rounded-t-[20px] rounded-br-[20px] p-4 text-[#e5e2e3] text-sm leading-relaxed flex-1">
                   {cleanText(msg.content)}
                 </div>
               </div>
@@ -544,8 +544,8 @@ export default function AIPage() {
                 <div className="bg-[#d9ee4f]/10 border border-[#d9ee4f]/20 rounded-t-[20px] rounded-bl-[20px] p-4 text-[#d9ee4f] text-sm leading-relaxed">
                   {msg.content}
                 </div>
-                <div className="w-10 h-10 rounded-xl bg-[var(--app-deep)] flex items-center justify-center flex-shrink-0">
-                  <span className="text-[var(--app-text)] text-xs font-bold">{initials}</span>
+                <div className="w-10 h-10 rounded-xl bg-[#353436] flex items-center justify-center flex-shrink-0">
+                  <span className="text-[#e5e2e3] text-xs font-bold">{initials}</span>
                 </div>
               </div>
             )
@@ -557,7 +557,7 @@ export default function AIPage() {
               <div className="w-10 h-10 rounded-xl bg-[#d9ee4f] flex items-center justify-center flex-shrink-0">
                 <Sparkles className="w-5 h-5 text-[#1a2000]" />
               </div>
-              <div className="bg-[var(--app-hover)] rounded-t-[20px] rounded-br-[20px] p-4 flex items-center gap-1.5">
+              <div className="bg-[#2a2a2b] rounded-t-[20px] rounded-br-[20px] p-4 flex items-center gap-1.5">
                 <span className="w-2 h-2 bg-neutral-500 rounded-full animate-bounce [animation-delay:0ms]" />
                 <span className="w-2 h-2 bg-neutral-500 rounded-full animate-bounce [animation-delay:150ms]" />
                 <span className="w-2 h-2 bg-neutral-500 rounded-full animate-bounce [animation-delay:300ms]" />
@@ -567,7 +567,7 @@ export default function AIPage() {
 
           {messages.length === 0 && !chatLoading && (
             <div className="text-center py-6">
-              <p className="text-[var(--app-text-muted)] text-sm">Ask anything about your plan...</p>
+              <p className="text-neutral-500 text-sm">Ask anything about your plan...</p>
             </div>
           )}
 
@@ -582,7 +582,7 @@ export default function AIPage() {
                 <button
                   key={s}
                   onClick={() => setChatInput(s)}
-                  className="px-4 py-2 bg-[var(--app-hover)] rounded-full border border-[#464835]/30 text-[var(--app-text)] text-xs font-medium hover:border-[#d9ee4f]/50 hover:text-[#d9ee4f] transition-colors"
+                  className="px-4 py-2 bg-[#2a2a2b] rounded-full border border-[#464835]/30 text-[#e5e2e3] text-xs font-medium hover:border-[#d9ee4f]/50 hover:text-[#d9ee4f] transition-colors"
                 >
                   {s}
                 </button>
@@ -600,18 +600,18 @@ export default function AIPage() {
           <div
             className="relative flex items-center gap-2 rounded-2xl p-2 transition-all"
             style={{
-              backgroundColor: "var(--app-card)",
+              backgroundColor: "#1c1b1c",
               border: "1px solid rgba(255,255,255,0.08)",
               boxShadow: "0 8px 32px rgba(0,0,0,0.4)",
             }}
             onFocus={(e) => (e.currentTarget.style.borderColor = "rgba(217,238,79,0.4)")}
-            onBlur={(e) => (e.currentTarget.style.borderColor = "var(--app-border-md)")}
+            onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)")}
           >
             <input
               value={chatInput}
               onChange={(e) => setChatInput(e.target.value)}
               placeholder="Ask your AI Coach..."
-              className="flex-grow bg-transparent border-none focus:ring-0 text-[var(--app-text)] placeholder:text-[var(--app-text-muted)] px-3 text-sm outline-none"
+              className="flex-grow bg-transparent border-none focus:ring-0 text-[#e5e2e3] placeholder:text-neutral-500 px-3 text-sm outline-none"
               onKeyDown={(e) => {
                 if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendChat(); }
               }}

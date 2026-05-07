@@ -140,7 +140,7 @@ export default function ShopDashboardPage() {
 
   if (loading) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-[var(--app-bg)]">
+      <main className="flex min-h-screen items-center justify-center bg-[#131314]">
         <div className="w-8 h-8 rounded-full border-4 border-t-transparent animate-spin"
           style={{ borderColor: "#d9ee4f", borderTopColor: "transparent" }} />
       </main>
@@ -148,7 +148,7 @@ export default function ShopDashboardPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[var(--app-bg)] pb-12">
+    <main className="min-h-screen bg-[#131314] pb-12">
       {toast && (
         <div className="fixed top-5 left-1/2 -translate-x-1/2 z-50 text-sm font-medium px-4 py-2.5 rounded-2xl shadow-lg pointer-events-none"
           style={{ backgroundColor: "#d9ee4f", color: "#1a2000" }}>
@@ -160,19 +160,19 @@ export default function ShopDashboardPage() {
         <div className="flex items-center gap-3 pt-12 pb-6">
           <button
             onClick={() => router.back()}
-            className="w-9 h-9 rounded-full bg-[var(--app-card)] border border-[var(--app-border-md)] flex items-center justify-center hover:bg-[var(--app-hover)] transition-colors"
+            className="w-9 h-9 rounded-full bg-[#1c1b1c] border border-white/10 flex items-center justify-center hover:bg-[#252528] transition-colors"
           >
-            <ArrowLeft className="w-4 h-4 text-[var(--app-text-muted)]" />
+            <ArrowLeft className="w-4 h-4 text-neutral-400" />
           </button>
-          <h1 className="text-[var(--app-text)] text-xl font-black">My Shop</h1>
+          <h1 className="text-white text-xl font-black">My Shop</h1>
         </div>
 
         {shop && (
-          <div className="bg-[var(--app-card)] rounded-[24px] border border-[var(--app-border)] p-5 mb-4">
+          <div className="bg-[#1c1b1c] rounded-[24px] border border-white/5 p-5 mb-4">
             <div className="flex items-start justify-between gap-3">
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 flex-wrap mb-1.5">
-                  <h2 className="text-[var(--app-text)] font-bold text-lg">{shop.name}</h2>
+                  <h2 className="text-white font-bold text-lg">{shop.name}</h2>
                   {shop.verified ? (
                     <span className="inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full border"
                       style={{ background: "rgba(217,238,79,0.1)", borderColor: "rgba(217,238,79,0.2)", color: "#d9ee4f" }}>
@@ -184,17 +184,17 @@ export default function ShopDashboardPage() {
                     </span>
                   )}
                 </div>
-                <div className="flex items-center gap-1.5 text-[var(--app-text-muted)] text-sm">
+                <div className="flex items-center gap-1.5 text-neutral-500 text-sm">
                   <MapPin className="w-3.5 h-3.5 shrink-0" />
                   <span>{shop.area}, {shop.city}</span>
                 </div>
-                <div className="flex items-center gap-1.5 text-[var(--app-text-muted)] text-sm mt-1">
+                <div className="flex items-center gap-1.5 text-neutral-500 text-sm mt-1">
                   <Phone className="w-3.5 h-3.5 shrink-0" />
                   <span>{shop.phone}</span>
                 </div>
               </div>
-              <div className="w-12 h-12 rounded-2xl bg-[var(--app-card2)] flex items-center justify-center shrink-0">
-                <Store className="w-6 h-6 text-[var(--app-text-muted)]" />
+              <div className="w-12 h-12 rounded-2xl bg-[#252528] flex items-center justify-center shrink-0">
+                <Store className="w-6 h-6 text-neutral-400" />
               </div>
             </div>
             {!shop.verified && (
@@ -209,14 +209,14 @@ export default function ShopDashboardPage() {
         )}
 
         <div className="flex items-center justify-between mb-3">
-          <h2 className="text-[var(--app-text-muted)] font-semibold text-sm">
+          <h2 className="text-neutral-300 font-semibold text-sm">
             Products ({listings.length})
           </h2>
           <button
             onClick={() => setShowForm((v) => !v)}
             className="flex items-center gap-1.5 text-xs font-semibold px-3 py-2 rounded-xl transition-colors"
             style={showForm
-              ? { background: "rgba(255,255,255,0.06)", color: "var(--app-text-muted)", border: "1px solid rgba(255,255,255,0.08)" }
+              ? { background: "rgba(255,255,255,0.06)", color: "#737373", border: "1px solid rgba(255,255,255,0.08)" }
               : { background: "rgba(217,238,79,0.1)", color: "#d9ee4f", border: "1px solid rgba(217,238,79,0.2)" }}
           >
             {showForm ? <ChevronUp className="w-3.5 h-3.5" /> : <Plus className="w-3.5 h-3.5" />}
@@ -225,25 +225,25 @@ export default function ShopDashboardPage() {
         </div>
 
         {showForm && (
-          <div className="bg-[var(--app-card)] rounded-[24px] border border-[var(--app-border)] p-4 mb-3 flex flex-col gap-3">
+          <div className="bg-[#1c1b1c] rounded-[24px] border border-white/5 p-4 mb-3 flex flex-col gap-3">
             <div className="relative">
-              <p className="text-[var(--app-text-muted)] text-xs font-medium mb-1.5">Product Name *</p>
+              <p className="text-neutral-500 text-xs font-medium mb-1.5">Product Name *</p>
               <input
                 value={productName}
                 onChange={(e) => { setProductName(e.target.value); setShowSuggestions(true); }}
                 onFocus={() => setShowSuggestions(true)}
                 onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
                 placeholder="e.g. Whey Protein"
-                className="w-full px-4 py-3 rounded-2xl border border-[var(--app-border-md)] bg-[var(--app-card2)] text-[var(--app-text)] placeholder:text-[var(--app-text-muted)] text-sm outline-none transition-all"
+                className="w-full px-4 py-3 rounded-2xl border border-white/10 bg-[#252528] text-white placeholder:text-neutral-600 text-sm outline-none transition-all"
                 style={{ borderColor: "rgba(255,255,255,0.1)" }}
               />
               {showSuggestions && suggestions.length > 0 && (
-                <div className="absolute top-full left-0 right-0 mt-1 bg-[var(--app-card)] border border-[var(--app-border-md)] rounded-xl shadow-lg z-10 overflow-hidden">
+                <div className="absolute top-full left-0 right-0 mt-1 bg-[#1c1b1c] border border-white/10 rounded-xl shadow-lg z-10 overflow-hidden">
                   {suggestions.slice(0, 5).map((s) => (
                     <button
                       key={s}
                       onMouseDown={() => { setProductName(s); setShowSuggestions(false); }}
-                      className="w-full text-left px-4 py-2.5 text-sm text-[var(--app-text-muted)] hover:bg-[var(--app-hover)] transition-colors"
+                      className="w-full text-left px-4 py-2.5 text-sm text-neutral-300 hover:bg-[#252528] transition-colors"
                     >
                       {s}
                     </button>
@@ -254,25 +254,25 @@ export default function ShopDashboardPage() {
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <p className="text-[var(--app-text-muted)] text-xs font-medium mb-1.5">Brand</p>
+                <p className="text-neutral-500 text-xs font-medium mb-1.5">Brand</p>
                 <input value={brand} onChange={(e) => setBrand(e.target.value)} placeholder="e.g. Optimum Nutrition"
-                  className="w-full px-3 py-2.5 rounded-xl border border-[var(--app-border-md)] bg-[var(--app-card2)] text-sm text-[var(--app-text)] placeholder:text-[var(--app-text-muted)] outline-none transition-all" />
+                  className="w-full px-3 py-2.5 rounded-xl border border-white/10 bg-[#252528] text-sm text-white placeholder:text-neutral-600 outline-none transition-all" />
               </div>
               <div>
-                <p className="text-[var(--app-text-muted)] text-xs font-medium mb-1.5">Price (₹) *</p>
+                <p className="text-neutral-500 text-xs font-medium mb-1.5">Price (₹) *</p>
                 <input type="number" value={price} onChange={(e) => setPrice(e.target.value)} placeholder="e.g. 2999"
-                  className="w-full px-3 py-2.5 rounded-xl border border-[var(--app-border-md)] bg-[var(--app-card2)] text-sm text-[var(--app-text)] placeholder:text-[var(--app-text-muted)] outline-none transition-all" />
+                  className="w-full px-3 py-2.5 rounded-xl border border-white/10 bg-[#252528] text-sm text-white placeholder:text-neutral-600 outline-none transition-all" />
               </div>
             </div>
 
             <div>
-              <p className="text-[var(--app-text-muted)] text-xs font-medium mb-1.5">Size / Qty</p>
+              <p className="text-neutral-500 text-xs font-medium mb-1.5">Size / Qty</p>
               <input value={quantityLabel} onChange={(e) => setQuantityLabel(e.target.value)} placeholder="e.g. 1kg · 30 servings"
-                className="w-full px-3 py-2.5 rounded-xl border border-[var(--app-border-md)] bg-[var(--app-card2)] text-sm text-[var(--app-text)] placeholder:text-[var(--app-text-muted)] outline-none transition-all" />
+                className="w-full px-3 py-2.5 rounded-xl border border-white/10 bg-[#252528] text-sm text-white placeholder:text-neutral-600 outline-none transition-all" />
             </div>
 
             <div className="flex items-center justify-between">
-              <span className="text-[var(--app-text-muted)] text-sm font-medium">In Stock</span>
+              <span className="text-neutral-300 text-sm font-medium">In Stock</span>
               <Toggle on={inStock} onToggle={() => setInStock((v) => !v)} />
             </div>
 
@@ -289,11 +289,11 @@ export default function ShopDashboardPage() {
 
         <div className="flex flex-col gap-2">
           {listings.map((listing) => (
-            <div key={listing.id} className="bg-[var(--app-card)] rounded-2xl border border-[var(--app-border)] overflow-hidden">
+            <div key={listing.id} className="bg-[#1c1b1c] rounded-2xl border border-white/5 overflow-hidden">
               <div className="flex items-center gap-3 px-4 py-3.5">
                 <div className="flex-1 min-w-0">
-                  <p className="text-[var(--app-text)] text-sm font-semibold truncate">{listing.productName}</p>
-                  <p className="text-[var(--app-text-muted)] text-xs">
+                  <p className="text-white text-sm font-semibold truncate">{listing.productName}</p>
+                  <p className="text-neutral-500 text-xs">
                     {[listing.brand, listing.quantityLabel].filter(Boolean).join(" · ")}
                   </p>
                 </div>
@@ -309,17 +309,17 @@ export default function ShopDashboardPage() {
                 </button>
               </div>
               {!listing.inStock && (
-                <div className="px-4 py-1.5 bg-[var(--app-card2)] border-t border-[var(--app-border)]">
-                  <span className="text-[var(--app-text-muted)] text-xs">Out of stock — hidden from buyers</span>
+                <div className="px-4 py-1.5 bg-[#252528] border-t border-white/5">
+                  <span className="text-neutral-500 text-xs">Out of stock — hidden from buyers</span>
                 </div>
               )}
             </div>
           ))}
 
           {listings.length === 0 && !showForm && (
-            <div className="text-center py-12 bg-[var(--app-card)] rounded-[24px] border border-[var(--app-border)]">
+            <div className="text-center py-12 bg-[#1c1b1c] rounded-[24px] border border-white/5">
               <Store className="w-10 h-10 text-neutral-600 mx-auto mb-3" />
-              <p className="text-[var(--app-text-muted)] text-sm font-medium">No products yet</p>
+              <p className="text-neutral-400 text-sm font-medium">No products yet</p>
               <p className="text-neutral-600 text-xs mt-1">Add your first product to get started</p>
               <button
                 onClick={() => setShowForm(true)}
