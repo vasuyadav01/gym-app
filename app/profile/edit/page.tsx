@@ -38,39 +38,39 @@ export default function EditProfilePage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#131314] pb-10">
+    <main className="min-h-screen bg-[var(--app-bg)] pb-10">
       <div className="w-full max-w-md mx-auto px-5 pt-12 flex flex-col gap-5">
         <div className="flex items-center gap-3 mb-2">
           <button
             onClick={() => router.back()}
-            className="w-9 h-9 flex items-center justify-center rounded-full bg-[#1c1b1c] border border-white/10 hover:bg-[#252528] transition-colors"
+            className="w-9 h-9 flex items-center justify-center rounded-full bg-[var(--app-card)] border border-[var(--app-border-md)] hover:bg-[var(--app-hover)] transition-colors"
           >
             <ChevronLeft className="w-5 h-5" style={{ color: "#d9ee4f" }} />
           </button>
-          <h1 className="text-white text-2xl font-black">Edit Profile</h1>
+          <h1 className="text-[var(--app-text)] text-2xl font-black">Edit Profile</h1>
         </div>
 
-        <div className="bg-[#1c1b1c] rounded-[24px] border border-white/5 p-5 flex flex-col gap-4">
+        <div className="bg-[var(--app-card)] rounded-[24px] border border-[var(--app-border)] p-5 flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
-            <label className="text-neutral-500 text-sm font-medium">Display Name</label>
+            <label className="text-[var(--app-text-muted)] text-sm font-medium">Display Name</label>
             <input
               type="text"
               placeholder="Your name"
               value={displayName}
               onChange={(e) => setDisplayName(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl border border-white/10 bg-[#252528] text-white placeholder:text-neutral-600 text-base outline-none transition-all"
+              className="w-full px-4 py-3 rounded-xl border border-[var(--app-border-md)] bg-[var(--app-card2)] text-[var(--app-text)] placeholder:text-[var(--app-text-muted)] text-base outline-none transition-all"
               onFocus={(e) => e.currentTarget.style.borderColor = "rgba(217,238,79,0.4)"}
-              onBlur={(e) => e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)"}
+              onBlur={(e) => e.currentTarget.style.borderColor = "var(--app-border-md)"}
             />
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-neutral-500 text-sm font-medium">Email</label>
+            <label className="text-[var(--app-text-muted)] text-sm font-medium">Email</label>
             <input
               type="email"
               value={user?.email || ""}
               disabled
-              className="w-full px-4 py-3 rounded-xl border border-white/5 bg-[#252528]/50 text-neutral-600 text-base cursor-not-allowed"
+              className="w-full px-4 py-3 rounded-xl border border-[var(--app-border)] bg-[var(--app-card2)]/50 text-neutral-600 text-base cursor-not-allowed"
             />
           </div>
 

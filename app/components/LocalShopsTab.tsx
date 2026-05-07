@@ -92,12 +92,12 @@ function ShopCard({
   const cats = Array.from(new Set(shop.listings.map(categoryOf).filter(Boolean)));
 
   return (
-    <div className="bg-white dark:bg-[#1c1c1e] rounded-2xl border border-slate-200 dark:border-[#2c2c2e] shadow-sm overflow-hidden">
+    <div className="bg-white dark:bg-[var(--app-card)] rounded-2xl border border-slate-200 dark:border-[#2c2c2e] shadow-sm overflow-hidden">
       <div className="p-4 pb-3">
         <div className="flex items-start justify-between gap-2">
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 flex-wrap mb-1">
-              <h3 className="text-slate-900 dark:text-[#f2f2f7] font-bold text-sm leading-tight">{shop.name}</h3>
+              <h3 className="text-slate-900 dark:text-[var(--app-text)] font-bold text-sm leading-tight">{shop.name}</h3>
               {shop.verified ? (
                 <span className="inline-flex items-center gap-1 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 text-[10px] font-semibold px-2 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-900/30">
                   <CheckCircle className="w-2.5 h-2.5" /> Verified
@@ -108,7 +108,7 @@ function ShopCard({
                 </span>
               )}
             </div>
-            <div className="flex items-center gap-1 text-slate-500 dark:text-[#8e8e93] text-xs">
+            <div className="flex items-center gap-1 text-slate-500 dark:text-[var(--app-text-muted)] text-xs">
               <MapPin className="w-3 h-3 shrink-0" />
               <span>{shop.area}, {shop.city}</span>
               {shop.distanceKm !== undefined && shop.lat !== 0 && (
@@ -144,8 +144,8 @@ function ShopCard({
           {inStockListings.slice(0, 5).map((l) => (
             <div key={l.id} className="flex items-center justify-between px-4 py-2.5">
               <div className="flex-1 min-w-0">
-                <p className="text-slate-800 dark:text-[#ebebf0] text-xs font-semibold truncate">{l.productName}</p>
-                <p className="text-slate-400 dark:text-[#636366] text-[10px]">
+                <p className="text-slate-800 dark:text-[var(--app-text)] text-xs font-semibold truncate">{l.productName}</p>
+                <p className="text-slate-400 dark:text-[var(--app-text-muted)] text-[10px]">
                   {[l.brand, l.quantityLabel].filter(Boolean).join(" · ")}
                 </p>
               </div>
@@ -155,21 +155,21 @@ function ShopCard({
             </div>
           ))}
           {inStockListings.length > 5 && (
-            <div className="px-4 py-2 text-slate-400 dark:text-[#636366] text-xs">
+            <div className="px-4 py-2 text-slate-400 dark:text-[var(--app-text-muted)] text-xs">
               +{inStockListings.length - 5} more products in stock
             </div>
           )}
         </div>
       ) : (
         <div className="border-t border-slate-100 dark:border-[#2c2c2e] px-4 py-3">
-          <p className="text-slate-400 dark:text-[#636366] text-xs italic">No products currently listed</p>
+          <p className="text-slate-400 dark:text-[var(--app-text-muted)] text-xs italic">No products currently listed</p>
         </div>
       )}
 
-      <div className="flex items-center gap-2 px-4 py-3 bg-slate-50/80 dark:bg-[#2c2c2e]/50 border-t border-slate-100 dark:border-[#2c2c2e]">
+      <div className="flex items-center gap-2 px-4 py-3 bg-slate-50/80 dark:bg-[var(--app-card2)]/50 border-t border-slate-100 dark:border-[#2c2c2e]">
         <a
           href={`tel:${shop.phone}`}
-          className="flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-[#8e8e93] bg-white dark:bg-[#2c2c2e] border border-slate-200 dark:border-[#3a3a3c] px-3 py-2 rounded-xl hover:bg-slate-100 dark:hover:bg-[#3a3a3c] transition-colors"
+          className="flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-[var(--app-text-muted)] bg-white dark:bg-[var(--app-card2)] border border-slate-200 dark:border-[#3a3a3c] px-3 py-2 rounded-xl hover:bg-slate-100 dark:hover:bg-[var(--app-control)] transition-colors"
         >
           <Phone className="w-3 h-3" /> Call
         </a>
@@ -186,7 +186,7 @@ function ShopCard({
           <a
             href={shop.mapsLink}
             target="_blank" rel="noopener noreferrer"
-            className="flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-[#8e8e93] bg-white dark:bg-[#2c2c2e] border border-slate-200 dark:border-[#3a3a3c] px-3 py-2 rounded-xl hover:bg-slate-100 dark:hover:bg-[#3a3a3c] transition-colors"
+            className="flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-[var(--app-text-muted)] bg-white dark:bg-[var(--app-card2)] border border-slate-200 dark:border-[#3a3a3c] px-3 py-2 rounded-xl hover:bg-slate-100 dark:hover:bg-[var(--app-control)] transition-colors"
           >
             <Navigation className="w-3 h-3" /> Directions
           </a>
@@ -284,22 +284,22 @@ export default function LocalShopsTab({
       {gpsStatus === "denied" && (
         <div className="mb-4">
           <div className="relative">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-[#636366] pointer-events-none" />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-[var(--app-text-muted)] pointer-events-none" />
             <input
               value={citySearch}
               onChange={(e) => setCitySearch(e.target.value)}
               placeholder="Search by city or area..."
-              className="w-full pl-10 pr-4 py-3 rounded-2xl border border-slate-200 dark:border-[#2c2c2e] bg-white dark:bg-[#1c1c1e] text-slate-800 dark:text-[#ebebf0] placeholder:text-slate-400 dark:placeholder:text-[#636366] text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400 transition-all"
+              className="w-full pl-10 pr-4 py-3 rounded-2xl border border-slate-200 dark:border-[#2c2c2e] bg-white dark:bg-[var(--app-card)] text-slate-800 dark:text-[var(--app-text)] placeholder:text-slate-400 dark:placeholder:text-[var(--app-text-muted)] text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400 transition-all"
             />
           </div>
-          <p className="text-slate-400 dark:text-[#636366] text-[11px] mt-1.5 pl-1">
+          <p className="text-slate-400 dark:text-[var(--app-text-muted)] text-[11px] mt-1.5 pl-1">
             Location access denied — search by city to find nearby shops
           </p>
         </div>
       )}
 
       {shopsWithListings.length === 0 ? (
-        <div className="text-center py-12 text-slate-400 dark:text-[#636366] text-sm">
+        <div className="text-center py-12 text-slate-400 dark:text-[var(--app-text-muted)] text-sm">
           {gpsStatus === "denied" && citySearch.trim()
             ? `No shops found in "${citySearch}"`
             : "No local shops listed yet — be the first!"}

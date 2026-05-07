@@ -266,7 +266,7 @@ export default function WorkoutSession({ onSave, saving, message }: WorkoutSessi
   };
 
   return (
-    <div className="w-full max-w-md mx-auto min-h-screen bg-[#131314] flex flex-col relative">
+    <div className="w-full max-w-md mx-auto min-h-screen bg-[var(--app-bg)] flex flex-col relative">
 
       {showSaveScreen && (
         <SaveWorkoutScreen
@@ -308,12 +308,12 @@ export default function WorkoutSession({ onSave, saving, message }: WorkoutSessi
       )}
 
       {/* Sticky header */}
-      <div className="bg-[#131314] border-b border-white/5 px-4 pt-12 pb-3 sticky top-0 z-20">
+      <div className="bg-[var(--app-bg)] border-b border-[var(--app-border)] px-4 pt-12 pb-3 sticky top-0 z-20">
         <div className="flex items-center justify-between mb-3">
           {editingName ? (
             <input
               autoFocus
-              className="text-base font-bold text-white bg-transparent outline-none border-b-2 flex-1 mr-3"
+              className="text-base font-bold text-[var(--app-text)] bg-transparent outline-none border-b-2 flex-1 mr-3"
               style={{ borderColor: "#d9ee4f" }}
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -323,7 +323,7 @@ export default function WorkoutSession({ onSave, saving, message }: WorkoutSessi
           ) : (
             <button
               onClick={() => setEditingName(true)}
-              className="text-base font-bold text-white text-left flex-1 mr-3 truncate"
+              className="text-base font-bold text-[var(--app-text)] text-left flex-1 mr-3 truncate"
             >
               {name}
             </button>
@@ -337,9 +337,9 @@ export default function WorkoutSession({ onSave, saving, message }: WorkoutSessi
                   setRestActive({ exerciseId: id, startedAt: Date.now(), duration: dur });
                 }
               }}
-              className="w-9 h-9 rounded-full border border-white/10 bg-[#1c1b1c] flex items-center justify-center"
+              className="w-9 h-9 rounded-full border border-[var(--app-border-md)] bg-[var(--app-card)] flex items-center justify-center"
             >
-              <Timer className="w-4 h-4 text-neutral-500" />
+              <Timer className="w-4 h-4 text-[var(--app-text-muted)]" />
             </button>
             <button
               onClick={openSaveScreen}
@@ -353,16 +353,16 @@ export default function WorkoutSession({ onSave, saving, message }: WorkoutSessi
         </div>
         <div className="flex items-center gap-6">
           <div>
-            <p className="text-neutral-500 text-[11px] uppercase font-semibold tracking-wide">Duration</p>
+            <p className="text-[var(--app-text-muted)] text-[11px] uppercase font-semibold tracking-wide">Duration</p>
             <p className="font-bold text-sm" style={{ color: "#d9ee4f" }}>{elapsed}</p>
           </div>
           <div>
-            <p className="text-neutral-500 text-[11px] uppercase font-semibold tracking-wide">Volume</p>
-            <p className="text-white font-bold text-sm">{totalVolume.toLocaleString()} kg</p>
+            <p className="text-[var(--app-text-muted)] text-[11px] uppercase font-semibold tracking-wide">Volume</p>
+            <p className="text-[var(--app-text)] font-bold text-sm">{totalVolume.toLocaleString()} kg</p>
           </div>
           <div>
-            <p className="text-neutral-500 text-[11px] uppercase font-semibold tracking-wide">Sets</p>
-            <p className="text-white font-bold text-sm">{completedSets}</p>
+            <p className="text-[var(--app-text-muted)] text-[11px] uppercase font-semibold tracking-wide">Sets</p>
+            <p className="text-[var(--app-text)] font-bold text-sm">{completedSets}</p>
           </div>
         </div>
       </div>
@@ -381,12 +381,12 @@ export default function WorkoutSession({ onSave, saving, message }: WorkoutSessi
 
         {exercises.length === 0 && (
           <div className="flex flex-col items-center justify-center py-16 gap-5">
-            <div className="w-16 h-16 rounded-2xl bg-[#1c1b1c] flex items-center justify-center">
+            <div className="w-16 h-16 rounded-2xl bg-[var(--app-card)] flex items-center justify-center">
               <Dumbbell className="w-8 h-8 text-neutral-600" />
             </div>
             <div className="text-center">
-              <p className="text-white font-bold text-lg">Get started</p>
-              <p className="text-neutral-500 text-sm mt-1">Add an exercise to begin</p>
+              <p className="text-[var(--app-text)] font-bold text-lg">Get started</p>
+              <p className="text-[var(--app-text-muted)] text-sm mt-1">Add an exercise to begin</p>
             </div>
             <button
               onClick={() => setShowLibrary(true)}
@@ -396,12 +396,12 @@ export default function WorkoutSession({ onSave, saving, message }: WorkoutSessi
               + Add Exercise
             </button>
             <div className="flex gap-3 w-full">
-              <button className="flex-1 bg-[#1c1b1c] border border-white/10 text-neutral-300 font-semibold py-3 rounded-xl text-sm hover:bg-[#252528] active:scale-95 transition-all">
+              <button className="flex-1 bg-[var(--app-card)] border border-[var(--app-border-md)] text-[var(--app-text-muted)] font-semibold py-3 rounded-xl text-sm hover:bg-[var(--app-hover)] active:scale-95 transition-all">
                 Settings
               </button>
               <button
                 onClick={discardWorkout}
-                className="flex-1 bg-[#1c1b1c] border border-red-900/30 text-red-500 font-semibold py-3 rounded-xl text-sm hover:bg-red-900/10 active:scale-95 transition-all"
+                className="flex-1 bg-[var(--app-card)] border border-red-900/30 text-red-500 font-semibold py-3 rounded-xl text-sm hover:bg-red-900/10 active:scale-95 transition-all"
               >
                 Discard
               </button>
@@ -416,12 +416,12 @@ export default function WorkoutSession({ onSave, saving, message }: WorkoutSessi
           return (
             <div
               key={exercise.exerciseId}
-              className="bg-[#1c1b1c] rounded-2xl border border-white/5 overflow-visible"
+              className="bg-[var(--app-card)] rounded-2xl border border-[var(--app-border)] overflow-visible"
             >
               {/* Card header */}
               <div className="flex items-center gap-3 px-4 pt-4 pb-2">
-                <div className="w-9 h-9 rounded-full bg-[#252528] flex items-center justify-center shrink-0">
-                  <Dumbbell className="w-4 h-4 text-neutral-400" />
+                <div className="w-9 h-9 rounded-full bg-[var(--app-card2)] flex items-center justify-center shrink-0">
+                  <Dumbbell className="w-4 h-4 text-[var(--app-text-muted)]" />
                 </div>
                 <div className="flex-1 min-w-0">
                   {renamingId === exercise.exerciseId ? (
@@ -440,7 +440,7 @@ export default function WorkoutSession({ onSave, saving, message }: WorkoutSessi
                   ) : (
                     <h2 className="font-bold text-base truncate" style={{ color: "#d9ee4f" }}>{exercise.name}</h2>
                   )}
-                  <p className="text-neutral-500 text-xs capitalize mt-0.5">
+                  <p className="text-[var(--app-text-muted)] text-xs capitalize mt-0.5">
                     {exercise.category} · {exercise.equipment}
                   </p>
                 </div>
@@ -453,38 +453,38 @@ export default function WorkoutSession({ onSave, saving, message }: WorkoutSessi
                         isMenuOpen ? null : { id: exercise.exerciseId, mode: "menu" },
                       )
                     }
-                    className="p-1.5 rounded-lg hover:bg-[#252528] text-neutral-500 hover:text-neutral-300 transition-colors"
+                    className="p-1.5 rounded-lg hover:bg-[var(--app-hover)] text-[var(--app-text-muted)] hover:text-[var(--app-text-muted)] transition-colors"
                   >
                     <MoreHorizontal className="w-5 h-5" />
                   </button>
 
                   {isMenuOpen && menuState?.mode === "menu" && (
-                    <div className="absolute right-0 top-8 z-40 bg-[#1c1b1c] rounded-2xl shadow-xl border border-white/10 py-1 w-48">
+                    <div className="absolute right-0 top-8 z-40 bg-[var(--app-card)] rounded-2xl shadow-xl border border-[var(--app-border-md)] py-1 w-48">
                       <button
                         onClick={() => {
                           setRenamingId(exercise.exerciseId);
                           setRenameValue(exercise.name);
                           setMenuState(null);
                         }}
-                        className="w-full flex items-center gap-2.5 px-4 py-3 text-sm text-neutral-300 hover:bg-[#252528] transition-colors"
+                        className="w-full flex items-center gap-2.5 px-4 py-3 text-sm text-[var(--app-text-muted)] hover:bg-[var(--app-hover)] transition-colors"
                       >
-                        <Edit3 className="w-3.5 h-3.5 text-neutral-500" />
+                        <Edit3 className="w-3.5 h-3.5 text-[var(--app-text-muted)]" />
                         Rename
                       </button>
                       <button
                         onClick={() => moveExercise(exercise.exerciseId, -1)}
                         disabled={exerciseIndex === 0}
-                        className="w-full flex items-center gap-2.5 px-4 py-3 text-sm text-neutral-300 hover:bg-[#252528] transition-colors disabled:opacity-30"
+                        className="w-full flex items-center gap-2.5 px-4 py-3 text-sm text-[var(--app-text-muted)] hover:bg-[var(--app-hover)] transition-colors disabled:opacity-30"
                       >
-                        <ChevronUp className="w-3.5 h-3.5 text-neutral-500" />
+                        <ChevronUp className="w-3.5 h-3.5 text-[var(--app-text-muted)]" />
                         Move Up
                       </button>
                       <button
                         onClick={() => moveExercise(exercise.exerciseId, 1)}
                         disabled={exerciseIndex === exercises.length - 1}
-                        className="w-full flex items-center gap-2.5 px-4 py-3 text-sm text-neutral-300 hover:bg-[#252528] transition-colors disabled:opacity-30"
+                        className="w-full flex items-center gap-2.5 px-4 py-3 text-sm text-[var(--app-text-muted)] hover:bg-[var(--app-hover)] transition-colors disabled:opacity-30"
                       >
-                        <ChevronDown className="w-3.5 h-3.5 text-neutral-500" />
+                        <ChevronDown className="w-3.5 h-3.5 text-[var(--app-text-muted)]" />
                         Move Down
                       </button>
                       <div className="h-px bg-white/5 mx-3 my-1" />
@@ -499,19 +499,19 @@ export default function WorkoutSession({ onSave, saving, message }: WorkoutSessi
                   )}
 
                   {isMenuOpen && menuState?.mode === "confirm" && (
-                    <div className="absolute right-0 top-8 z-40 bg-[#1c1b1c] rounded-2xl shadow-xl border border-red-900/30 p-4 w-56">
-                      <p className="text-white font-bold text-sm mb-1">Delete exercise?</p>
-                      <p className="text-neutral-500 text-xs mb-4">All sets will be removed.</p>
+                    <div className="absolute right-0 top-8 z-40 bg-[var(--app-card)] rounded-2xl shadow-xl border border-red-900/30 p-4 w-56">
+                      <p className="text-[var(--app-text)] font-bold text-sm mb-1">Delete exercise?</p>
+                      <p className="text-[var(--app-text-muted)] text-xs mb-4">All sets will be removed.</p>
                       <div className="flex gap-2">
                         <button
                           onClick={() => setMenuState(null)}
-                          className="flex-1 bg-[#252528] text-neutral-300 text-sm font-semibold py-2 rounded-xl"
+                          className="flex-1 bg-[var(--app-card2)] text-[var(--app-text-muted)] text-sm font-semibold py-2 rounded-xl"
                         >
                           Cancel
                         </button>
                         <button
                           onClick={() => deleteExercise(exercise.exerciseId)}
-                          className="flex-1 bg-red-500 text-white text-sm font-semibold py-2 rounded-xl"
+                          className="flex-1 bg-red-500 text-[var(--app-text)] text-sm font-semibold py-2 rounded-xl"
                         >
                           Delete
                         </button>
@@ -524,7 +524,7 @@ export default function WorkoutSession({ onSave, saving, message }: WorkoutSessi
               {/* Notes */}
               <div className="px-4 pb-2">
                 <input
-                  className="w-full text-sm text-neutral-500 placeholder:text-neutral-600 bg-transparent outline-none"
+                  className="w-full text-sm text-[var(--app-text-muted)] placeholder:text-[var(--app-text-muted)] bg-transparent outline-none"
                   placeholder="Add notes here..."
                   value={exercise.notes}
                   onChange={(e) =>
@@ -546,12 +546,12 @@ export default function WorkoutSession({ onSave, saving, message }: WorkoutSessi
               </div>
 
               {/* Sets table header */}
-              <div className="grid grid-cols-[40px_1fr_80px_80px_44px] gap-1.5 px-4 pb-2 border-b border-white/5">
-                <p className="text-neutral-500 text-[10px] font-bold uppercase text-center">Set</p>
-                <p className="text-neutral-500 text-[10px] font-bold uppercase text-center">Previous</p>
-                <p className="text-neutral-500 text-[10px] font-bold uppercase text-center">KG</p>
-                <p className="text-neutral-500 text-[10px] font-bold uppercase text-center">Reps</p>
-                <p className="text-neutral-500 text-[10px] font-bold uppercase text-center">✓</p>
+              <div className="grid grid-cols-[40px_1fr_80px_80px_44px] gap-1.5 px-4 pb-2 border-b border-[var(--app-border)]">
+                <p className="text-[var(--app-text-muted)] text-[10px] font-bold uppercase text-center">Set</p>
+                <p className="text-[var(--app-text-muted)] text-[10px] font-bold uppercase text-center">Previous</p>
+                <p className="text-[var(--app-text-muted)] text-[10px] font-bold uppercase text-center">KG</p>
+                <p className="text-[var(--app-text-muted)] text-[10px] font-bold uppercase text-center">Reps</p>
+                <p className="text-[var(--app-text-muted)] text-[10px] font-bold uppercase text-center">✓</p>
               </div>
 
               {/* Set rows */}
@@ -570,10 +570,10 @@ export default function WorkoutSession({ onSave, saving, message }: WorkoutSessi
               </div>
 
               {/* Add set */}
-              <div className="px-4 py-3 border-t border-white/5">
+              <div className="px-4 py-3 border-t border-[var(--app-border)]">
                 <button
                   onClick={() => addSet(exercise.exerciseId)}
-                  className="w-full bg-[#252528] border border-white/8 text-neutral-400 text-sm font-semibold py-2.5 rounded-xl hover:bg-[#2a2a2b] active:scale-[0.98] transition-all"
+                  className="w-full bg-[var(--app-card2)] border border-[var(--app-border)] text-[var(--app-text-muted)] text-sm font-semibold py-2.5 rounded-xl hover:bg-[var(--app-hover)] active:scale-[0.98] transition-all"
                 >
                   + Add Set
                 </button>
@@ -592,12 +592,12 @@ export default function WorkoutSession({ onSave, saving, message }: WorkoutSessi
               + Add Exercise
             </button>
             <div className="flex gap-3">
-              <button className="flex-1 bg-[#1c1b1c] border border-white/10 text-neutral-300 font-semibold py-3 rounded-xl text-sm hover:bg-[#252528] active:scale-95 transition-all">
+              <button className="flex-1 bg-[var(--app-card)] border border-[var(--app-border-md)] text-[var(--app-text-muted)] font-semibold py-3 rounded-xl text-sm hover:bg-[var(--app-hover)] active:scale-95 transition-all">
                 Settings
               </button>
               <button
                 onClick={discardWorkout}
-                className="flex-1 bg-[#1c1b1c] border border-red-900/30 text-red-500 font-semibold py-3 rounded-xl text-sm hover:bg-red-900/10 active:scale-95 transition-all"
+                className="flex-1 bg-[var(--app-card)] border border-red-900/30 text-red-500 font-semibold py-3 rounded-xl text-sm hover:bg-red-900/10 active:scale-95 transition-all"
               >
                 Discard Workout
               </button>

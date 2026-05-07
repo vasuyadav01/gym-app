@@ -42,7 +42,7 @@ export default function RootLayout({
     >
       <body className="min-h-screen bg-slate-300 dark:bg-[#000] flex justify-center">
         <ThemeProvider>
-          <div className="w-full max-w-[390px] min-h-screen bg-[#f4f4f5] dark:bg-[#0f0f10] shadow-2xl relative overflow-x-hidden">
+          <div className="w-full max-w-[390px] min-h-screen bg-[#f4f4f5] dark:bg-[var(--app-bg)] shadow-2xl relative overflow-x-hidden">
             {children}
           </div>
         </ThemeProvider>

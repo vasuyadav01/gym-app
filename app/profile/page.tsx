@@ -72,7 +72,7 @@ export default function ProfilePage() {
 
   if (loading) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-[#131314]">
+      <main className="flex min-h-screen items-center justify-center bg-[var(--app-bg)]">
         <div className="w-8 h-8 rounded-full border-4 border-t-transparent animate-spin" style={{ borderColor: "#d9ee4f", borderTopColor: "transparent" }} />
       </main>
     );
@@ -81,19 +81,19 @@ export default function ProfilePage() {
   const isDark = theme === "dark";
 
   return (
-    <main className="min-h-screen bg-[#131314] pb-28">
+    <main className="min-h-screen bg-[var(--app-bg)] pb-28">
       <div className="w-full max-w-md mx-auto px-5 pt-12 flex flex-col gap-4">
 
         {/* Header */}
         <div className="flex items-center justify-between mb-2">
-          <h1 className="text-white text-2xl font-black tracking-tight">Profile</h1>
-          <button className="w-8 h-8 flex items-center justify-center rounded-full bg-[#1c1b1c] border border-white/10">
-            <span className="text-neutral-500 text-lg leading-none">···</span>
+          <h1 className="text-[var(--app-text)] text-2xl font-black tracking-tight">Profile</h1>
+          <button className="w-8 h-8 flex items-center justify-center rounded-full bg-[var(--app-card)] border border-[var(--app-border-md)]">
+            <span className="text-[var(--app-text-muted)] text-lg leading-none">···</span>
           </button>
         </div>
 
         {/* Profile Card */}
-        <div className="bg-[#1c1b1c] rounded-[24px] border border-white/5 p-5">
+        <div className="bg-[var(--app-card)] rounded-[24px] border border-[var(--app-border)] p-5">
           <div className="flex items-center gap-4">
             <div className="w-16 h-16 rounded-full flex items-center justify-center"
               style={{ background: "linear-gradient(135deg, #d9ee4f, #a8c020)", boxShadow: "0 4px 14px rgba(217,238,79,0.3)" }}>
@@ -102,10 +102,10 @@ export default function ProfilePage() {
               </span>
             </div>
             <div className="flex-1 min-w-0">
-              <h2 className="text-white text-lg font-bold truncate">
+              <h2 className="text-[var(--app-text)] text-lg font-bold truncate">
                 {user?.displayName || user?.email?.split("@")[0] || "User"}
               </h2>
-              <p className="text-neutral-500 text-sm truncate">{user?.email}</p>
+              <p className="text-[var(--app-text-muted)] text-sm truncate">{user?.email}</p>
             </div>
           </div>
 
@@ -116,10 +116,10 @@ export default function ProfilePage() {
               { icon: Trophy, label: "Volume" },
               { icon: Flame, label: "Streak" },
             ].map(({ icon: Icon, label }) => (
-              <div key={label} className="flex flex-col items-center bg-[#252528] rounded-2xl py-3 border border-white/5">
+              <div key={label} className="flex flex-col items-center bg-[var(--app-card2)] rounded-2xl py-3 border border-[var(--app-border)]">
                 <Icon className="w-4 h-4 mb-1" style={{ color: "#d9ee4f" }} />
-                <span className="text-white text-lg font-bold">0</span>
-                <span className="text-neutral-500 text-[10px] font-medium">{label}</span>
+                <span className="text-[var(--app-text)] text-lg font-bold">0</span>
+                <span className="text-[var(--app-text-muted)] text-[10px] font-medium">{label}</span>
               </div>
             ))}
           </div>
@@ -127,13 +127,13 @@ export default function ProfilePage() {
 
         {/* Gym Card */}
         {profile.gymName && (
-          <div className="bg-[#1c1b1c] rounded-[24px] border border-white/5 p-5">
-            <p className="text-neutral-500 text-xs font-semibold uppercase tracking-widest mb-3">
+          <div className="bg-[var(--app-card)] rounded-[24px] border border-[var(--app-border)] p-5">
+            <p className="text-[var(--app-text-muted)] text-xs font-semibold uppercase tracking-widest mb-3">
               Current Gym
             </p>
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-white font-bold text-base">{profile.gymName}</h3>
+                <h3 className="text-[var(--app-text)] font-bold text-base">{profile.gymName}</h3>
                 {profile.inviteCode && (
                   <div className="mt-2 inline-block rounded-lg px-3 py-1 font-mono text-sm font-semibold border"
                     style={{ background: "rgba(217,238,79,0.08)", borderColor: "rgba(217,238,79,0.2)", color: "#d9ee4f" }}>
@@ -150,22 +150,22 @@ export default function ProfilePage() {
         )}
 
         {/* Appearance */}
-        <div className="bg-[#1c1b1c] rounded-[24px] border border-white/5 overflow-hidden">
-          <p className="text-neutral-500 text-xs font-semibold uppercase tracking-widest px-5 pt-4 pb-2">
+        <div className="bg-[var(--app-card)] rounded-[24px] border border-[var(--app-border)] overflow-hidden">
+          <p className="text-[var(--app-text-muted)] text-xs font-semibold uppercase tracking-widest px-5 pt-4 pb-2">
             Appearance
           </p>
-          <div className="px-5 py-3.5 border-t border-white/5 flex items-center justify-between">
+          <div className="px-5 py-3.5 border-t border-[var(--app-border)] flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-[#252528]">
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-[var(--app-card2)]">
                 {isDark
-                  ? <Moon className="w-4 h-4 text-neutral-400" />
-                  : <Sun className="w-4 h-4 text-neutral-400" />}
+                  ? <Moon className="w-4 h-4 text-[var(--app-text-muted)]" />
+                  : <Sun className="w-4 h-4 text-[var(--app-text-muted)]" />}
               </div>
               <div>
-                <span className="text-white text-sm font-medium">
+                <span className="text-[var(--app-text)] text-sm font-medium">
                   {isDark ? "Dark Mode" : "Light Mode"}
                 </span>
-                <p className="text-neutral-500 text-[11px]">
+                <p className="text-[var(--app-text-muted)] text-[11px]">
                   {isDark ? "Switch to light theme" : "Switch to dark theme"}
                 </p>
               </div>
@@ -173,7 +173,7 @@ export default function ProfilePage() {
             <button
               onClick={toggleTheme}
               className="relative w-12 h-6 rounded-full transition-colors duration-300"
-              style={{ backgroundColor: isDark ? "#d9ee4f" : "#3a3a3c" }}
+              style={{ backgroundColor: isDark ? "#d9ee4f" : "#9ca3af" }}
             >
               <div className={`absolute top-0.5 w-5 h-5 rounded-full shadow-sm transition-transform duration-300 ${
                 isDark ? "translate-x-6 bg-[#1a2000]" : "translate-x-0.5 bg-white"
@@ -183,8 +183,8 @@ export default function ProfilePage() {
         </div>
 
         {/* Settings List */}
-        <div className="bg-[#1c1b1c] rounded-[24px] border border-white/5 overflow-hidden">
-          <p className="text-neutral-500 text-xs font-semibold uppercase tracking-widest px-5 pt-4 pb-2">
+        <div className="bg-[var(--app-card)] rounded-[24px] border border-[var(--app-border)] overflow-hidden">
+          <p className="text-[var(--app-text-muted)] text-xs font-semibold uppercase tracking-widest px-5 pt-4 pb-2">
             Settings
           </p>
           {[
@@ -197,12 +197,12 @@ export default function ProfilePage() {
             <button
               key={i}
               onClick={() => router.push(item.href)}
-              className="w-full flex items-center gap-3 px-5 py-3.5 hover:bg-[#252528] active:bg-[#2a2a2b] transition-colors border-t border-white/5"
+              className="w-full flex items-center gap-3 px-5 py-3.5 hover:bg-[var(--app-hover)] active:bg-[var(--app-hover)] transition-colors border-t border-[var(--app-border)]"
             >
-              <div className="w-8 h-8 rounded-lg bg-[#252528] flex items-center justify-center">
-                <item.icon className="w-4 h-4 text-neutral-400" />
+              <div className="w-8 h-8 rounded-lg bg-[var(--app-card2)] flex items-center justify-center">
+                <item.icon className="w-4 h-4 text-[var(--app-text-muted)]" />
               </div>
-              <span className="flex-1 text-left text-white text-sm font-medium">
+              <span className="flex-1 text-left text-[var(--app-text)] text-sm font-medium">
                 {item.label}
               </span>
               <ChevronRight className="w-4 h-4 text-neutral-600" />
@@ -213,7 +213,7 @@ export default function ProfilePage() {
         {/* Sign Out */}
         <button
           onClick={handleSignOut}
-          className="w-full flex items-center justify-center gap-2 bg-[#1c1b1c] border border-red-900/30 text-red-500 font-semibold text-sm py-4 rounded-[24px] hover:bg-red-900/10 active:scale-[0.98] transition-all"
+          className="w-full flex items-center justify-center gap-2 bg-[var(--app-card)] border border-red-900/30 text-red-500 font-semibold text-sm py-4 rounded-[24px] hover:bg-red-900/10 active:scale-[0.98] transition-all"
         >
           <LogOut className="w-4 h-4" />
           Sign Out

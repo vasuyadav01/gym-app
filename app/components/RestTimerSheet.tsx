@@ -62,7 +62,7 @@ function ScrollPicker({
               className="tabular-nums font-bold transition-all duration-150"
               style={item === active
                 ? { color: "#d9ee4f", fontSize: "2.25rem" }
-                : { color: "#3a3a3c", fontSize: "1.5rem" }}
+                : { color: "var(--app-control)", fontSize: "1.5rem" }}
             >
               {String(item).padStart(2, "0")}
             </span>
@@ -70,7 +70,7 @@ function ScrollPicker({
         ))}
         <div style={{ height: ITEM_H }} />
       </div>
-      <span className="text-neutral-500 text-xs font-semibold">{label}</span>
+      <span className="text-[var(--app-text-muted)] text-xs font-semibold">{label}</span>
     </div>
   );
 }
@@ -98,7 +98,7 @@ export default function RestTimerSheet({ initialSeconds, onSave, onClose }: Prop
       onClick={onClose}
     >
       <div
-        className="bg-[#1c1b1c] rounded-t-3xl w-full max-w-md mx-auto border-t border-white/10"
+        className="bg-[var(--app-card)] rounded-t-3xl w-full max-w-md mx-auto border-t border-[var(--app-border-md)]"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-center pt-3 pb-1">
@@ -107,12 +107,12 @@ export default function RestTimerSheet({ initialSeconds, onSave, onClose }: Prop
 
         <div className="px-6 pt-3 pb-8">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-white font-bold text-lg">Rest Timer</h3>
+            <h3 className="text-[var(--app-text)] font-bold text-lg">Rest Timer</h3>
             <button
               onClick={onClose}
-              className="w-8 h-8 rounded-full bg-[#252528] flex items-center justify-center"
+              className="w-8 h-8 rounded-full bg-[var(--app-card2)] flex items-center justify-center"
             >
-              <X className="w-4 h-4 text-neutral-400" />
+              <X className="w-4 h-4 text-[var(--app-text-muted)]" />
             </button>
           </div>
 
@@ -132,7 +132,7 @@ export default function RestTimerSheet({ initialSeconds, onSave, onClose }: Prop
             <ScrollPicker items={SECONDS} selected={seconds} onChange={setSeconds} label="sec" />
           </div>
 
-          <p className="text-center text-neutral-500 text-sm mt-5">
+          <p className="text-center text-[var(--app-text-muted)] text-sm mt-5">
             {total === 0
               ? "No rest"
               : `${minutes > 0 ? `${minutes}m ` : ""}${seconds}s between sets`}
@@ -149,7 +149,7 @@ export default function RestTimerSheet({ initialSeconds, onSave, onClose }: Prop
                 className="text-xs font-semibold px-3 py-1.5 rounded-full transition-colors"
                 style={total === s
                   ? { backgroundColor: "#d9ee4f", color: "#1a2000" }
-                  : { backgroundColor: "#252528", color: "#737373" }}
+                  : { backgroundColor: "var(--app-card2)", color: "var(--app-text-muted)" }}
               >
                 {s < 60 ? `${s}s` : `${s / 60}m`}
               </button>
@@ -159,7 +159,7 @@ export default function RestTimerSheet({ initialSeconds, onSave, onClose }: Prop
           <div className="flex gap-3 mt-6">
             <button
               onClick={onClose}
-              className="flex-1 bg-[#252528] text-neutral-300 font-semibold py-3.5 rounded-2xl text-sm"
+              className="flex-1 bg-[var(--app-card2)] text-[var(--app-text-muted)] font-semibold py-3.5 rounded-2xl text-sm"
             >
               Cancel
             </button>

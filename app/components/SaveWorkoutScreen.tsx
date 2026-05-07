@@ -103,26 +103,26 @@ export default function SaveWorkoutScreen({
   useEffect(() => { fetchSummary(); }, []);
 
   return (
-    <div className="fixed inset-0 z-50 bg-[#131314] overflow-y-auto">
+    <div className="fixed inset-0 z-50 bg-[var(--app-bg)] overflow-y-auto">
       <div className="w-full max-w-md mx-auto px-5 pt-12 pb-10 flex flex-col gap-4">
 
-        <h1 className="text-white text-2xl font-black mb-2">Save Workout</h1>
+        <h1 className="text-[var(--app-text)] text-2xl font-black mb-2">Save Workout</h1>
 
         {/* Workout name */}
-        <div className="bg-[#1c1b1c] rounded-[24px] border border-white/5 px-4 py-3.5">
-          <p className="text-neutral-500 text-[11px] font-semibold uppercase tracking-widest mb-1.5">
+        <div className="bg-[var(--app-card)] rounded-[24px] border border-[var(--app-border)] px-4 py-3.5">
+          <p className="text-[var(--app-text-muted)] text-[11px] font-semibold uppercase tracking-widest mb-1.5">
             Workout Name
           </p>
           <input
             value={workoutName}
             onChange={(e) => setWorkoutName(e.target.value)}
-            className="w-full text-white font-bold text-base bg-transparent outline-none"
+            className="w-full text-[var(--app-text)] font-bold text-base bg-transparent outline-none"
             placeholder="Workout name"
           />
         </div>
 
         {/* Stats grid */}
-        <div className="bg-[#1c1b1c] rounded-[24px] border border-white/5 p-4 grid grid-cols-2 gap-4">
+        <div className="bg-[var(--app-card)] rounded-[24px] border border-[var(--app-border)] p-4 grid grid-cols-2 gap-4">
           {[
             { label: "Duration", value: calcDuration(startTime, endTime), lime: true },
             { label: "Volume", value: `${totalVolume.toLocaleString()} kg`, lime: false },
@@ -130,11 +130,11 @@ export default function SaveWorkoutScreen({
             { label: "When", value: formatWhen(startTime), lime: false, small: true },
           ].map(({ label, value, lime, small }) => (
             <div key={label}>
-              <p className="text-neutral-500 text-[11px] font-semibold uppercase tracking-widest mb-1">
+              <p className="text-[var(--app-text-muted)] text-[11px] font-semibold uppercase tracking-widest mb-1">
                 {label}
               </p>
-              <p className={`font-bold ${small ? "text-sm leading-tight text-neutral-300" : "text-lg"}`}
-                style={lime ? { color: "#d9ee4f" } : { color: "#e5e2e3" }}>
+              <p className={`font-bold ${small ? "text-sm leading-tight text-[var(--app-text-muted)]" : "text-lg"}`}
+                style={lime ? { color: "#d9ee4f" } : { color: "var(--app-text)" }}>
                 {value}
               </p>
             </div>
@@ -142,8 +142,8 @@ export default function SaveWorkoutScreen({
         </div>
 
         {/* Notes */}
-        <div className="bg-[#1c1b1c] rounded-[24px] border border-white/5 px-4 py-3.5">
-          <p className="text-neutral-500 text-[11px] font-semibold uppercase tracking-widest mb-1.5">
+        <div className="bg-[var(--app-card)] rounded-[24px] border border-[var(--app-border)] px-4 py-3.5">
+          <p className="text-[var(--app-text-muted)] text-[11px] font-semibold uppercase tracking-widest mb-1.5">
             Notes
           </p>
           <textarea
@@ -151,31 +151,31 @@ export default function SaveWorkoutScreen({
             onChange={(e) => setDescription(e.target.value)}
             placeholder="How did it go?"
             rows={3}
-            className="w-full text-neutral-300 text-sm bg-transparent outline-none resize-none placeholder:text-neutral-600"
+            className="w-full text-[var(--app-text-muted)] text-sm bg-transparent outline-none resize-none placeholder:text-[var(--app-text-muted)]"
           />
         </div>
 
         {/* AI Performance Summary */}
-        <div className="bg-[#1c1b1c] rounded-[24px] border border-white/5 p-4">
+        <div className="bg-[var(--app-card)] rounded-[24px] border border-[var(--app-border)] p-4">
           <div className="flex items-center gap-2 mb-3">
             <div className="w-6 h-6 rounded-lg flex items-center justify-center"
               style={{ backgroundColor: "rgba(217,238,79,0.1)" }}>
               <Sparkles className="w-3.5 h-3.5" style={{ color: "#d9ee4f" }} />
             </div>
-            <p className="text-white font-bold text-sm">AI Summary</p>
+            <p className="text-[var(--app-text)] font-bold text-sm">AI Summary</p>
           </div>
 
           {summaryLoading && (
             <div className="flex flex-col gap-2.5">
-              <div className="h-3 bg-[#252528] rounded-full animate-pulse" />
-              <div className="h-3 bg-[#252528] rounded-full w-5/6 animate-pulse" />
-              <div className="h-3 bg-[#252528] rounded-full w-4/6 animate-pulse" />
+              <div className="h-3 bg-[var(--app-card2)] rounded-full animate-pulse" />
+              <div className="h-3 bg-[var(--app-card2)] rounded-full w-5/6 animate-pulse" />
+              <div className="h-3 bg-[var(--app-card2)] rounded-full w-4/6 animate-pulse" />
             </div>
           )}
 
           {summaryError && !summaryLoading && (
             <div className="flex items-center justify-between">
-              <p className="text-neutral-500 text-sm">Could not load summary.</p>
+              <p className="text-[var(--app-text-muted)] text-sm">Could not load summary.</p>
               <button
                 onClick={fetchSummary}
                 className="flex items-center gap-1 text-xs font-semibold"
@@ -188,14 +188,14 @@ export default function SaveWorkoutScreen({
           )}
 
           {summary && !summaryLoading && (
-            <p className="text-neutral-400 text-sm leading-relaxed">{summary}</p>
+            <p className="text-[var(--app-text-muted)] text-sm leading-relaxed">{summary}</p>
           )}
         </div>
 
         {/* Discard */}
         <button
           onClick={onDiscard}
-          className="w-full py-4 rounded-[24px] bg-[#1c1b1c] border border-red-900/30 text-red-500 font-semibold text-sm hover:bg-red-900/10 active:scale-[0.98] transition-all"
+          className="w-full py-4 rounded-[24px] bg-[var(--app-card)] border border-red-900/30 text-red-500 font-semibold text-sm hover:bg-red-900/10 active:scale-[0.98] transition-all"
         >
           Discard Workout
         </button>

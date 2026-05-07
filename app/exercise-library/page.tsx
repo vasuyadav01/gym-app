@@ -50,17 +50,17 @@ export default function ExerciseLibraryPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#131314] px-5 pb-28 pt-6 text-white">
+    <main className="min-h-screen bg-[var(--app-bg)] px-5 pb-28 pt-6 text-[var(--app-text)]">
       <section className="mx-auto flex max-w-md flex-col gap-5">
         <div className="flex items-center justify-between gap-4">
           <div>
             <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: "#d9ee4f" }}>
               Exercise Library
             </p>
-            <h1 className="text-white text-3xl font-black">Add Exercise</h1>
+            <h1 className="text-[var(--app-text)] text-3xl font-black">Add Exercise</h1>
           </div>
           <Link
-            className="rounded-xl border border-white/10 bg-[#1c1b1c] px-4 py-2 text-sm font-semibold text-white hover:bg-[#252528] transition-colors"
+            className="rounded-xl border border-[var(--app-border-md)] bg-[var(--app-card)] px-4 py-2 text-sm font-semibold text-[var(--app-text)] hover:bg-[var(--app-hover)] transition-colors"
             href="/workout/new"
           >
             Done

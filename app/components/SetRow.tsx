@@ -51,13 +51,13 @@ export default function SetRow({
           className="h-8 w-8 rounded-lg flex items-center justify-center text-sm font-bold select-none transition-colors"
           style={completed
             ? { backgroundColor: "rgba(217,238,79,0.15)", color: "#d9ee4f" }
-            : { backgroundColor: "#252528", color: "#737373" }}
+            : { backgroundColor: "var(--app-card2)", color: "var(--app-text-muted)" }}
         >
           {setNumber}
         </button>
 
         {/* Previous best */}
-        <span className="text-xs text-neutral-500 text-center truncate">
+        <span className="text-xs text-[var(--app-text-muted)] text-center truncate">
           {previousBest > 0 ? `${previousBest} kg` : "—"}
         </span>
 
@@ -73,7 +73,7 @@ export default function SetRow({
           className="w-full rounded-xl text-center text-sm font-semibold py-2 outline-none border transition-colors"
           style={completed
             ? { backgroundColor: "rgba(217,238,79,0.08)", borderColor: "rgba(217,238,79,0.2)", color: "#d9ee4f" }
-            : { backgroundColor: "#252528", borderColor: "rgba(255,255,255,0.08)", color: "#e5e2e3" }}
+            : { backgroundColor: "var(--app-card2)", borderColor: "var(--app-border-md)", color: "var(--app-text)" }}
         />
 
         {/* Reps input */}
@@ -87,7 +87,7 @@ export default function SetRow({
           className="w-full rounded-xl text-center text-sm font-semibold py-2 outline-none border transition-colors"
           style={completed
             ? { backgroundColor: "rgba(217,238,79,0.08)", borderColor: "rgba(217,238,79,0.2)", color: "#d9ee4f" }
-            : { backgroundColor: "#252528", borderColor: "rgba(255,255,255,0.08)", color: "#e5e2e3" }}
+            : { backgroundColor: "var(--app-card2)", borderColor: "var(--app-border-md)", color: "var(--app-text)" }}
         />
 
         {/* Complete button */}
@@ -97,7 +97,7 @@ export default function SetRow({
           className="h-9 w-9 rounded-xl flex items-center justify-center text-sm font-bold transition-all active:scale-90"
           style={completed
             ? { backgroundColor: "#d9ee4f", color: "#1a2000" }
-            : { backgroundColor: "#252528", color: "#636366" }}
+            : { backgroundColor: "var(--app-card2)", color: "var(--app-text-muted)" }}
         >
           ✓
         </button>

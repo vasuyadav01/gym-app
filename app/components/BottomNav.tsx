@@ -28,8 +28,8 @@ export default function BottomNav() {
   return (
     <nav className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-[380px]">
       <div
-        className="rounded-full px-4 py-2 flex items-center justify-between border border-white/10"
-        style={{ backgroundColor: "#1c1b1c", boxShadow: "0 4px 32px rgba(0,0,0,0.5)" }}
+        className="rounded-full px-4 py-2 flex items-center justify-between border border-[var(--app-border-md)]"
+        style={{ backgroundColor: "var(--app-card)", boxShadow: "var(--app-nav-shadow)" }}
       >
         {navItems.map((item) => {
           const Icon = item.icon
@@ -42,11 +42,11 @@ export default function BottomNav() {
                   className="w-11 h-11 rounded-full flex items-center justify-center border-[3px] hover:scale-105 active:scale-95 transition-all"
                   style={{
                     backgroundColor: "#d9ee4f",
-                    borderColor: "#131314",
+                    borderColor: "var(--app-bg)",
                     boxShadow: "0 4px 16px rgba(217,238,79,0.35)",
                   }}
                 >
-                  <Sparkles className="w-5 h-5" style={{ color: "#131314" }} />
+                  <Sparkles className="w-5 h-5" style={{ color: "#1a2000" }} />
                 </div>
               </Link>
             )
@@ -58,10 +58,10 @@ export default function BottomNav() {
               href={item.href}
               className="flex flex-col items-center gap-0.5 min-w-[44px] py-1"
             >
-              <Icon className="w-5 h-5" style={{ color: active ? "#d9ee4f" : "#636366" }} />
+              <Icon className="w-5 h-5" style={{ color: active ? "#d9ee4f" : "var(--app-text-muted)" }} />
               <span
                 className="text-[10px] font-semibold"
-                style={{ color: active ? "#d9ee4f" : "#636366" }}
+                style={{ color: active ? "#d9ee4f" : "var(--app-text-muted)" }}
               >
                 {item.label}
               </span>

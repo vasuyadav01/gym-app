@@ -156,14 +156,14 @@ export default function Dashboard() {
 
   if (loading) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-[#131314]">
+      <main className="flex min-h-screen items-center justify-center bg-[var(--app-bg)]">
         <div className="w-8 h-8 rounded-full border-4 border-[#EAFF5F] border-t-transparent animate-spin" />
       </main>
     );
   }
 
   return (
-    <main className="min-h-screen bg-[#131314]">
+    <main className="min-h-screen bg-[var(--app-bg)]">
       {message ? (
         <div className="max-w-md mx-auto px-5 pt-5">
           <p className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-600">

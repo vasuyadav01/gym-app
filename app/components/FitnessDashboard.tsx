@@ -133,10 +133,10 @@ export default function FitnessDashboard({
   };
 
   return (
-    <div className="min-h-screen bg-[#131314] font-sans">
+    <div className="min-h-screen bg-[var(--app-bg)] font-sans">
 
       {/* Header */}
-      <header className="bg-[#131314] border-b border-[#1C1C1E] flex justify-between items-center px-5 h-16 sticky top-0 z-[60]">
+      <header className="bg-[var(--app-bg)] border-b border-[#1C1C1E] flex justify-between items-center px-5 h-16 sticky top-0 z-[60]">
         <div className="w-8 h-8 flex items-center justify-center">
           <div className="flex flex-col gap-[5px]">
             <span className="w-5 h-0.5 bg-[#EAFF5F] block rounded-full" />
@@ -157,7 +157,7 @@ export default function FitnessDashboard({
         {/* Quick Start */}
         <section className="mt-6">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-white font-semibold text-xl">Quick Start</h2>
+            <h2 className="text-[var(--app-text)] font-semibold text-xl">Quick Start</h2>
             <span className="text-[#EAFF5F] text-[11px] font-bold uppercase tracking-wider">Start Now</span>
           </div>
           <Link
@@ -173,19 +173,19 @@ export default function FitnessDashboard({
         {/* My Routines */}
         <section className="mt-8">
           <div className="flex flex-col items-start gap-4 mb-4">
-            <h2 className="text-white font-semibold text-xl">My Routines</h2>
+            <h2 className="text-[var(--app-text)] font-semibold text-xl">My Routines</h2>
             <div className="flex w-full gap-3">
               <Link
                 href="/workout/new"
                 onClick={() => typeof window !== "undefined" && window.localStorage.removeItem(workoutDraftKey)}
-                className="flex-1 bg-[#1C1C1E] text-zinc-300 h-11 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 border border-zinc-800 hover:bg-[#252528] hover:text-[#EAFF5F] hover:border-[#EAFF5F]/50 active:scale-95 transition-all"
+                className="flex-1 bg-[var(--app-card)] text-zinc-300 h-11 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 border border-zinc-800 hover:bg-[var(--app-hover)] hover:text-[#EAFF5F] hover:border-[#EAFF5F]/50 active:scale-95 transition-all"
               >
                 <Dumbbell className="w-4 h-4" />
                 New Routine
               </Link>
               <Link
                 href="/explore"
-                className="flex-1 bg-[#1C1C1E] text-zinc-300 h-11 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 border border-zinc-800 hover:bg-[#252528] hover:text-[#EAFF5F] hover:border-[#EAFF5F]/50 active:scale-95 transition-all"
+                className="flex-1 bg-[var(--app-card)] text-zinc-300 h-11 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 border border-zinc-800 hover:bg-[var(--app-hover)] hover:text-[#EAFF5F] hover:border-[#EAFF5F]/50 active:scale-95 transition-all"
               >
                 <Compass className="w-4 h-4" />
                 Explore
@@ -195,11 +195,11 @@ export default function FitnessDashboard({
 
           {/* Empty state */}
           {!hasRoutines ? (
-            <div className="bg-[#1C1C1E] rounded-[24px] p-8 flex flex-col items-center text-center border border-dashed border-zinc-800 mt-2">
+            <div className="bg-[var(--app-card)] rounded-[24px] p-8 flex flex-col items-center text-center border border-dashed border-zinc-800 mt-2">
               <div className="w-12 h-12 bg-[#EAFF5F]/10 rounded-full flex items-center justify-center mb-4">
                 <Dumbbell className="w-6 h-6 text-[#EAFF5F]" />
               </div>
-              <h3 className="text-white font-semibold mb-1">No routines yet</h3>
+              <h3 className="text-[var(--app-text)] font-semibold mb-1">No routines yet</h3>
               <p className="text-zinc-500 text-sm mb-5">Create a routine to get started</p>
               <Link
                 href="/workout/new"
@@ -221,11 +221,11 @@ export default function FitnessDashboard({
                 return (
                   <div
                     key={workout.id}
-                    className="bg-[#1C1C1E] rounded-[24px] p-6 border border-transparent hover:border-[#EAFF5F]/30 transition-all group relative overflow-hidden"
+                    className="bg-[var(--app-card)] rounded-[24px] p-6 border border-transparent hover:border-[#EAFF5F]/30 transition-all group relative overflow-hidden"
                   >
                     {/* Decorative bg bolt */}
                     <div className="absolute top-0 right-0 p-4 opacity-[0.04] pointer-events-none select-none">
-                      <span className="text-[100px] font-black text-white leading-none">⚡</span>
+                      <span className="text-[100px] font-black text-[var(--app-text)] leading-none">⚡</span>
                     </div>
 
                     <div className="relative z-10">
@@ -244,7 +244,7 @@ export default function FitnessDashboard({
                                   if (e.key === "Enter") commitRename(workout.id);
                                   if (e.key === "Escape") setRenamingId(null);
                                 }}
-                                className="flex-1 text-white font-semibold text-lg bg-[#252528] rounded-xl px-3 py-1.5 outline-none focus:ring-2 focus:ring-[#EAFF5F]/40"
+                                className="flex-1 text-[var(--app-text)] font-semibold text-lg bg-[var(--app-card2)] rounded-xl px-3 py-1.5 outline-none focus:ring-2 focus:ring-[#EAFF5F]/40"
                               />
                               <button onClick={() => commitRename(workout.id)} className="text-[#EAFF5F] hover:opacity-80 transition-opacity">
                                 <Check className="w-4 h-4" />
@@ -254,7 +254,7 @@ export default function FitnessDashboard({
                               </button>
                             </div>
                           ) : (
-                            <h3 className="text-white font-semibold text-lg leading-tight">
+                            <h3 className="text-[var(--app-text)] font-semibold text-lg leading-tight">
                               {displayName || "Workout Routine"}
                             </h3>
                           )}
@@ -270,16 +270,16 @@ export default function FitnessDashboard({
                           </button>
 
                           {isMenuOpen && (
-                            <div className="absolute right-0 top-8 z-50 bg-[#1C1C1E] border border-zinc-800 rounded-2xl shadow-2xl shadow-black/60 py-1 w-44">
+                            <div className="absolute right-0 top-8 z-50 bg-[var(--app-card)] border border-zinc-800 rounded-2xl shadow-2xl shadow-black/60 py-1 w-44">
                               <button
                                 onClick={() => { startRoutine(workout); setOpenMenu(null); }}
-                                className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm text-zinc-300 hover:bg-[#252528] hover:text-[#EAFF5F] transition-colors"
+                                className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm text-zinc-300 hover:bg-[var(--app-hover)] hover:text-[#EAFF5F] transition-colors"
                               >
                                 Start Routine
                               </button>
                               <button
                                 onClick={() => startRename(workout)}
-                                className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm text-zinc-300 hover:bg-[#252528] transition-colors"
+                                className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm text-zinc-300 hover:bg-[var(--app-hover)] transition-colors"
                               >
                                 Rename
                               </button>
@@ -299,13 +299,13 @@ export default function FitnessDashboard({
                       {exerciseNames.length > 0 && (
                         <div className="flex flex-wrap gap-2 mb-5">
                           {exerciseNames.slice(0, 2).map((name, i) => (
-                            <div key={i} className="bg-[#252528] px-3 py-1 rounded-full flex items-center gap-1.5">
+                            <div key={i} className="bg-[var(--app-card2)] px-3 py-1 rounded-full flex items-center gap-1.5">
                               <Dumbbell className="w-3 h-3 text-zinc-500" />
                               <span className="text-zinc-400 text-xs">{name}</span>
                             </div>
                           ))}
                           {exerciseNames.length > 2 && (
-                            <div className="bg-[#252528] px-3 py-1 rounded-full">
+                            <div className="bg-[var(--app-card2)] px-3 py-1 rounded-full">
                               <span className="text-zinc-500 text-xs">+{exerciseNames.length - 2} more</span>
                             </div>
                           )}
@@ -314,7 +314,7 @@ export default function FitnessDashboard({
 
                       <button
                         onClick={() => startRoutine(workout)}
-                        className="w-full bg-[#252528] text-white h-12 rounded-xl font-semibold text-sm uppercase tracking-wider group-hover:bg-[#EAFF5F] group-hover:text-black transition-colors"
+                        className="w-full bg-[var(--app-card2)] text-[var(--app-text)] h-12 rounded-xl font-semibold text-sm uppercase tracking-wider group-hover:bg-[#EAFF5F] group-hover:text-black transition-colors"
                       >
                         Start Routine
                       </button>
@@ -328,10 +328,10 @@ export default function FitnessDashboard({
 
         {/* Performance Stats */}
         <section className="mt-8 pb-10">
-          <h2 className="text-white font-semibold text-xl mb-4">Performance Stats</h2>
+          <h2 className="text-[var(--app-text)] font-semibold text-xl mb-4">Performance Stats</h2>
           <div className="grid grid-cols-2 gap-4">
 
-            <div className="bg-[#1C1C1E] p-6 rounded-[24px]">
+            <div className="bg-[var(--app-card)] p-6 rounded-[24px]">
               <span className="text-zinc-500 text-[10px] font-bold uppercase tracking-wider">Total Workouts</span>
               <div className="mt-2 flex items-end gap-2">
                 <span className="text-[#EAFF5F] text-3xl font-bold leading-none">{workouts.length}</span>
@@ -339,7 +339,7 @@ export default function FitnessDashboard({
               </div>
             </div>
 
-            <div className="bg-[#1C1C1E] p-6 rounded-[24px]">
+            <div className="bg-[var(--app-card)] p-6 rounded-[24px]">
               <span className="text-zinc-500 text-[10px] font-bold uppercase tracking-wider">Active Streak</span>
               <div className="mt-2 flex items-end gap-2">
                 <span className="text-[#EAFF5F] text-3xl font-bold leading-none">{streak}</span>
@@ -347,11 +347,11 @@ export default function FitnessDashboard({
               </div>
             </div>
 
-            <div className="bg-[#1C1C1E] p-6 rounded-[24px] col-span-2">
+            <div className="bg-[var(--app-card)] p-6 rounded-[24px] col-span-2">
               <div className="flex justify-between items-center">
                 <div>
                   <span className="text-zinc-500 text-[10px] font-bold uppercase tracking-wider">Last Session</span>
-                  <h4 className="text-white font-semibold text-base mt-1 leading-snug">
+                  <h4 className="text-[var(--app-text)] font-semibold text-base mt-1 leading-snug">
                     {lastSession?.name ?? "No sessions yet"}
                   </h4>
                 </div>
@@ -368,7 +368,7 @@ export default function FitnessDashboard({
               </div>
             </div>
 
-            <div className="bg-[#1C1C1E] p-6 rounded-[24px] col-span-2 relative overflow-hidden">
+            <div className="bg-[var(--app-card)] p-6 rounded-[24px] col-span-2 relative overflow-hidden">
               <div className="flex justify-between items-center relative z-10">
                 <div>
                   <span className="text-zinc-500 text-[10px] font-bold uppercase tracking-wider">Total Routines</span>

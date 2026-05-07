@@ -17,14 +17,14 @@ function Field({
 }) {
   return (
     <div>
-      <p className="text-neutral-500 text-xs font-medium mb-1.5">{label}</p>
+      <p className="text-[var(--app-text-muted)] text-xs font-medium mb-1.5">{label}</p>
       <input
         type={type} value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full px-4 py-3.5 rounded-2xl border border-white/10 bg-[#252528] text-white placeholder:text-neutral-600 text-sm outline-none transition-all"
+        className="w-full px-4 py-3.5 rounded-2xl border border-[var(--app-border-md)] bg-[var(--app-card2)] text-[var(--app-text)] placeholder:text-[var(--app-text-muted)] text-sm outline-none transition-all"
         onFocus={(e) => e.currentTarget.style.borderColor = "rgba(217,238,79,0.4)"}
-        onBlur={(e) => e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)"}
+        onBlur={(e) => e.currentTarget.style.borderColor = "var(--app-border-md)"}
       />
     </div>
   );
@@ -92,7 +92,7 @@ export default function ShopRegisterPage() {
 
   if (loading) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-[#131314]">
+      <main className="flex min-h-screen items-center justify-center bg-[var(--app-bg)]">
         <div className="w-8 h-8 rounded-full border-4 border-t-transparent animate-spin"
           style={{ borderColor: "#d9ee4f", borderTopColor: "transparent" }} />
       </main>
@@ -101,14 +101,14 @@ export default function ShopRegisterPage() {
 
   if (submitted) {
     return (
-      <main className="flex min-h-screen flex-col items-center justify-center bg-[#131314] px-6">
-        <div className="bg-[#1c1b1c] rounded-3xl border border-white/5 p-8 w-full max-w-sm text-center">
+      <main className="flex min-h-screen flex-col items-center justify-center bg-[var(--app-bg)] px-6">
+        <div className="bg-[var(--app-card)] rounded-3xl border border-[var(--app-border)] p-8 w-full max-w-sm text-center">
           <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
             style={{ background: "rgba(217,238,79,0.1)", border: "1px solid rgba(217,238,79,0.2)" }}>
             <CheckCircle className="w-8 h-8" style={{ color: "#d9ee4f" }} />
           </div>
-          <h2 className="text-white font-bold text-xl mb-2">Shop Submitted!</h2>
-          <p className="text-neutral-500 text-sm leading-relaxed mb-6">
+          <h2 className="text-[var(--app-text)] font-bold text-xl mb-2">Shop Submitted!</h2>
+          <p className="text-[var(--app-text-muted)] text-sm leading-relaxed mb-6">
             Your shop has been submitted for review. It will appear in Local Shops once verified.
           </p>
           <button
@@ -120,7 +120,7 @@ export default function ShopRegisterPage() {
           </button>
           <button
             onClick={() => router.push("/market")}
-            className="w-full py-3 rounded-2xl text-neutral-500 text-sm font-medium hover:text-neutral-300 transition-all mt-2"
+            className="w-full py-3 rounded-2xl text-[var(--app-text-muted)] text-sm font-medium hover:text-[var(--app-text-muted)] transition-all mt-2"
           >
             Back to Market
           </button>
@@ -130,38 +130,38 @@ export default function ShopRegisterPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#131314] pb-12">
+    <main className="min-h-screen bg-[var(--app-bg)] pb-12">
       <div className="w-full max-w-md mx-auto px-5">
         <div className="flex items-center gap-3 pt-12 pb-6">
           <button
             onClick={() => router.back()}
-            className="w-9 h-9 rounded-full bg-[#1c1b1c] border border-white/10 flex items-center justify-center hover:bg-[#252528] transition-colors"
+            className="w-9 h-9 rounded-full bg-[var(--app-card)] border border-[var(--app-border-md)] flex items-center justify-center hover:bg-[var(--app-hover)] transition-colors"
           >
-            <ArrowLeft className="w-4 h-4 text-neutral-400" />
+            <ArrowLeft className="w-4 h-4 text-[var(--app-text-muted)]" />
           </button>
           <div>
-            <h1 className="text-white text-xl font-black">List Your Shop</h1>
-            <p className="text-neutral-500 text-xs">Free · Reach local gym-goers</p>
+            <h1 className="text-[var(--app-text)] text-xl font-black">List Your Shop</h1>
+            <p className="text-[var(--app-text-muted)] text-xs">Free · Reach local gym-goers</p>
           </div>
         </div>
 
         <div className="flex flex-col gap-4">
-          <div className="bg-[#1c1b1c] rounded-[24px] border border-white/5 p-5 flex flex-col gap-4">
+          <div className="bg-[var(--app-card)] rounded-[24px] border border-[var(--app-border)] p-5 flex flex-col gap-4">
             <Field label="Shop Name *" value={name} onChange={setName} placeholder="e.g. GainZone Supplements" />
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <p className="text-neutral-500 text-xs font-medium mb-1.5">Area / Locality *</p>
+                <p className="text-[var(--app-text-muted)] text-xs font-medium mb-1.5">Area / Locality *</p>
                 <input value={area} onChange={(e) => setArea(e.target.value)} placeholder="e.g. Koramangala"
-                  className="w-full px-3 py-3 rounded-2xl border border-white/10 bg-[#252528] text-white placeholder:text-neutral-600 text-sm outline-none transition-all"
+                  className="w-full px-3 py-3 rounded-2xl border border-[var(--app-border-md)] bg-[var(--app-card2)] text-[var(--app-text)] placeholder:text-[var(--app-text-muted)] text-sm outline-none transition-all"
                   onFocus={(e) => e.currentTarget.style.borderColor = "rgba(217,238,79,0.4)"}
-                  onBlur={(e) => e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)"} />
+                  onBlur={(e) => e.currentTarget.style.borderColor = "var(--app-border-md)"} />
               </div>
               <div>
-                <p className="text-neutral-500 text-xs font-medium mb-1.5">City *</p>
+                <p className="text-[var(--app-text-muted)] text-xs font-medium mb-1.5">City *</p>
                 <input value={city} onChange={(e) => setCity(e.target.value)} placeholder="e.g. Bangalore"
-                  className="w-full px-3 py-3 rounded-2xl border border-white/10 bg-[#252528] text-white placeholder:text-neutral-600 text-sm outline-none transition-all"
+                  className="w-full px-3 py-3 rounded-2xl border border-[var(--app-border-md)] bg-[var(--app-card2)] text-[var(--app-text)] placeholder:text-[var(--app-text-muted)] text-sm outline-none transition-all"
                   onFocus={(e) => e.currentTarget.style.borderColor = "rgba(217,238,79,0.4)"}
-                  onBlur={(e) => e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)"} />
+                  onBlur={(e) => e.currentTarget.style.borderColor = "var(--app-border-md)"} />
               </div>
             </div>
             <Field label="Phone *" value={phone} onChange={setPhone} placeholder="+91 98765 43210" type="tel" />
@@ -169,8 +169,8 @@ export default function ShopRegisterPage() {
             <Field label="Google Maps Link (optional)" value={mapsLink} onChange={setMapsLink} placeholder="https://maps.google.com/..." />
           </div>
 
-          <div className="bg-[#1c1b1c] rounded-[24px] border border-white/5 p-5">
-            <p className="text-white text-sm font-semibold mb-3">Shop Location</p>
+          <div className="bg-[var(--app-card)] rounded-[24px] border border-[var(--app-border)] p-5">
+            <p className="text-[var(--app-text)] text-sm font-semibold mb-3">Shop Location</p>
             <button
               type="button"
               onClick={captureLocation}
@@ -178,7 +178,7 @@ export default function ShopRegisterPage() {
               className="w-full flex items-center gap-2.5 px-4 py-3.5 rounded-2xl border text-sm font-medium transition-all"
               style={locStatus === "done"
                 ? { background: "rgba(217,238,79,0.08)", borderColor: "rgba(217,238,79,0.2)", color: "#d9ee4f" }
-                : { background: "#252528", borderColor: "rgba(255,255,255,0.08)", color: "#737373" }}
+                : { background: "var(--app-card2)", borderColor: "var(--app-border-md)", color: "var(--app-text-muted)" }}
             >
               <MapPin className="w-4 h-4 shrink-0" />
               {locStatus === "idle" && "Pin my current location"}

@@ -38,11 +38,11 @@ export default function WorkoutHistory() {
   if (history.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-16 text-center">
-        <div className="w-14 h-14 rounded-2xl bg-[#252528] flex items-center justify-center mb-4">
+        <div className="w-14 h-14 rounded-2xl bg-[var(--app-card2)] flex items-center justify-center mb-4">
           <Dumbbell className="w-7 h-7 text-neutral-600" />
         </div>
-        <p className="text-white font-semibold">No workout history yet</p>
-        <p className="mt-1 text-sm text-neutral-500 max-w-[200px]">
+        <p className="text-[var(--app-text)] font-semibold">No workout history yet</p>
+        <p className="mt-1 text-sm text-[var(--app-text-muted)] max-w-[200px]">
           Completed sessions will appear here.
         </p>
       </div>
@@ -60,21 +60,21 @@ export default function WorkoutHistory() {
             <button
               key={workout.id}
               onClick={() => setSelected(workout)}
-              className="w-full bg-[#1c1b1c] rounded-2xl border border-white/5 px-4 py-3.5 flex items-center gap-3 text-left hover:bg-[#252528] active:scale-[0.99] transition-all"
+              className="w-full bg-[var(--app-card)] rounded-2xl border border-[var(--app-border)] px-4 py-3.5 flex items-center gap-3 text-left hover:bg-[var(--app-hover)] active:scale-[0.99] transition-all"
             >
-              <div className="w-10 h-10 rounded-xl bg-[#252528] flex items-center justify-center shrink-0">
-                <Icon className="w-5 h-5 text-neutral-400" />
+              <div className="w-10 h-10 rounded-xl bg-[var(--app-card2)] flex items-center justify-center shrink-0">
+                <Icon className="w-5 h-5 text-[var(--app-text-muted)]" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-white text-sm font-semibold truncate">{workout.name}</p>
-                <p className="text-neutral-500 text-xs mt-0.5">
+                <p className="text-[var(--app-text)] text-sm font-semibold truncate">{workout.name}</p>
+                <p className="text-[var(--app-text-muted)] text-xs mt-0.5">
                   {dateLabel}{dateLabel && durationLabel ? " · " : ""}{durationLabel}
                 </p>
               </div>
               <div className="text-right shrink-0 flex items-center gap-2">
                 <div>
-                  <p className="text-white text-sm font-bold">{workout.exercises.length}</p>
-                  <p className="text-neutral-500 text-[11px]">exercises</p>
+                  <p className="text-[var(--app-text)] text-sm font-bold">{workout.exercises.length}</p>
+                  <p className="text-[var(--app-text-muted)] text-[11px]">exercises</p>
                 </div>
                 <ChevronRight className="w-4 h-4 text-neutral-600" />
               </div>
@@ -90,22 +90,22 @@ export default function WorkoutHistory() {
           onClick={() => setSelected(null)}
         >
           <div
-            className="w-full max-w-md bg-[#1c1b1c] rounded-3xl shadow-xl max-h-[80vh] flex flex-col overflow-hidden border border-white/10"
+            className="w-full max-w-md bg-[var(--app-card)] rounded-3xl shadow-xl max-h-[80vh] flex flex-col overflow-hidden border border-[var(--app-border-md)]"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal header */}
-            <div className="flex items-start justify-between px-5 pt-5 pb-4 border-b border-white/5 shrink-0">
+            <div className="flex items-start justify-between px-5 pt-5 pb-4 border-b border-[var(--app-border)] shrink-0">
               <div>
-                <h2 className="text-white text-lg font-bold">{selected.name}</h2>
-                <p className="text-neutral-500 text-sm mt-0.5">
+                <h2 className="text-[var(--app-text)] text-lg font-bold">{selected.name}</h2>
+                <p className="text-[var(--app-text-muted)] text-sm mt-0.5">
                   {formatWorkoutDate(selected.startTime)} · {formatDuration(selected.duration)}
                 </p>
               </div>
               <button
                 onClick={() => setSelected(null)}
-                className="w-8 h-8 rounded-full bg-[#252528] flex items-center justify-center hover:bg-[#2a2a2b] transition-colors"
+                className="w-8 h-8 rounded-full bg-[var(--app-card2)] flex items-center justify-center hover:bg-[var(--app-hover)] transition-colors"
               >
-                <X className="w-4 h-4 text-neutral-400" />
+                <X className="w-4 h-4 text-[var(--app-text-muted)]" />
               </button>
             </div>
 
@@ -114,10 +114,10 @@ export default function WorkoutHistory() {
               {selected.exercises.map((exercise) => (
                 <div
                   key={exercise.exerciseId}
-                  className="rounded-2xl border border-white/5 bg-[#252528] p-4"
+                  className="rounded-2xl border border-[var(--app-border)] bg-[var(--app-card2)] p-4"
                 >
                   <div className="flex items-center justify-between gap-3 mb-3">
-                    <h3 className="text-white font-semibold text-sm">{exercise.name}</h3>
+                    <h3 className="text-[var(--app-text)] font-semibold text-sm">{exercise.name}</h3>
                     <span className="font-mono text-xs font-semibold" style={{ color: "#d9ee4f" }}>
                       {calculateExerciseVolume(exercise).toLocaleString()} kg
                     </span>
@@ -126,11 +126,11 @@ export default function WorkoutHistory() {
                     {exercise.sets.map((set, idx) => (
                       <div
                         key={`${exercise.exerciseId}-${idx}`}
-                        className="grid grid-cols-[1.5rem_1fr_1fr_auto] items-center gap-2 rounded-xl bg-[#1c1b1c] border border-white/5 px-3 py-2 text-sm"
+                        className="grid grid-cols-[1.5rem_1fr_1fr_auto] items-center gap-2 rounded-xl bg-[var(--app-card)] border border-[var(--app-border)] px-3 py-2 text-sm"
                       >
-                        <span className="font-mono text-neutral-500 text-xs">{idx + 1}</span>
-                        <span className="font-mono text-neutral-300">{set.weight} kg</span>
-                        <span className="font-mono text-neutral-300">{set.reps} reps</span>
+                        <span className="font-mono text-[var(--app-text-muted)] text-xs">{idx + 1}</span>
+                        <span className="font-mono text-[var(--app-text-muted)]">{set.weight} kg</span>
+                        <span className="font-mono text-[var(--app-text-muted)]">{set.reps} reps</span>
                         {set.isPR && (
                           <span className="rounded-md px-1.5 py-0.5 text-[10px] font-bold"
                             style={{ backgroundColor: "#d9ee4f", color: "#1a2000" }}>

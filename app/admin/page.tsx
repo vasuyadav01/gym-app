@@ -131,7 +131,7 @@ export default function AdminPage() {
   return (
     <main className="min-h-screen bg-slate-50 pb-12">
       {toast && (
-        <div className="fixed top-5 left-1/2 -translate-x-1/2 z-50 bg-slate-900 text-white text-sm font-medium px-4 py-2.5 rounded-2xl shadow-lg pointer-events-none">
+        <div className="fixed top-5 left-1/2 -translate-x-1/2 z-50 bg-slate-900 text-[var(--app-text)] text-sm font-medium px-4 py-2.5 rounded-2xl shadow-lg pointer-events-none">
           {toast}
         </div>
       )}
@@ -151,7 +151,7 @@ export default function AdminPage() {
             }`}
           >
             Gyms {pendingGyms.length > 0 && (
-              <span className="ml-1.5 bg-amber-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">
+              <span className="ml-1.5 bg-amber-500 text-[var(--app-text)] text-[10px] font-bold px-1.5 py-0.5 rounded-full">
                 {pendingGyms.length}
               </span>
             )}
@@ -163,7 +163,7 @@ export default function AdminPage() {
             }`}
           >
             Shops {pendingShops.length > 0 && (
-              <span className="ml-1.5 bg-amber-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">
+              <span className="ml-1.5 bg-amber-500 text-[var(--app-text)] text-[10px] font-bold px-1.5 py-0.5 rounded-full">
                 {pendingShops.length}
               </span>
             )}
@@ -312,7 +312,7 @@ function GymRow({ gym, busy, onApprove, onReject, onRevoke }: {
           <button
             onClick={onApprove}
             disabled={busy}
-            className="flex-1 text-xs font-bold px-3 py-2.5 rounded-xl bg-emerald-600 text-white hover:bg-emerald-700 disabled:opacity-40 transition-all"
+            className="flex-1 text-xs font-bold px-3 py-2.5 rounded-xl bg-emerald-600 text-[var(--app-text)] hover:bg-emerald-700 disabled:opacity-40 transition-all"
           >
             {busy ? "..." : "✓ Approve"}
           </button>
@@ -373,7 +373,7 @@ function ShopRow({ shop, busy, action, onAction }: {
           disabled={busy}
           className={`shrink-0 text-xs font-bold px-3 py-2 rounded-xl border transition-all disabled:opacity-40 ${
             action === "verify"
-              ? "bg-emerald-600 text-white border-emerald-600 hover:bg-emerald-700"
+              ? "bg-emerald-600 text-[var(--app-text)] border-emerald-600 hover:bg-emerald-700"
               : "bg-white text-red-500 border-red-200 hover:bg-red-50"
           }`}
         >
