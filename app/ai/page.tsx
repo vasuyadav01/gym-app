@@ -9,6 +9,7 @@ import { auth, db } from "@/lib/firebase";
 import BottomNav from "../components/BottomNav";
 import { workoutDraftKey } from "../components/workoutTypes";
 import type { WorkoutExercise, WorkoutSet } from "../components/workoutTypes";
+import { getWorkoutPlan } from "@/lib/workoutTemplates";
 
 type FitnessLevel = "Beginner" | "Intermediate" | "Advanced";
 type Goal = "Lose Weight" | "Build Muscle" | "Stay Fit" | "Get Strong";
@@ -42,7 +43,7 @@ type Plan = {
 };
 
 type Message = { role: "user" | "assistant"; content: string };
-type PageState = "loading" | "onboarding" | "generating" | "plan";
+type PageState = "loading" | "onboarding" | "plan";
 
 const STEPS = [
   { key: "fitnessLevel" as const, question: "What's your fitness level?",       options: ["Beginner", "Intermediate", "Advanced"] },
@@ -170,31 +171,19 @@ export default function AIPage() {
     if (currentStep < STEPS.length - 1) {
       setCurrentStep((s) => s + 1);
     } else {
-      setPageState("generating");
       await generatePlan(newProfile as Profile);
     }
   };
 
   const generatePlan = async (finalProfile: Profile) => {
     setError(null);
-    const res = await fetch("/api/ai", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ type: "generate", profile: finalProfile }),
-    }).catch(() => null);
 
-    if (!res) {
-      setError("Network error. Please check your connection.");
-      setPageState("onboarding"); setCurrentStep(0); return;
-    }
-
-    const data = await res.json().catch(() => null);
-    if (!res.ok || !data || data.error) {
-      setError(data?.error ?? `Request failed (${res.status})`);
-      setPageState("onboarding"); setCurrentStep(0); return;
-    }
-
-    const generated = data.plan as Plan;
+    const generated = getWorkoutPlan(
+      finalProfile.fitnessLevel,
+      finalProfile.goal,
+      finalProfile.days,
+      finalProfile.equipment,
+    );
     setPlan(generated);
     setPageState("plan");
     setPlanCollapsed(true);
@@ -278,23 +267,6 @@ export default function AIPage() {
           <div className="w-10 h-10 rounded-full border-4 border-[#d9ee4f] border-t-transparent animate-spin" />
           <span className="text-[#d9ee4f] text-xs font-black tracking-widest uppercase">VISFIT</span>
         </div>
-      </main>
-    );
-  }
-
-  // ── Generating ─────────────────────────────────────────────────────────────
-  if (pageState === "generating") {
-    return (
-      <main className="min-h-screen bg-[#131314] flex flex-col items-center justify-center gap-5 pb-28">
-        <PageHeader initials={initials} />
-        <div className="w-16 h-16 rounded-[20px] bg-[#d9ee4f] flex items-center justify-center mt-16">
-          <Sparkles className="w-7 h-7 text-[#1a2000] animate-pulse" />
-        </div>
-        <div className="text-center">
-          <p className="text-white font-bold text-lg">Building your plan...</p>
-          <p className="text-neutral-500 text-sm mt-1">Engineered by AI. This takes a few seconds.</p>
-        </div>
-        <BottomNav />
       </main>
     );
   }
