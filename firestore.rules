@@ -17,15 +17,17 @@ service cloud.firestore {
     }
 
     // ── shops ───────────────────────────────────────────────────────────────
-    // Anyone can read; only the authenticated owner can create/edit/delete.
+    // Anyone can read; owner or admin can create/edit/delete.
     match /shops/{shopId} {
       allow read: if true;
       allow create: if request.auth != null
         && request.resource.data.ownerId == request.auth.uid;
       allow update: if request.auth != null
-        && resource.data.ownerId == request.auth.uid;
+        && (resource.data.ownerId == request.auth.uid
+            || request.auth.token.email == "vasuyadav2003@gmail.com");
       allow delete: if request.auth != null
-        && resource.data.ownerId == request.auth.uid;
+        && (resource.data.ownerId == request.auth.uid
+            || request.auth.token.email == "vasuyadav2003@gmail.com");
     }
 
     // ── shopListings ────────────────────────────────────────────────────────
