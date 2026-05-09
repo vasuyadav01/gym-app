@@ -256,7 +256,7 @@ export default function AdminPage() {
       {toast && (
         <div
           className="fixed top-5 left-1/2 -translate-x-1/2 z-50 text-sm font-bold px-4 py-2.5 rounded-2xl shadow-xl pointer-events-none transition-all"
-          style={{ backgroundColor: toast.ok ? "#d9ee4f", color: toast.ok ? "#1a2000" : "#fff", background: toast.ok ? "#d9ee4f" : "#ef4444" }}
+          style={{ background: toast.ok ? "#d9ee4f" : "#ef4444", color: toast.ok ? "#1a2000" : "#fff" }}
         >
           {toast.ok ? "✓" : "✗"} {toast.msg}
         </div>
