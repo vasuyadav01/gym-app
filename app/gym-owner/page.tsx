@@ -233,7 +233,7 @@ function MemberSheet({ initial, onSave, onClose, busy }: {
   const ok = form.name.trim() && form.phone.trim() && form.feeAmount.trim() && form.dueDate;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center" onClick={onClose}>
+    <div className="fixed inset-0 z-[60] flex items-end justify-center" onClick={onClose}>
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
       <div className="relative w-full max-w-[390px] bg-[#1c1b1c] rounded-t-3xl border-t border-white/10 p-5 pb-10 flex flex-col gap-4"
         onClick={(e) => e.stopPropagation()}>
@@ -584,7 +584,7 @@ function ExpenseSheet({ initial, onSave, onClose, busy }: {
   const ok = form.amount.trim() && form.date;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center" onClick={onClose}>
+    <div className="fixed inset-0 z-[60] flex items-end justify-center" onClick={onClose}>
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
       <div className="relative w-full max-w-[390px] bg-[#1c1b1c] rounded-t-3xl border-t border-white/10 p-5 pb-10 flex flex-col gap-4"
         onClick={(e) => e.stopPropagation()}>
