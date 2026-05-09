@@ -242,18 +242,6 @@ function OverviewTab({ shop, listingCount, inquiryCount }: {
 function MyShopTab({ shop }: { shop: Shop }) {
   return (
     <div className="flex flex-col gap-4">
-      {/* Photo */}
-      {shop.photoUrl ? (
-        <div className="w-full h-48 rounded-2xl overflow-hidden bg-[#1c1b1c]">
-          <img src={shop.photoUrl} alt={shop.name} className="w-full h-full object-cover" />
-        </div>
-      ) : (
-        <div className="w-full h-32 rounded-2xl bg-[#1c1b1c] border border-white/5 flex flex-col items-center justify-center gap-2">
-          <ImageIcon className="w-8 h-8 text-neutral-600" />
-          <p className="text-neutral-600 text-xs">No shop photo — add one in Settings</p>
-        </div>
-      )}
-
       {/* Shop name + category */}
       <div className="bg-[#1c1b1c] rounded-2xl border border-white/5 p-5">
         <div className="flex items-center gap-3 mb-3">
@@ -290,15 +278,6 @@ function MyShopTab({ shop }: { shop: Shop }) {
             <div className="flex items-center gap-2 text-neutral-400">
               <MessageCircle className="w-3.5 h-3.5 shrink-0 text-neutral-600" />
               <span>{shop.whatsapp}</span>
-            </div>
-          )}
-          {shop.mapsLink && (
-            <div className="flex items-center gap-2 text-neutral-400">
-              <Link2 className="w-3.5 h-3.5 shrink-0 text-neutral-600" />
-              <a href={shop.mapsLink} target="_blank" rel="noopener noreferrer"
-                className="text-[#d9ee4f] underline underline-offset-2 text-xs">
-                View on Google Maps
-              </a>
             </div>
           )}
         </div>
@@ -660,8 +639,6 @@ function SettingsTab({ shop, onSaveShop, onSignOut }: {
   const [pincode,      setPincode]      = useState(shop.pincode ?? "");
   const [whatsapp,     setWhatsapp]     = useState(shop.whatsapp ?? "");
   const [openingHours, setOpeningHours] = useState(shop.openingHours ?? "");
-  const [mapsLink,     setMapsLink]     = useState(shop.mapsLink ?? "");
-  const [photoUrl,     setPhotoUrl]     = useState(shop.photoUrl ?? "");
   const [saving,       setSaving]       = useState(false);
   const [saved,        setSaved]        = useState(false);
 
@@ -676,7 +653,7 @@ function SettingsTab({ shop, onSaveShop, onSignOut }: {
     setSaving(true);
     await onSaveShop({
       ownerName, phone, name: shopName, category,
-      address, area, city, pincode, whatsapp, openingHours, mapsLink, photoUrl,
+      address, area, city, pincode, whatsapp, openingHours,
     });
     setSaved(true);
     setTimeout(() => setSaved(false), 2500);
@@ -742,8 +719,6 @@ function SettingsTab({ shop, onSaveShop, onSignOut }: {
           <Field label="WhatsApp" value={whatsapp} onChange={setWhatsapp} placeholder="+91 98765 43210" type="tel" />
         </div>
         <Field label="Opening Hours" value={openingHours} onChange={setOpeningHours} placeholder="e.g. 9 AM – 9 PM, Mon–Sat" />
-        <Field label="Google Maps Link" value={mapsLink} onChange={setMapsLink} placeholder="https://maps.google.com/…" />
-        <Field label="Shop Photo URL" value={photoUrl} onChange={setPhotoUrl} placeholder="https://i.imgur.com/…" />
       </div>
 
       <button onClick={handleSave} disabled={saving}
