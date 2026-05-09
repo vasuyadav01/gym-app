@@ -24,6 +24,7 @@ type Shop = {
   whatsapp: string;
   mapsLink: string;
   verified: boolean;
+  disabled?: boolean;
 };
 
 type Listing = {
@@ -240,6 +241,7 @@ export default function LocalShopsTab({
   const shopsWithListings = useMemo<ShopWithListings[]>(() => {
     return shops
       .filter((shop) => {
+        if (shop.disabled) return false;
         if (gpsStatus === "denied" && citySearch.trim()) {
           const q = citySearch.toLowerCase();
           return (
