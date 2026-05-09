@@ -134,12 +134,12 @@ function GymBottomNav({ active, onChange }: { active: Tab; onChange: (t: Tab) =>
                 <div
                   className="w-11 h-11 rounded-full flex items-center justify-center border-[3px] hover:scale-105 active:scale-95 transition-all"
                   style={{
-                    backgroundColor: isActive ? "#d9ee4f" : "#252528",
+                    backgroundColor: "#d9ee4f",
                     borderColor: "#131314",
                     boxShadow: "0 4px 16px rgba(217,238,79,0.35)",
                   }}
                 >
-                  <Icon className="w-5 h-5" style={{ color: isActive ? "#131314" : "#636366" }} />
+                  <Icon className="w-5 h-5" style={{ color: "#131314" }} />
                 </div>
               </button>
             );
