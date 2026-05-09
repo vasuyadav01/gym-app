@@ -8,9 +8,9 @@ import {
   query, orderBy, getDocs, where, limit,
 } from "firebase/firestore";
 import {
-  CheckCircle, Clock, MapPin, Phone, Store, Building2, IdCard,
+  CheckCircle, MapPin, Phone, Store, Building2, IdCard,
   XCircle, User, ShieldCheck, ShieldOff, RefreshCw, Mail,
-  TrendingUp, AlertCircle, Search, ChevronDown,
+  TrendingUp, AlertCircle, Search, ChevronDown, LogOut,
 } from "lucide-react";
 import { auth, db } from "@/lib/firebase";
 
@@ -108,6 +108,11 @@ export default function AdminPage() {
   const flash = (msg: string, ok = true) => {
     setToast({ msg, ok });
     setTimeout(() => setToast(null), 3000);
+  };
+
+  const handleSignOut = async () => {
+    await auth.signOut();
+    router.replace("/login");
   };
 
   // Auth guard
@@ -271,12 +276,21 @@ export default function AdminPage() {
               <h1 className="text-white text-2xl font-black tracking-tight">Admin Panel</h1>
               <p className="text-neutral-500 text-xs mt-0.5">VISFIT · vasuyadav2003@gmail.com</p>
             </div>
-            {totalPending > 0 && (
-              <div className="flex items-center gap-1.5 bg-amber-500/15 border border-amber-500/30 px-3 py-1.5 rounded-full">
-                <AlertCircle className="w-3.5 h-3.5 text-amber-400" />
-                <span className="text-amber-400 text-xs font-bold">{totalPending} pending</span>
-              </div>
-            )}
+            <div className="flex items-center gap-2">
+              {totalPending > 0 && (
+                <div className="flex items-center gap-1.5 bg-amber-500/15 border border-amber-500/30 px-3 py-1.5 rounded-full">
+                  <AlertCircle className="w-3.5 h-3.5 text-amber-400" />
+                  <span className="text-amber-400 text-xs font-bold">{totalPending} pending</span>
+                </div>
+              )}
+              <button
+                onClick={handleSignOut}
+                className="w-9 h-9 rounded-full bg-[#1c1b1c] border border-red-900/30 flex items-center justify-center hover:bg-red-900/10 transition-colors"
+                title="Sign Out"
+              >
+                <LogOut className="w-4 h-4 text-red-400" />
+              </button>
+            </div>
           </div>
         </div>
 
