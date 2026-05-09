@@ -797,7 +797,7 @@ export default function GymOwnerPage() {
           <p className="text-neutral-500 text-sm leading-relaxed mb-6">
             Register your gym first. Once approved by the admin you&apos;ll have access to the full dashboard.
           </p>
-          <button onClick={() => router.push("/gym")}
+          <button onClick={() => router.push("/gym?mode=create")}
             className="w-full py-3.5 rounded-2xl font-bold text-sm"
             style={{ backgroundColor: "#d9ee4f", color: "#1a2000" }}>
             Register My Gym

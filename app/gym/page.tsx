@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { onAuthStateChanged, signOut, type User } from "firebase/auth";
 import {
   collection, doc, getDoc, getDocs, limit,
@@ -38,9 +38,10 @@ function Field({
 
 export default function GymPage() {
   const router = useRouter();
+  const params = useSearchParams();
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const [view, setView] = useState<View>("choose");
+  const [view, setView] = useState<View>(params.get("mode") === "create" ? "create" : "choose");
   const [busy, setBusy] = useState(false);
 
   const [inviteCode, setInviteCode] = useState("");
@@ -145,11 +146,11 @@ export default function GymPage() {
           </div>
 
           <button
-            onClick={() => router.replace("/")}
+            onClick={() => router.replace("/gym-owner")}
             className="w-full py-3.5 rounded-2xl font-bold text-sm active:scale-[0.98] transition-all"
             style={{ backgroundColor: "#d9ee4f", color: "#1a2000" }}
           >
-            Go to Home
+            Go to Dashboard
           </button>
         </div>
       </main>
