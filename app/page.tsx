@@ -61,6 +61,7 @@ export default function Home() {
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, async (cu) => {
       if (!cu) { router.replace("/login"); return; }
+      if (cu.email === "vasuyadav2003@gmail.com") { router.replace("/admin"); return; }
       setUser(cu);
 
       const userSnap = await getDoc(doc(db, "users", cu.uid)).catch(() => null);

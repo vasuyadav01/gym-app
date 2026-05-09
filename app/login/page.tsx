@@ -16,13 +16,15 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [resetSent, setResetSent] = useState(false);
 
+  const ADMIN_EMAIL = "vasuyadav2003@gmail.com";
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError("");
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      router.replace("/");
+      const cred = await signInWithEmailAndPassword(auth, email, password);
+      router.replace(cred.user.email === ADMIN_EMAIL ? "/admin" : "/");
     } catch {
       setError("Invalid email or password. Please try again.");
     }
@@ -68,8 +70,8 @@ export default function LoginPage() {
     setError("");
     try {
       const provider = new GoogleAuthProvider();
-      await signInWithPopup(auth, provider);
-      router.replace("/");
+      const cred = await signInWithPopup(auth, provider);
+      router.replace(cred.user.email === ADMIN_EMAIL ? "/admin" : "/");
     } catch {
       setError("Google sign in failed. Please try again.");
     }
