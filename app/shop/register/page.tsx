@@ -59,8 +59,6 @@ export default function ShopRegisterPage() {
   const [pincode, setPincode]         = useState("");
   const [whatsapp, setWhatsapp]       = useState("");
   const [openingHours, setOpeningHours] = useState("");
-  const [mapsLink, setMapsLink]       = useState("");
-  const [photoUrl, setPhotoUrl]       = useState("");
 
   useEffect(() => {
     return onAuthStateChanged(auth, (u) => {
@@ -96,8 +94,8 @@ export default function ShopRegisterPage() {
       pincode: pincode.trim(),
       whatsapp: whatsapp.trim(),
       openingHours: openingHours.trim(),
-      mapsLink: mapsLink.trim(),
-      photoUrl: photoUrl.trim(),
+      mapsLink: "",
+      photoUrl: "",
       lat: 0, lng: 0,
       verified: false,
       disabled: false,
@@ -228,8 +226,6 @@ export default function ShopRegisterPage() {
                 <Field label="WhatsApp" value={whatsapp} onChange={setWhatsapp} placeholder="+91 98765 43210" type="tel" />
               </div>
               <Field label="Opening Hours" value={openingHours} onChange={setOpeningHours} placeholder="e.g. 9 AM – 9 PM, Mon–Sat" />
-              <Field label="Google Maps Link" value={mapsLink} onChange={setMapsLink} placeholder="https://maps.google.com/..." />
-              <Field label="Shop Photo URL" value={photoUrl} onChange={setPhotoUrl} placeholder="https://i.imgur.com/..." />
             </div>
 
             {error && (

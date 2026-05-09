@@ -929,15 +929,6 @@ export default function ShopDashboardPage() {
         </button>
       </header>
 
-      {/* Pending banner */}
-      {!shop.verified && (
-        <div className="bg-amber-500/10 border-b border-amber-500/20 px-5 py-3 flex items-center gap-2.5">
-          <AlertCircle className="w-4 h-4 text-amber-400 shrink-0" />
-          <p className="text-amber-400 text-xs font-medium leading-snug">
-            <span className="font-bold">Under review</span> — your shop will appear in the marketplace once the admin verifies it.
-          </p>
-        </div>
-      )}
 
       {/* Content */}
       <div className="px-4 pt-5">
