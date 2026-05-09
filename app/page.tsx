@@ -65,7 +65,12 @@ export default function Home() {
       setUser(cu);
 
       const userSnap = await getDoc(doc(db, "users", cu.uid)).catch(() => null);
-      const userData = userSnap?.data() as { gymId?: string; todayWorkout?: TodayWorkout } | undefined;
+      const userData = userSnap?.data() as { gymId?: string; todayWorkout?: TodayWorkout; role?: string } | undefined;
+
+      // Role-based routing
+      if (!userData?.role)                  { router.replace("/role-select");     setLoading(false); return; }
+      if (userData.role === "gym_owner")    { router.replace("/gym-owner");       setLoading(false); return; }
+      if (userData.role === "shop_owner")   { router.replace("/shop/dashboard");  setLoading(false); return; }
       if (userData?.todayWorkout) setTodayWorkout(userData.todayWorkout);
 
       const gymId = userData?.gymId;

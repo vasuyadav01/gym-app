@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail } from "firebase/auth";
-import { auth } from "@/lib/firebase";
+import { doc, getDoc } from "firebase/firestore";
+import { auth, db } from "@/lib/firebase";
 import { Eye, EyeOff } from "lucide-react";
 
 export default function LoginPage() {
@@ -18,13 +19,23 @@ export default function LoginPage() {
 
   const ADMIN_EMAIL = "vasuyadav2003@gmail.com";
 
+  const roleRoute = async (uid: string, email: string | null): Promise<string> => {
+    if (email === ADMIN_EMAIL) return "/admin";
+    const snap = await getDoc(doc(db, "users", uid)).catch(() => null);
+    const role = snap?.data()?.role as string | undefined;
+    if (role === "gym_owner")  return "/gym-owner";
+    if (role === "shop_owner") return "/shop/dashboard";
+    if (role === "gym_member") return "/";
+    return "/role-select";
+  };
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError("");
     try {
       const cred = await signInWithEmailAndPassword(auth, email, password);
-      router.replace(cred.user.email === ADMIN_EMAIL ? "/admin" : "/");
+      router.replace(await roleRoute(cred.user.uid, cred.user.email));
     } catch {
       setError("Invalid email or password. Please try again.");
     }
@@ -39,7 +50,7 @@ export default function LoginPage() {
     setError("");
     try {
       await createUserWithEmailAndPassword(auth, email, password);
-      router.replace("/");
+      router.replace("/role-select");
     } catch (err: unknown) {
       const code = (err as { code?: string }).code;
       if (code === "auth/email-already-in-use") setError("An account with this email already exists.");
@@ -71,7 +82,7 @@ export default function LoginPage() {
     try {
       const provider = new GoogleAuthProvider();
       const cred = await signInWithPopup(auth, provider);
-      router.replace(cred.user.email === ADMIN_EMAIL ? "/admin" : "/");
+      router.replace(await roleRoute(cred.user.uid, cred.user.email));
     } catch {
       setError("Google sign in failed. Please try again.");
     }
