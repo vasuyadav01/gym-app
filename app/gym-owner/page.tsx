@@ -9,16 +9,16 @@ import {
 } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase";
 import {
-  LayoutDashboard, Users, Receipt, Tag, Trophy,
-  Plus, Copy, Trash2, Edit2, Check, X,
-  Phone, AlertCircle, LogOut, Search, RefreshCw,
-  Building2, CheckCircle2,
+  LayoutDashboard, Users, Receipt, UserPlus, Trophy,
+  Plus, Trash2, Edit2, Check, X,
+  Phone, AlertCircle, LogOut, Search, Copy,
+  Building2, CheckCircle2, Clock,
 } from "lucide-react";
 import Chest1RMLeaderboard from "../components/Chest1RMLeaderboard";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
-type Tab = "overview" | "members" | "fees" | "coupons" | "leaderboard";
+type Tab = "overview" | "members" | "fees" | "invite" | "leaderboard";
 type MemberStatus = "active" | "due_soon" | "overdue";
 
 type Member = {
@@ -32,15 +32,7 @@ type FeePayment = {
   gymId: string; amount: number;
   paidAt: { seconds: number } | null;
 };
-type Coupon = {
-  id: string; gymId: string; gymOwnerId: string;
-  code: string; discount: number; discountType: "percent" | "flat";
-  expiresAt: { seconds: number } | null;
-  maxUses: number; usedCount: number; disabled: boolean;
-  createdAt: { seconds: number } | null;
-};
 type MemberForm = { name: string; phone: string; plan: string; feeAmount: string; dueDate: string };
-type CouponForm  = { code: string; discount: string; discountType: "percent" | "flat"; expiresAt: string; maxUses: string };
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
@@ -102,7 +94,7 @@ const TABS: { key: Tab; label: string; Icon: React.ElementType }[] = [
   { key: "overview",    label: "Overview", Icon: LayoutDashboard },
   { key: "members",     label: "Members",  Icon: Users },
   { key: "fees",        label: "Fees",     Icon: Receipt },
-  { key: "coupons",     label: "Coupons",  Icon: Tag },
+  { key: "invite",      label: "Invite",   Icon: UserPlus },
   { key: "leaderboard", label: "Rankings", Icon: Trophy },
 ];
 
@@ -450,189 +442,86 @@ function FeesTab({
   );
 }
 
-// ── Coupon Sheet ──────────────────────────────────────────────────────────────
+// ── Invite Tab ────────────────────────────────────────────────────────────────
 
-function CouponSheet({ onSave, onClose, busy }: {
-  onSave: (f: CouponForm) => void; onClose: () => void; busy: boolean;
+function InviteTab({ inviteCode, gymName, isPending }: {
+  inviteCode: string; gymName: string; isPending: boolean;
 }) {
-  const [form, setForm] = useState<CouponForm>({
-    code: genCode(), discount: "", discountType: "percent", expiresAt: "", maxUses: "0",
-  });
-  const set = (k: keyof CouponForm) => (v: string) => setForm((f) => ({ ...f, [k]: v }));
-  const ok  = form.code.trim() && form.discount.trim();
+  const [copied, setCopied] = useState(false);
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center" onClick={onClose}>
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
-      <div className="relative w-full max-w-[390px] bg-[#1c1b1c] rounded-t-3xl border-t border-white/10 p-5 pb-10 flex flex-col gap-4"
-        onClick={(e) => e.stopPropagation()}>
-        <div className="flex items-center justify-between">
-          <h3 className="text-white font-bold text-lg">Create Coupon</h3>
-          <button onClick={onClose} className="w-8 h-8 rounded-full bg-[#252528] flex items-center justify-center">
-            <X className="w-4 h-4 text-neutral-400" />
-          </button>
-        </div>
-
-        <div>
-          <p className="text-neutral-500 text-xs font-medium mb-1.5">Coupon Code *</p>
-          <div className="flex gap-2">
-            <input value={form.code} onChange={(e) => set("code")(e.target.value.toUpperCase())}
-              placeholder="e.g. SAVE20"
-              className="flex-1 px-4 py-3 rounded-2xl border border-white/10 bg-[#252528] text-white font-mono text-sm outline-none"
-              onFocus={(e) => e.currentTarget.style.borderColor = "rgba(217,238,79,0.4)"}
-              onBlur={(e) => e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)"} />
-            <button onClick={() => set("code")(genCode())}
-              className="w-12 h-12 rounded-2xl bg-[#252528] border border-white/10 flex items-center justify-center">
-              <RefreshCw className="w-4 h-4 text-neutral-400" />
-            </button>
-          </div>
-        </div>
-
-        <div>
-          <p className="text-neutral-500 text-xs font-medium mb-1.5">Discount Type</p>
-          <div className="flex gap-2">
-            {(["percent", "flat"] as const).map((t) => (
-              <button key={t} onClick={() => set("discountType")(t)}
-                className={`flex-1 py-2.5 rounded-xl text-sm font-bold border transition-all ${
-                  form.discountType === t ? "bg-[#d9ee4f] text-[#1a2000] border-[#d9ee4f]" : "bg-[#252528] text-neutral-400 border-white/10"
-                }`}>
-                {t === "percent" ? "% Percent" : "₹ Flat"}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div>
-          <p className="text-neutral-500 text-xs font-medium mb-1.5">
-            Discount {form.discountType === "percent" ? "(%)" : "(₹)"} *
-          </p>
-          <input type="number" value={form.discount} onChange={(e) => set("discount")(e.target.value)}
-            placeholder={form.discountType === "percent" ? "e.g. 20" : "e.g. 200"}
-            className="w-full px-4 py-3 rounded-2xl border border-white/10 bg-[#252528] text-white placeholder:text-neutral-600 text-sm outline-none"
-            onFocus={(e) => e.currentTarget.style.borderColor = "rgba(217,238,79,0.4)"}
-            onBlur={(e) => e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)"} />
-        </div>
-
-        <div>
-          <p className="text-neutral-500 text-xs font-medium mb-1.5">Expiry Date (optional)</p>
-          <input type="date" value={form.expiresAt} onChange={(e) => set("expiresAt")(e.target.value)}
-            className="w-full px-4 py-3 rounded-2xl border border-white/10 bg-[#252528] text-white text-sm outline-none"
-            onFocus={(e) => e.currentTarget.style.borderColor = "rgba(217,238,79,0.4)"}
-            onBlur={(e) => e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)"} />
-        </div>
-
-        <div>
-          <p className="text-neutral-500 text-xs font-medium mb-1.5">Max Uses (0 = unlimited)</p>
-          <input type="number" value={form.maxUses} onChange={(e) => set("maxUses")(e.target.value)}
-            placeholder="0"
-            className="w-full px-4 py-3 rounded-2xl border border-white/10 bg-[#252528] text-white placeholder:text-neutral-600 text-sm outline-none"
-            onFocus={(e) => e.currentTarget.style.borderColor = "rgba(217,238,79,0.4)"}
-            onBlur={(e) => e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)"} />
-        </div>
-
-        <button onClick={() => ok && onSave(form)} disabled={!ok || busy}
-          className="w-full py-4 rounded-2xl font-bold text-sm disabled:opacity-40"
-          style={{ backgroundColor: "#d9ee4f", color: "#1a2000" }}>
-          {busy ? "Creating…" : "Create Coupon"}
-        </button>
-      </div>
-    </div>
-  );
-}
-
-// ── Coupons Tab ───────────────────────────────────────────────────────────────
-
-function CouponsTab({
-  coupons, onAdd, onToggle, onDelete, busy,
-}: {
-  coupons: Coupon[];
-  onAdd: (f: CouponForm) => void;
-  onToggle: (id: string, disabled: boolean) => void;
-  onDelete: (id: string) => void;
-  busy: string | null;
-}) {
-  const [showSheet, setShowSheet] = useState(false);
-  const [copied, setCopied] = useState<string | null>(null);
-
-  const copyCode = (code: string) => {
-    navigator.clipboard.writeText(code).catch(() => null);
-    setCopied(code);
-    setTimeout(() => setCopied(null), 2000);
+  const copy = () => {
+    if (!inviteCode) return;
+    navigator.clipboard.writeText(inviteCode).catch(() => null);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
+  if (isPending || !inviteCode) {
+    return (
+      <div className="bg-[#1c1b1c] rounded-2xl border border-amber-500/20 p-8 text-center">
+        <div className="w-14 h-14 rounded-full bg-amber-500/10 border border-amber-500/20 flex items-center justify-center mx-auto mb-4">
+          <Clock className="w-7 h-7 text-amber-400" />
+        </div>
+        <h3 className="text-white font-bold text-base mb-2">Awaiting Admin Approval</h3>
+        <p className="text-neutral-500 text-sm leading-relaxed">
+          Your invite code will appear here once the admin verifies and approves your gym. Share it with members so they can join your leaderboard.
+        </p>
+      </div>
+    );
+  }
+
   return (
-    <div>
-      <button onClick={() => setShowSheet(true)}
-        className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl font-bold text-sm mb-4"
-        style={{ backgroundColor: "#d9ee4f", color: "#1a2000" }}>
-        <Plus className="w-4 h-4" /> Create Coupon
-      </button>
-
-      {coupons.length === 0 ? (
-        <div className="bg-[#1c1b1c] rounded-2xl border border-white/5 p-8 text-center">
-          <Tag className="w-8 h-8 text-neutral-600 mx-auto mb-2" />
-          <p className="text-neutral-500 text-sm">No coupons yet</p>
+    <div className="flex flex-col gap-4">
+      {/* Main code card */}
+      <div className="bg-[#1c1b1c] rounded-2xl border border-white/5 p-6 text-center">
+        <p className="text-neutral-500 text-xs font-semibold uppercase tracking-widest mb-4">Your Gym Invite Code</p>
+        <div
+          className="rounded-2xl py-5 px-6 mb-4"
+          style={{ background: "rgba(217,238,79,0.08)", border: "1px solid rgba(217,238,79,0.2)" }}
+        >
+          <span className="font-mono font-black text-4xl tracking-[0.35em]" style={{ color: "#d9ee4f" }}>
+            {inviteCode}
+          </span>
         </div>
-      ) : (
-        <div className="flex flex-col gap-3">
-          {coupons.map((c) => {
-            const expired  = !!c.expiresAt && c.expiresAt.seconds * 1000 < Date.now();
-            const usedUp   = c.maxUses > 0 && c.usedCount >= c.maxUses;
-            const inactive = c.disabled || expired || usedUp;
-            return (
-              <div key={c.id} className={`bg-[#1c1b1c] rounded-2xl border p-4 ${inactive ? "border-neutral-700/40 opacity-70" : "border-white/5"}`}>
-                <div className="flex items-center justify-between gap-2 mb-2">
-                  <div className="flex items-center gap-2">
-                    <span className="font-mono font-black text-base tracking-widest px-3 py-1 rounded-xl"
-                      style={{ background: "rgba(217,238,79,0.1)", color: "#d9ee4f" }}>
-                      {c.code}
-                    </span>
-                    <button onClick={() => copyCode(c.code)}
-                      className="w-7 h-7 rounded-lg bg-[#252528] flex items-center justify-center">
-                      {copied === c.code
-                        ? <Check className="w-3.5 h-3.5 text-emerald-400" />
-                        : <Copy className="w-3.5 h-3.5 text-neutral-500" />}
-                    </button>
-                  </div>
-                  {inactive
-                    ? <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-neutral-700/30 text-neutral-400 border border-neutral-700/40">
-                        {expired ? "Expired" : usedUp ? "Used Up" : "Disabled"}
-                      </span>
-                    : <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">Active</span>
-                  }
-                </div>
-                <div className="flex items-center gap-3 text-xs text-neutral-500 mb-3 flex-wrap">
-                  <span>{c.discountType === "percent" ? `${c.discount}% off` : `₹${c.discount} off`}</span>
-                  {c.expiresAt && <span>Expires {fmtDate(c.expiresAt)}</span>}
-                  <span>{c.maxUses === 0 ? "Unlimited uses" : `${c.usedCount}/${c.maxUses} used`}</span>
-                </div>
-                <div className="flex gap-2">
-                  <button onClick={() => onToggle(c.id, !c.disabled)} disabled={busy === c.id}
-                    className={`flex-1 py-2 rounded-xl text-xs font-bold border transition-all ${
-                      c.disabled
-                        ? "bg-emerald-600/20 text-emerald-400 border-emerald-600/30"
-                        : "bg-transparent text-neutral-400 border-neutral-700/50"
-                    }`}>
-                    {c.disabled ? "Enable" : "Disable"}
-                  </button>
-                  <button onClick={() => { if (confirm(`Delete coupon ${c.code}?`)) onDelete(c.id); }}
-                    disabled={busy === c.id}
-                    className="flex-1 py-2 rounded-xl text-xs font-bold border border-red-900/40 text-red-400 bg-transparent hover:bg-red-900/10 transition-all">
-                    Delete
-                  </button>
-                </div>
+        <button
+          onClick={copy}
+          className="flex items-center justify-center gap-2 w-full py-3.5 rounded-2xl font-bold text-sm transition-all active:scale-[0.98]"
+          style={{ backgroundColor: "#d9ee4f", color: "#1a2000" }}
+        >
+          {copied
+            ? <><Check className="w-4 h-4" /> Copied!</>
+            : <><Copy className="w-4 h-4" /> Copy Code</>
+          }
+        </button>
+      </div>
+
+      {/* How it works */}
+      <div className="bg-[#1c1b1c] rounded-2xl border border-white/5 p-5">
+        <p className="text-neutral-500 text-xs font-semibold uppercase tracking-widest mb-4">How It Works</p>
+        <div className="flex flex-col gap-4">
+          {[
+            { n: "1", title: "Share the code", desc: "Send this code to your gym members via WhatsApp, SMS, or in person." },
+            { n: "2", title: "Member opens the app", desc: "They tap 'Join a Gym' on the gym screen and enter this code." },
+            { n: "3", title: "Instantly connected", desc: `They appear on ${gymName}'s leaderboard and can compete with other members.` },
+          ].map(({ n, title, desc }) => (
+            <div key={n} className="flex items-start gap-3">
+              <div className="w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5 text-[11px] font-black"
+                style={{ background: "rgba(217,238,79,0.15)", color: "#d9ee4f" }}>
+                {n}
               </div>
-            );
-          })}
+              <div>
+                <p className="text-white text-sm font-semibold">{title}</p>
+                <p className="text-neutral-500 text-xs mt-0.5 leading-relaxed">{desc}</p>
+              </div>
+            </div>
+          ))}
         </div>
-      )}
+      </div>
 
-      {showSheet && (
-        <CouponSheet
-          onSave={(f) => { onAdd(f); setShowSheet(false); }}
-          onClose={() => setShowSheet(false)} busy={!!busy}
-        />
-      )}
+      {/* Members count note */}
+      <p className="text-neutral-600 text-xs text-center">
+        This is a permanent code for your gym. Only share it with verified members.
+      </p>
     </div>
   );
 }
@@ -649,7 +538,7 @@ export default function GymOwnerPage() {
   const [ready, setReady]           = useState(false);
   const [members, setMembers]       = useState<Member[]>([]);
   const [payments, setPayments]     = useState<FeePayment[]>([]);
-  const [coupons, setCoupons]       = useState<Coupon[]>([]);
+  const [inviteCode, setInviteCode] = useState("");
   const [busy, setBusy]             = useState<string | null>(null);
   const [userEmail, setUserEmail]   = useState("");
 
@@ -671,10 +560,11 @@ export default function GymOwnerPage() {
       if (!gymSnap || gymSnap.empty) { setReady(true); return; }
 
       const gymDoc  = gymSnap.docs[0];
-      const gymData = gymDoc.data() as { name?: string; status?: string };
+      const gymData = gymDoc.data() as { name?: string; status?: string; inviteCode?: string };
       setGymId(gymDoc.id);
       setGymName(gymData.name ?? "My Gym");
       setGymStatus(gymData.status ?? "pending");
+      setInviteCode(gymData.inviteCode ?? "");
       setReady(true);
     });
   }, [router]);
@@ -690,11 +580,7 @@ export default function GymOwnerPage() {
       query(collection(db, "feePayments"), where("gymId", "==", gymId)),
       (s) => setPayments(s.docs.map((d) => ({ id: d.id, ...d.data() } as FeePayment)))
     );
-    const u3 = onSnapshot(
-      query(collection(db, "coupons"), where("gymId", "==", gymId)),
-      (s) => setCoupons(s.docs.map((d) => ({ id: d.id, ...d.data() } as Coupon)))
-    );
-    return () => { u1(); u2(); u3(); };
+    return () => { u1(); u2(); };
   }, [gymId]);
 
   // ── Actions ────────────────────────────────────────────────────────────────
@@ -740,32 +626,6 @@ export default function GymOwnerPage() {
       }),
       updateDoc(doc(db, "gymMembers", m.id), { dueDate: Timestamp.fromDate(nextDue) }),
     ]).catch(() => null);
-    setBusy(null);
-  };
-
-  const addCoupon = async (f: CouponForm) => {
-    if (!gymId || !uid) return;
-    setBusy("adding_coupon");
-    await addDoc(collection(db, "coupons"), {
-      gymId, gymOwnerId: uid,
-      code: f.code.trim().toUpperCase(),
-      discount: Number(f.discount), discountType: f.discountType,
-      expiresAt: f.expiresAt ? Timestamp.fromDate(new Date(f.expiresAt)) : null,
-      maxUses: Number(f.maxUses), usedCount: 0, disabled: false,
-      createdAt: serverTimestamp(),
-    }).catch(() => null);
-    setBusy(null);
-  };
-
-  const toggleCoupon = async (id: string, disabled: boolean) => {
-    setBusy(id);
-    await updateDoc(doc(db, "coupons", id), { disabled }).catch(() => null);
-    setBusy(null);
-  };
-
-  const deleteCoupon = async (id: string) => {
-    setBusy(id);
-    await deleteDoc(doc(db, "coupons", id)).catch(() => null);
     setBusy(null);
   };
 
@@ -874,7 +734,7 @@ export default function GymOwnerPage() {
         {tab === "overview"    && <OverviewTab members={members} payments={payments} />}
         {tab === "members"     && <MembersTab  members={members} onAdd={addMember} onEdit={editMember} onDelete={deleteMember} busy={busy} />}
         {tab === "fees"        && <FeesTab     members={members} payments={payments} onMarkPaid={markAsPaid} busy={busy} />}
-        {tab === "coupons"     && <CouponsTab  coupons={coupons} onAdd={addCoupon} onToggle={toggleCoupon} onDelete={deleteCoupon} busy={busy} />}
+        {tab === "invite"      && <InviteTab inviteCode={inviteCode} gymName={gymName} isPending={gymStatus === "pending"} />}
         {tab === "leaderboard" && uid && (
           <div className="-mx-4 -mt-5">
             <Chest1RMLeaderboard
