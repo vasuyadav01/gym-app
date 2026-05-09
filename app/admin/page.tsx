@@ -11,6 +11,7 @@ import {
   CheckCircle, MapPin, Phone, Store, Building2, IdCard,
   XCircle, User, ShieldCheck, ShieldOff, RefreshCw, Mail,
   TrendingUp, AlertCircle, Search, ChevronDown, LogOut,
+  Users, Package, CalendarDays, Ban, Trophy,
 } from "lucide-react";
 import { auth, db } from "@/lib/firebase";
 
@@ -92,18 +93,54 @@ function StatCard({ label, value, sub, accent }: { label: string; value: number;
   );
 }
 
+// ── Big Stat (icon + number, inside overview card) ────────────────────────────
+
+function BigStat({ icon, label, value }: { icon: React.ReactNode; label: string; value: number | string }) {
+  return (
+    <div className="flex flex-col items-center gap-1.5 bg-[#252528] rounded-xl py-3 border border-white/5">
+      <div className="text-neutral-400">{icon}</div>
+      <span className="text-white text-xl font-black leading-none">{value}</span>
+      <span className="text-neutral-500 text-[10px] font-medium">{label}</span>
+    </div>
+  );
+}
+
+// ── Mini Stat (issue strip) ───────────────────────────────────────────────────
+
+function MiniStat({ icon, label, value, color }: {
+  icon: React.ReactNode; label: string; value: number;
+  color: "amber" | "red" | "neutral";
+}) {
+  const colors = {
+    amber:   { bg: "bg-amber-500/10",   text: "text-amber-400",   border: "border-amber-500/20" },
+    red:     { bg: "bg-red-500/10",     text: "text-red-400",     border: "border-red-500/20" },
+    neutral: { bg: "bg-neutral-700/20", text: "text-neutral-400", border: "border-neutral-700/30" },
+  };
+  const c = colors[color];
+  return (
+    <div className={`rounded-2xl border p-3 flex flex-col items-center gap-1 ${c.bg} ${c.border}`}>
+      <div className={c.text}>{icon}</div>
+      <span className={`text-lg font-black leading-none ${c.text}`}>{value}</span>
+      <span className={`text-[10px] font-semibold ${c.text} opacity-70`}>{label}</span>
+    </div>
+  );
+}
+
 // ── Main ──────────────────────────────────────────────────────────────────────
 
 export default function AdminPage() {
   const router = useRouter();
-  const [ready, setReady]     = useState(false);
-  const [gyms, setGyms]       = useState<Gym[]>([]);
-  const [shops, setShops]     = useState<Shop[]>([]);
-  const [busy, setBusy]       = useState<string | null>(null);
-  const [toast, setToast]     = useState<{ msg: string; ok: boolean } | null>(null);
-  const [tab, setTab]         = useState<"gyms" | "shops">("gyms");
-  const [filter, setFilter]   = useState<Filter>("all");
-  const [search, setSearch]   = useState("");
+  const [ready, setReady]       = useState(false);
+  const [gyms, setGyms]         = useState<Gym[]>([]);
+  const [shops, setShops]       = useState<Shop[]>([]);
+  const [busy, setBusy]         = useState<string | null>(null);
+  const [toast, setToast]       = useState<{ msg: string; ok: boolean } | null>(null);
+  const [tab, setTab]           = useState<"gyms" | "shops">("gyms");
+  const [filter, setFilter]     = useState<Filter>("all");
+  const [search, setSearch]     = useState("");
+  const [userCount, setUserCount]       = useState<number | null>(null);
+  const [listingCount, setListingCount] = useState<number | null>(null);
+  const [workoutCount, setWorkoutCount] = useState<number | null>(null);
 
   const flash = (msg: string, ok = true) => {
     setToast({ msg, ok });
@@ -136,6 +173,14 @@ export default function AdminPage() {
       (s) => setShops(s.docs.map((d) => ({ id: d.id, ...d.data() } as Shop))),
     );
     return () => { u1(); u2(); };
+  }, [ready]);
+
+  // One-time counts
+  useEffect(() => {
+    if (!ready) return;
+    getDocs(collection(db, "users")).then((s) => setUserCount(s.size)).catch(() => setUserCount(0));
+    getDocs(collection(db, "shopListings")).then((s) => setListingCount(s.size)).catch(() => setListingCount(0));
+    getDocs(collection(db, "workouts")).then((s) => setWorkoutCount(s.size)).catch(() => setWorkoutCount(0));
   }, [ready]);
 
   // ── Gym actions ────────────────────────────────────────────────────────────
@@ -225,9 +270,18 @@ export default function AdminPage() {
     return true;
   });
 
-  const pendingGyms  = gyms.filter((g) => gymState(g) === "pending").length;
-  const pendingShops = shops.filter((s) => shopState(s) === "pending").length;
-  const totalPending = pendingGyms + pendingShops;
+  const pendingGyms    = gyms.filter((g) => gymState(g) === "pending").length;
+  const pendingShops   = shops.filter((s) => shopState(s) === "pending").length;
+  const totalPending   = pendingGyms + pendingShops;
+  const activeGyms     = gyms.filter((g) => gymState(g) === "active").length;
+  const activeShops    = shops.filter((s) => shopState(s) === "active").length;
+  const rejectedGyms   = gyms.filter((g) => gymState(g) === "rejected").length;
+  const disabledTotal  = gyms.filter((g) => gymState(g) === "disabled").length + shops.filter((s) => shopState(s) === "disabled").length;
+
+  const oneWeekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+  const newThisWeek = [...gyms, ...shops].filter(
+    (x) => x.createdAt && x.createdAt.seconds * 1000 >= oneWeekAgo
+  ).length;
 
   if (!ready) {
     return (
@@ -294,12 +348,45 @@ export default function AdminPage() {
           </div>
         </div>
 
-        {/* ── Stats row ──────────────────────────────────────────────────── */}
-        <div className="grid grid-cols-2 gap-3 mb-5">
-          <StatCard label="Total Gyms"  value={gyms.length}  sub={`${pendingGyms} pending`} />
-          <StatCard label="Total Shops" value={shops.length} sub={`${pendingShops} pending`} accent />
-          <StatCard label="Active Gyms"  value={gyms.filter((g) => gymState(g) === "active").length}  sub="approved & live" />
-          <StatCard label="Active Shops" value={shops.filter((s) => shopState(s) === "active").length} sub="verified & live" />
+        {/* ── Stats ──────────────────────────────────────────────────────── */}
+
+        {/* Platform overview */}
+        <div className="bg-[#1c1b1c] rounded-2xl border border-white/5 p-4 mb-3">
+          <p className="text-neutral-500 text-[10px] font-semibold uppercase tracking-widest mb-3">Platform Overview</p>
+          <div className="grid grid-cols-3 gap-3">
+            <BigStat icon={<Users className="w-4 h-4" />} label="Users" value={userCount ?? "—"} />
+            <BigStat icon={<Trophy className="w-4 h-4" />} label="Workouts" value={workoutCount ?? "—"} />
+            <BigStat icon={<Package className="w-4 h-4" />} label="Listings" value={listingCount ?? "—"} />
+          </div>
+        </div>
+
+        {/* Gyms & Shops */}
+        <div className="grid grid-cols-2 gap-3 mb-3">
+          <StatCard label="Total Gyms"   value={gyms.length}   sub={`${pendingGyms} pending`} />
+          <StatCard label="Total Shops"  value={shops.length}  sub={`${pendingShops} pending`} accent />
+          <StatCard label="Active Gyms"  value={activeGyms}    sub="approved & live" />
+          <StatCard label="Active Shops" value={activeShops}   sub="verified & live" />
+        </div>
+
+        {/* Issue strip */}
+        <div className="grid grid-cols-3 gap-3 mb-5">
+          <MiniStat icon={<AlertCircle className="w-3.5 h-3.5" />} label="Pending" value={totalPending} color="amber" />
+          <MiniStat icon={<XCircle    className="w-3.5 h-3.5" />} label="Rejected" value={rejectedGyms}  color="red" />
+          <MiniStat icon={<Ban        className="w-3.5 h-3.5" />} label="Disabled" value={disabledTotal} color="neutral" />
+        </div>
+
+        {/* New this week */}
+        <div className="bg-[#1c1b1c] rounded-2xl border border-white/5 p-4 flex items-center justify-between mb-5">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: "rgba(217,238,79,0.1)" }}>
+              <CalendarDays className="w-4 h-4" style={{ color: "#d9ee4f" }} />
+            </div>
+            <div>
+              <p className="text-neutral-500 text-[10px] font-semibold uppercase tracking-widest">New This Week</p>
+              <p className="text-white text-xs mt-0.5">Gyms + shops registered in the last 7 days</p>
+            </div>
+          </div>
+          <span className="text-2xl font-black" style={{ color: "#d9ee4f" }}>{newThisWeek}</span>
         </div>
 
         {/* ── Tab bar ────────────────────────────────────────────────────── */}
