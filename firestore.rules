@@ -45,6 +45,11 @@ service cloud.firestore {
       allow read, write: if request.auth != null;
     }
 
+    // ── shopInquiries ───────────────────────────────────────────────────────────
+    match /shopInquiries/{inquiryId} {
+      allow read, write: if request.auth != null;
+    }
+
     // ── coupons ─────────────────────────────────────────────────────────────
     match /coupons/{couponId} {
       allow read: if true;
