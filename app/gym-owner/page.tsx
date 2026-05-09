@@ -9,16 +9,15 @@ import {
 } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase";
 import {
-  LayoutDashboard, Users, Receipt, UserPlus, Trophy,
+  LayoutDashboard, Users, Receipt, UserPlus, TrendingDown,
   Plus, Trash2, Edit2, Check, X,
   Phone, AlertCircle, LogOut, Search, Copy,
-  Building2, CheckCircle2, Clock,
+  Building2, CheckCircle2, Clock, Zap, Home, Wrench, UserCheck, MoreHorizontal,
 } from "lucide-react";
-import Chest1RMLeaderboard from "../components/Chest1RMLeaderboard";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
-type Tab = "overview" | "members" | "fees" | "invite" | "leaderboard";
+type Tab = "overview" | "members" | "fees" | "invite" | "expenses";
 type MemberStatus = "active" | "due_soon" | "overdue";
 
 type Member = {
@@ -32,13 +31,31 @@ type FeePayment = {
   gymId: string; amount: number;
   paidAt: { seconds: number } | null;
 };
-type MemberForm = { name: string; phone: string; plan: string; feeAmount: string; dueDate: string };
+type Expense = {
+  id: string; gymId: string;
+  category: string; description: string;
+  amount: number; date: { seconds: number };
+  createdAt: { seconds: number } | null;
+};
+type MemberForm  = { name: string; phone: string; plan: string; feeAmount: string; dueDate: string };
+type ExpenseForm = { category: string; description: string; amount: string; date: string };
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
 const PLANS = ["Monthly", "Quarterly", "Annual", "Custom"];
 const THREE_DAYS_MS = 3 * 24 * 60 * 60 * 1000;
-const EMPTY_MFORM: MemberForm = { name: "", phone: "", plan: "Monthly", feeAmount: "", dueDate: "" };
+const EMPTY_MFORM: MemberForm  = { name: "", phone: "", plan: "Monthly", feeAmount: "", dueDate: "" };
+const EMPTY_EFORM: ExpenseForm = { category: "Electricity", description: "", amount: "", date: "" };
+const EXPENSE_CATEGORIES = ["Electricity", "Rent", "Equipment", "Staff", "Maintenance", "Other"];
+
+const CATEGORY_ICON: Record<string, React.ElementType> = {
+  Electricity: Zap,
+  Rent: Home,
+  Equipment: Wrench,
+  Staff: UserCheck,
+  Maintenance: Wrench,
+  Other: MoreHorizontal,
+};
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -58,7 +75,11 @@ function planDays(plan: string) {
   if (plan === "Annual")    return 365;
   return 30;
 }
-function genCode() { return Math.random().toString(36).slice(2, 8).toUpperCase(); }
+function monthKey(ts: { seconds: number } | null) {
+  if (!ts) return "";
+  const d = new Date(ts.seconds * 1000);
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+}
 
 // ── StatusBadge ───────────────────────────────────────────────────────────────
 
@@ -76,7 +97,7 @@ function StatusBadge({ status }: { status: MemberStatus }) {
   );
 }
 
-// ── OvStatCard ────────────────────────────────────────────────────────────────
+// ── OvStat ────────────────────────────────────────────────────────────────────
 
 function OvStat({ label, value, sub, accent }: { label: string; value: string | number; sub?: string; accent?: boolean }) {
   return (
@@ -88,30 +109,53 @@ function OvStat({ label, value, sub, accent }: { label: string; value: string | 
   );
 }
 
-// ── Bottom Nav ────────────────────────────────────────────────────────────────
+// ── Floating Pill Nav ─────────────────────────────────────────────────────────
 
-const TABS: { key: Tab; label: string; Icon: React.ElementType }[] = [
-  { key: "overview",    label: "Overview", Icon: LayoutDashboard },
-  { key: "members",     label: "Members",  Icon: Users },
-  { key: "fees",        label: "Fees",     Icon: Receipt },
-  { key: "invite",      label: "Invite",   Icon: UserPlus },
-  { key: "leaderboard", label: "Rankings", Icon: Trophy },
+const NAV_TABS: { key: Tab; label: string; Icon: React.ElementType; isCenter?: boolean }[] = [
+  { key: "overview",  label: "Overview", Icon: LayoutDashboard },
+  { key: "members",   label: "Members",  Icon: Users },
+  { key: "fees",      label: "Fees",     Icon: Receipt, isCenter: true },
+  { key: "invite",    label: "Invite",   Icon: UserPlus },
+  { key: "expenses",  label: "Expenses", Icon: TrendingDown },
 ];
 
 function GymBottomNav({ active, onChange }: { active: Tab; onChange: (t: Tab) => void }) {
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 flex justify-center">
-      <div className="w-full max-w-[390px] bg-[#131314]/95 backdrop-blur-md border-t border-white/5 flex">
-        {TABS.map(({ key, label, Icon }) => (
-          <button
-            key={key} onClick={() => onChange(key)}
-            className="flex-1 flex flex-col items-center gap-0.5 py-3 transition-all"
-            style={{ color: active === key ? "#d9ee4f" : "#48484a" }}
-          >
-            <Icon className="w-5 h-5" />
-            <span className="text-[9px] font-bold tracking-wide">{label}</span>
-          </button>
-        ))}
+    <nav className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-[380px]">
+      <div
+        className="rounded-full px-4 py-2 flex items-center justify-between border border-white/10"
+        style={{ backgroundColor: "#1c1b1c", boxShadow: "0 4px 32px rgba(0,0,0,0.5)" }}
+      >
+        {NAV_TABS.map(({ key, label, Icon, isCenter }) => {
+          const isActive = active === key;
+          if (isCenter) {
+            return (
+              <button key={key} onClick={() => onChange(key)} className="relative flex items-center justify-center">
+                <div
+                  className="w-11 h-11 rounded-full flex items-center justify-center border-[3px] hover:scale-105 active:scale-95 transition-all"
+                  style={{
+                    backgroundColor: isActive ? "#d9ee4f" : "#252528",
+                    borderColor: "#131314",
+                    boxShadow: "0 4px 16px rgba(217,238,79,0.35)",
+                  }}
+                >
+                  <Icon className="w-5 h-5" style={{ color: isActive ? "#131314" : "#636366" }} />
+                </div>
+              </button>
+            );
+          }
+          return (
+            <button
+              key={key} onClick={() => onChange(key)}
+              className="flex flex-col items-center gap-0.5 min-w-[44px] py-1"
+            >
+              <Icon className="w-5 h-5" style={{ color: isActive ? "#d9ee4f" : "#636366" }} />
+              <span className="text-[10px] font-semibold" style={{ color: isActive ? "#d9ee4f" : "#636366" }}>
+                {label}
+              </span>
+            </button>
+          );
+        })}
       </div>
     </nav>
   );
@@ -119,19 +163,21 @@ function GymBottomNav({ active, onChange }: { active: Tab; onChange: (t: Tab) =>
 
 // ── Overview Tab ──────────────────────────────────────────────────────────────
 
-function OverviewTab({ members, payments }: { members: Member[]; payments: FeePayment[] }) {
+function OverviewTab({ members, payments, expenses }: {
+  members: Member[]; payments: FeePayment[]; expenses: Expense[];
+}) {
   const now = new Date();
   const mk = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
 
-  const monthPay = payments.filter((p) => {
-    if (!p.paidAt) return false;
-    const d = new Date(p.paidAt.seconds * 1000);
-    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}` === mk;
-  });
-  const monthRev  = monthPay.reduce((s, p) => s + p.amount, 0);
-  const active    = members.filter((m) => getStatus(m.dueDate) === "active").length;
-  const dueSoon   = members.filter((m) => getStatus(m.dueDate) === "due_soon").length;
-  const overdue   = members.filter((m) => getStatus(m.dueDate) === "overdue").length;
+  const monthPay = payments.filter((p) => monthKey(p.paidAt) === mk);
+  const monthExp = expenses.filter((e) => monthKey(e.date) === mk);
+  const monthRev = monthPay.reduce((s, p) => s + p.amount, 0);
+  const monthExpTotal = monthExp.reduce((s, e) => s + e.amount, 0);
+  const profit = monthRev - monthExpTotal;
+
+  const active  = members.filter((m) => getStatus(m.dueDate) === "active").length;
+  const dueSoon = members.filter((m) => getStatus(m.dueDate) === "due_soon").length;
+  const overdue = members.filter((m) => getStatus(m.dueDate) === "overdue").length;
 
   return (
     <div className="flex flex-col gap-4">
@@ -147,10 +193,23 @@ function OverviewTab({ members, payments }: { members: Member[]; payments: FeePa
         </div>
       )}
 
+      {/* Revenue + Profit card */}
       <div className="rounded-2xl p-5" style={{ background: "linear-gradient(135deg,#d9ee4f,#a8c020)" }}>
         <p className="text-[#1a2000]/70 text-xs font-bold uppercase tracking-widest">Revenue This Month</p>
         <p className="text-[#1a2000] text-4xl font-black mt-1">{fmtINR(monthRev)}</p>
         <p className="text-[#1a2000]/60 text-xs mt-1">{monthPay.length} payments collected</p>
+        <div className="mt-3 pt-3 border-t border-[#1a2000]/15 flex items-center justify-between">
+          <div>
+            <p className="text-[#1a2000]/60 text-[10px] font-bold uppercase tracking-widest">Expenses</p>
+            <p className="text-[#1a2000]/80 text-lg font-black">{fmtINR(monthExpTotal)}</p>
+          </div>
+          <div className="text-right">
+            <p className="text-[#1a2000]/60 text-[10px] font-bold uppercase tracking-widest">Net Profit</p>
+            <p className="text-lg font-black" style={{ color: profit >= 0 ? "#1a2000" : "#ef4444" }}>
+              {profit >= 0 ? "" : "-"}{fmtINR(Math.abs(profit))}
+            </p>
+          </div>
+        </div>
       </div>
 
       <div className="grid grid-cols-2 gap-3">
@@ -165,9 +224,7 @@ function OverviewTab({ members, payments }: { members: Member[]; payments: FeePa
 
 // ── Member Sheet ──────────────────────────────────────────────────────────────
 
-function MemberSheet({
-  initial, onSave, onClose, busy,
-}: {
+function MemberSheet({ initial, onSave, onClose, busy }: {
   initial: MemberForm | null; onSave: (f: MemberForm) => void;
   onClose: () => void; busy: boolean;
 }) {
@@ -235,9 +292,7 @@ function MemberSheet({
 
 // ── Members Tab ───────────────────────────────────────────────────────────────
 
-function MembersTab({
-  members, onAdd, onEdit, onDelete, busy,
-}: {
+function MembersTab({ members, onAdd, onEdit, onDelete, busy }: {
   members: Member[];
   onAdd: (f: MemberForm) => void; onEdit: (id: string, f: MemberForm) => void;
   onDelete: (id: string) => void; busy: string | null;
@@ -338,9 +393,7 @@ function MembersTab({
 
 // ── Fees Tab ──────────────────────────────────────────────────────────────────
 
-function FeesTab({
-  members, payments, onMarkPaid, busy,
-}: {
+function FeesTab({ members, payments, onMarkPaid, busy }: {
   members: Member[]; payments: FeePayment[];
   onMarkPaid: (m: Member) => void; busy: string | null;
 }) {
@@ -472,7 +525,6 @@ function InviteTab({ inviteCode, gymName, isPending }: {
 
   return (
     <div className="flex flex-col gap-4">
-      {/* Main code card */}
       <div className="bg-[#1c1b1c] rounded-2xl border border-white/5 p-6 text-center">
         <p className="text-neutral-500 text-xs font-semibold uppercase tracking-widest mb-4">Your Gym Invite Code</p>
         <div
@@ -488,14 +540,10 @@ function InviteTab({ inviteCode, gymName, isPending }: {
           className="flex items-center justify-center gap-2 w-full py-3.5 rounded-2xl font-bold text-sm transition-all active:scale-[0.98]"
           style={{ backgroundColor: "#d9ee4f", color: "#1a2000" }}
         >
-          {copied
-            ? <><Check className="w-4 h-4" /> Copied!</>
-            : <><Copy className="w-4 h-4" /> Copy Code</>
-          }
+          {copied ? <><Check className="w-4 h-4" /> Copied!</> : <><Copy className="w-4 h-4" /> Copy Code</>}
         </button>
       </div>
 
-      {/* How it works */}
       <div className="bg-[#1c1b1c] rounded-2xl border border-white/5 p-5">
         <p className="text-neutral-500 text-xs font-semibold uppercase tracking-widest mb-4">How It Works</p>
         <div className="flex flex-col gap-4">
@@ -518,10 +566,252 @@ function InviteTab({ inviteCode, gymName, isPending }: {
         </div>
       </div>
 
-      {/* Members count note */}
       <p className="text-neutral-600 text-xs text-center">
         This is a permanent code for your gym. Only share it with verified members.
       </p>
+    </div>
+  );
+}
+
+// ── Expense Sheet ─────────────────────────────────────────────────────────────
+
+function ExpenseSheet({ initial, onSave, onClose, busy }: {
+  initial: ExpenseForm | null; onSave: (f: ExpenseForm) => void;
+  onClose: () => void; busy: boolean;
+}) {
+  const [form, setForm] = useState<ExpenseForm>(initial ?? EMPTY_EFORM);
+  const set = (k: keyof ExpenseForm) => (v: string) => setForm((f) => ({ ...f, [k]: v }));
+  const ok = form.amount.trim() && form.date;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-end justify-center" onClick={onClose}>
+      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+      <div className="relative w-full max-w-[390px] bg-[#1c1b1c] rounded-t-3xl border-t border-white/10 p-5 pb-10 flex flex-col gap-4"
+        onClick={(e) => e.stopPropagation()}>
+        <div className="flex items-center justify-between">
+          <h3 className="text-white font-bold text-lg">{initial ? "Edit Expense" : "Add Expense"}</h3>
+          <button onClick={onClose} className="w-8 h-8 rounded-full bg-[#252528] flex items-center justify-center">
+            <X className="w-4 h-4 text-neutral-400" />
+          </button>
+        </div>
+
+        <div>
+          <p className="text-neutral-500 text-xs font-medium mb-1.5">Category</p>
+          <div className="flex flex-wrap gap-2">
+            {EXPENSE_CATEGORIES.map((c) => (
+              <button key={c} onClick={() => set("category")(c)}
+                className={`px-3 py-2 rounded-xl text-xs font-bold border transition-all ${
+                  form.category === c
+                    ? "bg-[#d9ee4f] text-[#1a2000] border-[#d9ee4f]"
+                    : "bg-[#252528] text-neutral-400 border-white/10"
+                }`}>
+                {c}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <p className="text-neutral-500 text-xs font-medium mb-1.5">Description (optional)</p>
+          <input
+            type="text" value={form.description}
+            onChange={(e) => set("description")(e.target.value)}
+            placeholder="e.g. Monthly electricity bill"
+            className="w-full px-4 py-3 rounded-2xl border border-white/10 bg-[#252528] text-white placeholder:text-neutral-600 text-sm outline-none"
+            onFocus={(e) => e.currentTarget.style.borderColor = "rgba(217,238,79,0.4)"}
+            onBlur={(e) => e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)"} />
+        </div>
+
+        <div>
+          <p className="text-neutral-500 text-xs font-medium mb-1.5">Amount (₹) *</p>
+          <input
+            type="number" value={form.amount}
+            onChange={(e) => set("amount")(e.target.value)}
+            placeholder="e.g. 3500"
+            className="w-full px-4 py-3 rounded-2xl border border-white/10 bg-[#252528] text-white placeholder:text-neutral-600 text-sm outline-none"
+            onFocus={(e) => e.currentTarget.style.borderColor = "rgba(217,238,79,0.4)"}
+            onBlur={(e) => e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)"} />
+        </div>
+
+        <div>
+          <p className="text-neutral-500 text-xs font-medium mb-1.5">Date *</p>
+          <input
+            type="date" value={form.date}
+            onChange={(e) => set("date")(e.target.value)}
+            className="w-full px-4 py-3 rounded-2xl border border-white/10 bg-[#252528] text-white text-sm outline-none"
+            onFocus={(e) => e.currentTarget.style.borderColor = "rgba(217,238,79,0.4)"}
+            onBlur={(e) => e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)"} />
+        </div>
+
+        <button onClick={() => ok && onSave(form)} disabled={!ok || busy}
+          className="w-full py-4 rounded-2xl font-bold text-sm disabled:opacity-40"
+          style={{ backgroundColor: "#d9ee4f", color: "#1a2000" }}>
+          {busy ? "Saving…" : initial ? "Update Expense" : "Add Expense"}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ── Expenses Tab ──────────────────────────────────────────────────────────────
+
+function ExpensesTab({ expenses, payments, onAdd, onEdit, onDelete, busy }: {
+  expenses: Expense[]; payments: FeePayment[];
+  onAdd: (f: ExpenseForm) => void; onEdit: (id: string, f: ExpenseForm) => void;
+  onDelete: (id: string) => void; busy: string | null;
+}) {
+  const [sheet, setSheet] = useState<{ mode: "add" | "edit"; expense?: Expense } | null>(null);
+  const [filter, setFilter] = useState<string>("All");
+
+  const now = new Date();
+  const mk  = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+
+  const monthExp = expenses.filter((e) => monthKey(e.date) === mk);
+  const monthPay = payments.filter((p) => monthKey(p.paidAt) === mk);
+  const monthRev = monthPay.reduce((s, p) => s + p.amount, 0);
+  const monthExpTotal = monthExp.reduce((s, e) => s + e.amount, 0);
+  const profit = monthRev - monthExpTotal;
+
+  const sorted = [...expenses].sort((a, b) => b.date.seconds - a.date.seconds);
+  const filtered = filter === "All" ? sorted : sorted.filter((e) => e.category === filter);
+
+  const byCategory = EXPENSE_CATEGORIES.reduce<Record<string, number>>((acc, c) => {
+    acc[c] = monthExp.filter((e) => e.category === c).reduce((s, e) => s + e.amount, 0);
+    return acc;
+  }, {});
+
+  const handleSave = (form: ExpenseForm) => {
+    if (sheet?.mode === "edit" && sheet.expense) onEdit(sheet.expense.id, form);
+    else onAdd(form);
+    setSheet(null);
+  };
+
+  return (
+    <div className="flex flex-col gap-4">
+      {/* Summary cards */}
+      <div className="grid grid-cols-2 gap-3">
+        <div className="rounded-2xl p-4" style={{ background: "linear-gradient(135deg,#ef4444,#b91c1c)" }}>
+          <p className="text-white/70 text-[10px] font-bold uppercase tracking-widest">Expenses</p>
+          <p className="text-white text-2xl font-black mt-1">{fmtINR(monthExpTotal)}</p>
+          <p className="text-white/60 text-[10px] mt-0.5">this month</p>
+        </div>
+        <div className="rounded-2xl p-4" style={{
+          background: profit >= 0
+            ? "linear-gradient(135deg,#22c55e,#15803d)"
+            : "linear-gradient(135deg,#f97316,#c2410c)",
+        }}>
+          <p className="text-white/70 text-[10px] font-bold uppercase tracking-widest">Net Profit</p>
+          <p className="text-white text-2xl font-black mt-1">
+            {profit >= 0 ? "" : "-"}{fmtINR(Math.abs(profit))}
+          </p>
+          <p className="text-white/60 text-[10px] mt-0.5">{profit >= 0 ? "after expenses" : "net loss"}</p>
+        </div>
+      </div>
+
+      {/* Category breakdown (only if there are expenses this month) */}
+      {monthExpTotal > 0 && (
+        <div className="bg-[#1c1b1c] rounded-2xl border border-white/5 p-4">
+          <p className="text-neutral-500 text-[10px] font-semibold uppercase tracking-widest mb-3">This Month by Category</p>
+          <div className="flex flex-col gap-2">
+            {EXPENSE_CATEGORIES.filter((c) => byCategory[c] > 0).map((c) => {
+              const pct = monthExpTotal > 0 ? (byCategory[c] / monthExpTotal) * 100 : 0;
+              return (
+                <div key={c}>
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-neutral-400 text-xs font-medium">{c}</span>
+                    <span className="text-white text-xs font-bold">{fmtINR(byCategory[c])}</span>
+                  </div>
+                  <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">
+                    <div className="h-full rounded-full" style={{ width: `${pct}%`, backgroundColor: "#d9ee4f" }} />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* Filter chips + add button */}
+      <div className="flex items-center gap-2">
+        <div className="flex gap-1.5 overflow-x-auto flex-1 pb-1 no-scrollbar">
+          {["All", ...EXPENSE_CATEGORIES].map((c) => (
+            <button key={c} onClick={() => setFilter(c)}
+              className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-bold border transition-all ${
+                filter === c
+                  ? "bg-[#d9ee4f] text-[#1a2000] border-[#d9ee4f]"
+                  : "bg-[#1c1b1c] text-neutral-400 border-white/10"
+              }`}>
+              {c}
+            </button>
+          ))}
+        </div>
+        <button onClick={() => setSheet({ mode: "add" })}
+          className="w-10 h-10 rounded-2xl flex items-center justify-center shrink-0"
+          style={{ backgroundColor: "#d9ee4f" }}>
+          <Plus className="w-4 h-4 text-[#1a2000]" />
+        </button>
+      </div>
+
+      {/* Expense list */}
+      {filtered.length === 0 ? (
+        <div className="bg-[#1c1b1c] rounded-2xl border border-white/5 p-8 text-center">
+          <TrendingDown className="w-8 h-8 text-neutral-600 mx-auto mb-2" />
+          <p className="text-neutral-500 text-sm">
+            {expenses.length === 0 ? "No expenses yet — track your first one" : "No expenses in this category"}
+          </p>
+        </div>
+      ) : (
+        <div className="flex flex-col gap-2">
+          {filtered.map((e) => {
+            const CatIcon = CATEGORY_ICON[e.category] ?? MoreHorizontal;
+            return (
+              <div key={e.id} className="bg-[#1c1b1c] rounded-2xl border border-white/5 flex items-center gap-3 p-4">
+                <div className="w-9 h-9 rounded-xl bg-red-500/10 flex items-center justify-center shrink-0">
+                  <CatIcon className="w-4 h-4 text-red-400" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap mb-0.5">
+                    <p className="text-white font-bold text-sm">
+                      {e.description || e.category}
+                    </p>
+                    {e.description && (
+                      <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-[#252528] text-neutral-500">
+                        {e.category}
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-neutral-500 text-xs">{fmtDate(e.date)}</p>
+                </div>
+                <div className="flex items-center gap-1 shrink-0">
+                  <span className="text-red-400 font-bold text-sm mr-1">{fmtINR(e.amount)}</span>
+                  <button onClick={() => setSheet({ mode: "edit", expense: e })}
+                    className="w-7 h-7 rounded-lg bg-[#252528] flex items-center justify-center">
+                    <Edit2 className="w-3 h-3 text-neutral-400" />
+                  </button>
+                  <button
+                    onClick={() => { if (confirm("Delete this expense?")) onDelete(e.id); }}
+                    disabled={busy === e.id}
+                    className="w-7 h-7 rounded-lg bg-[#252528] flex items-center justify-center disabled:opacity-40">
+                    <Trash2 className="w-3 h-3 text-red-400" />
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {sheet && (
+        <ExpenseSheet
+          initial={sheet.expense ? {
+            category: sheet.expense.category,
+            description: sheet.expense.description,
+            amount: String(sheet.expense.amount),
+            date: new Date(sheet.expense.date.seconds * 1000).toISOString().slice(0, 10),
+          } : null}
+          onSave={handleSave} onClose={() => setSheet(null)} busy={!!busy}
+        />
+      )}
     </div>
   );
 }
@@ -538,6 +828,7 @@ export default function GymOwnerPage() {
   const [ready, setReady]           = useState(false);
   const [members, setMembers]       = useState<Member[]>([]);
   const [payments, setPayments]     = useState<FeePayment[]>([]);
+  const [expenses, setExpenses]     = useState<Expense[]>([]);
   const [inviteCode, setInviteCode] = useState("");
   const [busy, setBusy]             = useState<string | null>(null);
   const [userEmail, setUserEmail]   = useState("");
@@ -580,7 +871,11 @@ export default function GymOwnerPage() {
       query(collection(db, "feePayments"), where("gymId", "==", gymId)),
       (s) => setPayments(s.docs.map((d) => ({ id: d.id, ...d.data() } as FeePayment)))
     );
-    return () => { u1(); u2(); };
+    const u3 = onSnapshot(
+      query(collection(db, "gymExpenses"), where("gymId", "==", gymId)),
+      (s) => setExpenses(s.docs.map((d) => ({ id: d.id, ...d.data() } as Expense)))
+    );
+    return () => { u1(); u2(); u3(); };
   }, [gymId]);
 
   // ── Actions ────────────────────────────────────────────────────────────────
@@ -626,6 +921,37 @@ export default function GymOwnerPage() {
       }),
       updateDoc(doc(db, "gymMembers", m.id), { dueDate: Timestamp.fromDate(nextDue) }),
     ]).catch(() => null);
+    setBusy(null);
+  };
+
+  const addExpense = async (f: ExpenseForm) => {
+    if (!gymId || !uid) return;
+    setBusy("adding_expense");
+    await addDoc(collection(db, "gymExpenses"), {
+      gymId, gymOwnerId: uid,
+      category: f.category,
+      description: f.description.trim(),
+      amount: Number(f.amount),
+      date: Timestamp.fromDate(new Date(f.date)),
+      createdAt: serverTimestamp(),
+    }).catch(() => null);
+    setBusy(null);
+  };
+
+  const editExpense = async (id: string, f: ExpenseForm) => {
+    setBusy(id);
+    await updateDoc(doc(db, "gymExpenses", id), {
+      category: f.category,
+      description: f.description.trim(),
+      amount: Number(f.amount),
+      date: Timestamp.fromDate(new Date(f.date)),
+    }).catch(() => null);
+    setBusy(null);
+  };
+
+  const deleteExpense = async (id: string) => {
+    setBusy(id);
+    await deleteDoc(doc(db, "gymExpenses", id)).catch(() => null);
     setBusy(null);
   };
 
@@ -691,14 +1017,14 @@ export default function GymOwnerPage() {
     );
   }
 
-  const overdue  = members.filter((m) => getStatus(m.dueDate) === "overdue").length;
-  const dueSoon  = members.filter((m) => getStatus(m.dueDate) === "due_soon").length;
+  const overdue    = members.filter((m) => getStatus(m.dueDate) === "overdue").length;
+  const dueSoon    = members.filter((m) => getStatus(m.dueDate) === "due_soon").length;
   const needsBadge = overdue + dueSoon;
 
   // ── Dashboard ──────────────────────────────────────────────────────────────
 
   return (
-    <main className="min-h-screen bg-[#131314] pb-24">
+    <main className="min-h-screen bg-[#131314] pb-28">
       {/* Header */}
       <header className="sticky top-0 z-30 bg-[#131314]/90 backdrop-blur-md border-b border-white/5 px-5 py-4 flex items-center justify-between">
         <div>
@@ -731,19 +1057,24 @@ export default function GymOwnerPage() {
 
       {/* Content */}
       <div className="px-4 pt-5">
-        {tab === "overview"    && <OverviewTab members={members} payments={payments} />}
-        {tab === "members"     && <MembersTab  members={members} onAdd={addMember} onEdit={editMember} onDelete={deleteMember} busy={busy} />}
-        {tab === "fees"        && <FeesTab     members={members} payments={payments} onMarkPaid={markAsPaid} busy={busy} />}
-        {tab === "invite"      && <InviteTab inviteCode={inviteCode} gymName={gymName} isPending={gymStatus === "pending"} />}
-        {tab === "leaderboard" && uid && (
-          <div className="-mx-4 -mt-5">
-            <Chest1RMLeaderboard
-              gymId={gymId}
-              gymName={gymName}
-              currentUserId={uid}
-              currentUserName={userEmail.split("@")[0]}
-            />
-          </div>
+        {tab === "overview" && (
+          <OverviewTab members={members} payments={payments} expenses={expenses} />
+        )}
+        {tab === "members" && (
+          <MembersTab members={members} onAdd={addMember} onEdit={editMember} onDelete={deleteMember} busy={busy} />
+        )}
+        {tab === "fees" && (
+          <FeesTab members={members} payments={payments} onMarkPaid={markAsPaid} busy={busy} />
+        )}
+        {tab === "invite" && (
+          <InviteTab inviteCode={inviteCode} gymName={gymName} isPending={gymStatus === "pending"} />
+        )}
+        {tab === "expenses" && (
+          <ExpensesTab
+            expenses={expenses} payments={payments}
+            onAdd={addExpense} onEdit={editExpense} onDelete={deleteExpense}
+            busy={busy}
+          />
         )}
       </div>
 
