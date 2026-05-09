@@ -795,7 +795,7 @@ export default function GymOwnerPage() {
           </div>
           <h2 className="text-white font-bold text-xl mb-2">No Gym Registered</h2>
           <p className="text-neutral-500 text-sm leading-relaxed mb-6">
-            Register your gym first. Once approved by the admin you&apos;ll have access to the full dashboard.
+            Register your gym to get started. You can manage members and fees right away — it goes live to others once the admin approves it.
           </p>
           <button onClick={() => router.push("/gym?mode=create")}
             className="w-full py-3.5 rounded-2xl font-bold text-sm"
@@ -804,26 +804,6 @@ export default function GymOwnerPage() {
           </button>
           <button onClick={handleSignOut}
             className="w-full py-3 mt-2 text-neutral-500 text-sm font-medium">
-            Sign Out
-          </button>
-        </div>
-      </main>
-    );
-  }
-
-  if (gymStatus === "pending") {
-    return (
-      <main className="flex min-h-screen flex-col items-center justify-center bg-[#131314] px-6">
-        <div className="bg-[#1c1b1c] rounded-3xl border border-amber-500/20 p-8 w-full max-w-sm text-center">
-          <div className="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center bg-amber-500/10 border border-amber-500/20">
-            <Building2 className="w-8 h-8 text-amber-400" />
-          </div>
-          <h2 className="text-white font-bold text-xl mb-2">Pending Approval</h2>
-          <p className="text-neutral-500 text-sm leading-relaxed">
-            Your gym <span className="text-white font-semibold">{gymName}</span> is under review. You&apos;ll get access once the admin approves it.
-          </p>
-          <button onClick={handleSignOut}
-            className="w-full mt-6 py-3 rounded-2xl text-neutral-500 text-sm font-medium border border-white/10">
             Sign Out
           </button>
         </div>
@@ -878,6 +858,16 @@ export default function GymOwnerPage() {
           </button>
         </div>
       </header>
+
+      {/* Pending verification banner */}
+      {gymStatus === "pending" && (
+        <div className="bg-amber-500/10 border-b border-amber-500/20 px-5 py-3 flex items-center gap-2.5">
+          <AlertCircle className="w-4 h-4 text-amber-400 shrink-0" />
+          <p className="text-amber-400 text-xs font-medium leading-snug">
+            <span className="font-bold">Under review</span> — your gym is visible to you only. Members can join once admin approves it.
+          </p>
+        </div>
+      )}
 
       {/* Content */}
       <div className="px-4 pt-5">
